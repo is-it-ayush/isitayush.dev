@@ -21,6 +21,8 @@ export type Entry = {
   summary: string
   /** The main image of the post */
   image?: string | undefined
+  /** The tags of the post */
+  tags?: string[] | undefined
   /** MDX file body */
   body: MDX
   slug: string

@@ -1,5 +1,5 @@
 // contentlayer.config.js
-import { defineDocumentType, makeSource } from "@contentlayer/source-files";
+import { defineDocumentType, makeSource, defineNestedType } from "@contentlayer/source-files";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
@@ -12,7 +12,8 @@ var Entry = defineDocumentType(() => ({
     title: { type: "string", required: true, description: "The title of the post" },
     publishedAt: { type: "date", required: true, description: "The date the post was published" },
     summary: { type: "string", required: true, description: "A short summary of the post" },
-    image: { type: "string", required: false, description: "The main image of the post" }
+    image: { type: "string", required: false, description: "The main image of the post" },
+    tags: { type: "list", required: false, description: "The tags of the post", of: { type: "string" } }
   },
   computedFields: {
     slug: {
@@ -60,4 +61,4 @@ export {
   Entry,
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-EKH2R2HK.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-WT2L4BUC.mjs.map
