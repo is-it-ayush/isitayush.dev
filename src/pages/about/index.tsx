@@ -4,6 +4,7 @@ import {Text} from "@src/components/ui/Text";
 import {getRecentlyPlayed} from "@src/lib/utils";
 import {InferGetServerSidePropsType} from "next";
 import Link from "next/link";
+import {Github, Twitter} from "lucide-react";
 
 export default function AboutPage({recentlyPlayed}: InferGetServerSidePropsType<typeof getStaticProps>) {
     return (
@@ -14,8 +15,8 @@ export default function AboutPage({recentlyPlayed}: InferGetServerSidePropsType<
                 </Text>
                 <Text weight="normal" size="sm">
                     Hi, I&apos;m Ayush. I do things. Sometimes I write code & the other time&apos;s I overthink. I like
-                    code, maths, philosophy & exurb1a vids on youtube. I&apos;ll post blogs, thoughts & projects here so
-                    you can read them here. Also, you look great today. : )
+                    code, maths, philosophy & exurb1a vids on youtube. You can read all my blogs, thoughts & projects
+                    here.
                 </Text>
             </Container>
             <div className="flex flex-col space-y-2">
@@ -68,22 +69,18 @@ export default function AboutPage({recentlyPlayed}: InferGetServerSidePropsType<
                 </div>
                 <div className="flex flex-col lg:flex-row gap-2">
                     <Link href="https://github.com/is-it-ayush" target="_blank" className="lg:min-w-[49%]">
-                        <Container>
+                        <Container row={true} className="space-x-2">
+                            <Github size={24} />
                             <Text weight="medium" size="lg">
                                 Github
-                            </Text>
-                            <Text weight="normal" size="base">
-                                @is-it-ayush
                             </Text>
                         </Container>
                     </Link>
                     <Link href="https://twitter.com/is_it_ayush" target="_blank" className="lg:min-w-[49%]">
-                        <Container>
+                        <Container row={true} className="space-x-2">
+                            <Twitter size={24} />
                             <Text weight="medium" size="lg">
                                 Twitter
-                            </Text>
-                            <Text weight="normal" size="base">
-                                @is_it_ayush
                             </Text>
                         </Container>
                     </Link>
