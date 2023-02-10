@@ -2,6 +2,16 @@
 
 const nextConfig = {
     reactStrictMode: true,
+    experimental: {
+        swcPlugins: [
+            [
+                "next-superjson-plugin",
+                {
+                    excluded: [],
+                },
+            ],
+        ],
+    },
 };
 
 module.exports = require("next-contentlayer").withContentlayer(nextConfig);

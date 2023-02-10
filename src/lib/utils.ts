@@ -36,9 +36,67 @@ export async function getAccessToken() {
     return response.json();
 }
 
+// unused, but I'll keep it here for now
 export function fetchNamesWithLongerArrangedAtLast<T extends {name: string}>(arr: T[], length: number) {
     const longer = arr.filter(item => item.name.length > length);
     const shorter = arr.filter(item => item.name.length <= length);
 
     return [...shorter, ...longer];
 }
+
+export const stack = {
+    trpc: {
+        name: "tRPC",
+        url: "https://trpc.io/",
+    },
+    nextjs: {
+        name: "Next.js",
+        url: "https://nextjs.org/",
+    },
+    typescript: {
+        name: "TypeScript",
+        url: "https://www.typescriptlang.org/",
+    },
+    tailwind: {
+        name: "Tailwind CSS",
+        url: "https://tailwindcss.com/",
+    },
+    mongodb: {
+        name: "MongoDB",
+        url: "https://www.mongodb.com/",
+    },
+    express: {
+        name: "Express",
+        url: "https://expressjs.com/",
+    },
+    react: {
+        name: "React",
+        url: "https://reactjs.org/",
+    },
+    prisma: {
+        name: "Prisma",
+        url: "https://www.prisma.io/",
+    },
+    threejs: {
+        name: "Three.js",
+        url: "https://threejs.org/",
+    },
+    django: {
+        name: "Django",
+        url: "https://www.djangoproject.com/",
+    },
+    python: {
+        name: "Python",
+        url: "https://www.python.org/",
+    },
+    javascript: {
+        name: "JavaScript",
+        url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+    },
+    glsl: {
+        name: "GLSL",
+        url: "https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)",
+    },
+};
+
+export type Technologies = typeof stack;
