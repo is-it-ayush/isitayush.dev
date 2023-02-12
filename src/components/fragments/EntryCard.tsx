@@ -25,7 +25,7 @@ export function EntryCard({entry, search, children}: {entry: Entry; search: stri
                 exit={variants.hidden}
                 transition={variants.tranistion}>
                 <Link href={entry.slug}>
-                    <Container className="space-y-2" hover={false} border={false}>
+                    <Container className="space-y-2" hover={false}>
                         <div className="flex flex-col justify-between space-y-2">
                             <Text size="lg" weight="semibold" ratio={1}>
                                 <Highlighter
@@ -54,7 +54,7 @@ export function EntryCard({entry, search, children}: {entry: Entry; search: stri
                         </div>
                         <div>
                             <Text size="base" weight="light">
-                                {entry.summary}
+                                {entry.summary.length > 100 ? entry.summary.slice(0, 100) + "..." : entry.summary}
                             </Text>
                         </div>
                     </Container>

@@ -1,11 +1,18 @@
 import {Node} from "@src/components/ui/Node";
 import {Separator} from "@src/components/ui/Separator";
 import {Project} from "@src/lib/types";
+import {pageAnim} from "@src/lib/utils";
+import {motion} from "framer-motion";
 import {InferGetStaticPropsType} from "next";
 
 export default function ProjectsPage({data}: InferGetStaticPropsType<typeof getStaticProps>) {
     return (
-        <div className="flex flex-col gap-10 max-w-[400px] mt-10">
+        <motion.div
+            initial={pageAnim.initial}
+            animate={pageAnim.animate}
+            exit={pageAnim.initial}
+            transition={pageAnim.transition}
+            className="flex flex-col gap-10 max-w-[400px] mt-10">
             {data.map((project, i) => {
                 return (
                     <Node key={i} node={project}>
@@ -13,7 +20,7 @@ export default function ProjectsPage({data}: InferGetStaticPropsType<typeof getS
                     </Node>
                 );
             })}
-        </div>
+        </motion.div>
     );
 }
 
@@ -58,6 +65,7 @@ export const getStaticProps = async () => {
     return {
         props: {
             data: project_data,
+            revalidate: 60 * 60 * 24,
         },
     };
 };

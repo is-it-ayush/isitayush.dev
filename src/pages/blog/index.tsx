@@ -6,6 +6,7 @@ import {InferGetStaticPropsType} from "next";
 import {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {Separator} from "@src/components/ui/Separator";
+import {pageAnim} from "@src/lib/utils";
 
 export default function BlogPage({entries}: InferGetStaticPropsType<typeof getStaticProps>) {
     const [search, setSearch] = useState("");
@@ -32,8 +33,13 @@ export default function BlogPage({entries}: InferGetStaticPropsType<typeof getSt
     }, [entries, search]);
 
     return (
-        <div className="flex flex-col gap-5">
-            <div className="flex flex-col mt-20 space-y-4 relative min-w-[300px] lg:max-w-[600px]">
+        <motion.div
+            initial={pageAnim.initial}
+            animate={pageAnim.animate}
+            exit={pageAnim.initial}
+            transition={pageAnim.transition}
+            className="flex flex-col gap-5 h-full mt-20">
+            <div className="flex">
                 <Input
                     placeholder="Search"
                     value={search}
@@ -42,6 +48,8 @@ export default function BlogPage({entries}: InferGetStaticPropsType<typeof getSt
                     }}
                     className="w-full"
                 />
+            </div>
+            <div className="flex flex-col space-y-4 min-w-[300px] lg:max-w-[600px]">
                 <AnimatePresence mode="wait">
                     {filteredEntries.length !== 0 ? (
                         filteredEntries.map((entry, i) => {
@@ -64,7 +72,7 @@ export default function BlogPage({entries}: InferGetStaticPropsType<typeof getSt
                     )}
                 </AnimatePresence>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

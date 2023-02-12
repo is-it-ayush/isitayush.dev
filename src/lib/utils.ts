@@ -100,3 +100,15 @@ export const stack = {
 };
 
 export type Technologies = typeof stack;
+
+export const pageAnim = {
+    initial: {
+        opacity: 0,
+    },
+    animate: {
+        opacity: 1,
+    },
+    transition: {
+        duration: 0.5,
+    },
+};

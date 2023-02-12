@@ -25,8 +25,8 @@ export const Node = ({node, children}: {node: Project; children?: ReactNode}) =>
                 </div>
                 <div className="flex flex-wrap justify-start gap-2">
                     {node.technologies.map((tech, i) => {
-                        return Object.keys(stack).includes(tech) ? (
-                            <Link href={stack[tech].url}>
+                        return Object.keys(stack).includes(tech, i) ? (
+                            <Link key={i} href={stack[tech].url}>
                                 <Tag key={i}>{stack[tech].name}</Tag>
                             </Link>
                         ) : null;

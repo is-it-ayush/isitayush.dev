@@ -1,14 +1,20 @@
 import {AgeCounter} from "@src/components/fragments/AgeCounter";
 import {Container} from "@src/components/ui/Container";
 import {Text} from "@src/components/ui/Text";
-import {getRecentlyPlayed} from "@src/lib/utils";
+import {getRecentlyPlayed, pageAnim} from "@src/lib/utils";
 import {InferGetServerSidePropsType} from "next";
 import Link from "next/link";
 import {Github, Twitter} from "lucide-react";
+import {motion} from "framer-motion";
 
 export default function AboutPage({recentlyPlayed}: InferGetServerSidePropsType<typeof getStaticProps>) {
     return (
-        <div className="flex flex-col space-y-4 max-w-[400px] mt-10 lg:mt-0">
+        <motion.div
+            initial={pageAnim.initial}
+            animate={pageAnim.animate}
+            exit={pageAnim.initial}
+            transition={pageAnim.transition}
+            className="flex flex-col space-y-4 max-w-[400px] mt-10 lg:mt-0 justify-center">
             <Container>
                 <Text weight="medium" size="xl">
                     About
@@ -86,7 +92,7 @@ export default function AboutPage({recentlyPlayed}: InferGetServerSidePropsType<
                     </Link>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

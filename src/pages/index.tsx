@@ -1,6 +1,8 @@
 import Link from "next/link";
 import {Text} from "@src/components/ui/Text";
 import {useEffect} from "react";
+import {motion} from "framer-motion";
+import {pageAnim} from "@src/lib/utils";
 
 export default function Landing() {
     useEffect(() => {
@@ -14,7 +16,12 @@ export default function Landing() {
     }, []);
 
     return (
-        <div className="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0">
+        <motion.div
+            initial={pageAnim.initial}
+            animate={pageAnim.animate}
+            exit={pageAnim.initial}
+            transition={pageAnim.transition}
+            className="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0 items-start lg:items-center justify-center">
             <div className="flex flex-col space-y-2">
                 <Text size={"sm"} weight={"light"}>
                     Hi, I&apos;m
@@ -54,6 +61,6 @@ export default function Landing() {
                     </li>
                 </ul>
             </div>
-        </div>
+        </motion.div>
     );
 }

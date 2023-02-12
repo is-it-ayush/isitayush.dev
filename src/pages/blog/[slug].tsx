@@ -1,7 +1,9 @@
 import {allEntries} from "@contentlayer/generated";
 import {Tag} from "@src/components/fragments/Tag";
 import {Text} from "@src/components/ui/Text";
+import { pageAnim } from "@src/lib/utils";
 import {format, parseISO} from "date-fns";
+import { motion } from "framer-motion";
 import {InferGetStaticPropsType, GetStaticProps} from "next";
 import {useMDXComponent} from "next-contentlayer/hooks";
 
@@ -28,7 +30,7 @@ export async function getStaticProps({params}: GetStaticProps & {params: {slug: 
 export default function Entry({data}: InferGetStaticPropsType<typeof getStaticProps>) {
     const Body = useMDXComponent(data?.body.code ?? "");
     return (
-        <article className="prose min-w-[300px] mt-10 lg:max-w-[500px] space-y-4">
+        <motion.article initial={pageAnim.initial} animate={pageAnim.animate} exit={pageAnim.initial} transition={pageAnim.transition} className="prose min-w-[300px] mt-10 lg:max-w-[500px] space-y-4">
             <Text heading={true} headingSize="h1" weight="medium" size="4xl">
                 {data?.title}
             </Text>
@@ -45,6 +47,6 @@ export default function Entry({data}: InferGetStaticPropsType<typeof getStaticPr
                 </Text>
             )}
             <Body components={mdxcomponents} />
-        </article>
+        </motion.article>
     );
 }

@@ -14,7 +14,8 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
 - [x] Add /about page
 - [x] Add /projects page
 - [x] Add /blog page with slug support
-- [ ] Improve Animations
+- [x] Improve Animations
+- [x] Favicons/Manifest
 - [ ] Add SEO
 - [ ] Analytics
 - [ ] Improve the prose styles
