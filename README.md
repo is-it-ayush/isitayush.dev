@@ -19,6 +19,7 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
 - [x] Add SEO
 - [X] Add Vercel OG Image
 - [x] Analytics
+- [x] Better Dark Mode 
 ---
 - [ ] Deployment
 ---
