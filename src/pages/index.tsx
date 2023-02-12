@@ -5,7 +5,12 @@ import {useEffect} from "react";
 export default function Landing() {
     useEffect(() => {
         const e = process.env.NEXT_PUBLIC_SOMETHING;
-        console.log(e);
+        const m = process.env.NEXT_PUBLIC_SOMETHING_ELSE;
+        const p = Math.random();
+        if (p > 0.98) {
+            console.log(e);
+            console.log(m);
+        }
     }, []);
 
     return (
