@@ -6,6 +6,7 @@ import {InferGetServerSidePropsType} from "next";
 import Link from "next/link";
 import {Github, Twitter} from "lucide-react";
 import {motion} from "framer-motion";
+import {NextSeo} from "next-seo";
 
 export default function AboutPage({recentlyPlayed}: InferGetServerSidePropsType<typeof getStaticProps>) {
     return (
@@ -15,6 +16,7 @@ export default function AboutPage({recentlyPlayed}: InferGetServerSidePropsType<
             exit={pageAnim.initial}
             transition={pageAnim.transition}
             className="flex flex-col space-y-4 max-w-[400px] mt-10 lg:mt-0 justify-center">
+            <NextSeo title="about." description="A little bit about me." />
             <Container>
                 <Text weight="medium" size="xl">
                     About

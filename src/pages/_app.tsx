@@ -7,6 +7,8 @@ import {Poppins} from "@next/font/google";
 import {useRouter} from "next/router";
 import Head from "next/head";
 import {AnimatePresence} from "framer-motion";
+import {DefaultSeo} from "next-seo";
+import seo from "../../next-seo.config";
 
 const font = Poppins({
     subsets: ["latin"],
@@ -37,6 +39,7 @@ export default function App({Component, pageProps}: AppProps) {
                 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
                 <meta name="theme-color" content="#000000" />
             </Head>
+            <DefaultSeo {...seo} />
             <main
                 className={`relative flex min-h-screen ${font.className} w-full justify-center p-10 bg-[#E8E8E8] dark:bg-black`}>
                 <div className="fixed left-[50%] top-5 z-[5] flex w-[90%] -translate-x-[50%] flex-row items-center justify-between bg-[#E8E8E8] drop-shadow-lg backdrop-blur-[5px] dark:bg-black/5 bg-opacity-20">

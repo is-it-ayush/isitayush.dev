@@ -4,6 +4,7 @@ import {Project} from "@src/lib/types";
 import {pageAnim} from "@src/lib/utils";
 import {motion} from "framer-motion";
 import {InferGetStaticPropsType} from "next";
+import {NextSeo} from "next-seo";
 
 export default function ProjectsPage({data}: InferGetStaticPropsType<typeof getStaticProps>) {
     return (
@@ -13,6 +14,7 @@ export default function ProjectsPage({data}: InferGetStaticPropsType<typeof getS
             exit={pageAnim.initial}
             transition={pageAnim.transition}
             className="flex flex-col gap-10 max-w-[400px] mt-10">
+            <NextSeo title="projects." description="Here you'll find all the projects that I've worked on." />
             {data.map((project, i) => {
                 return (
                     <Node key={i} node={project}>

@@ -16,11 +16,14 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
 - [x] Add /blog page with slug support
 - [x] Improve Animations
 - [x] Favicons/Manifest
-- [ ] Add SEO
+- [x] Add SEO
+- [X] Add Vercel OG Image
 - [ ] Analytics
-- [ ] Improve the prose styles
-- [ ] Add Vercel OG Image
+---
+- [ ] Deployment
+---
 - [ ] Sitemap
+- [ ] Improve the prose styles
 
 ### Development
 

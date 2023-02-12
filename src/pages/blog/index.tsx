@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {Separator} from "@src/components/ui/Separator";
 import {pageAnim} from "@src/lib/utils";
+import {NextSeo} from "next-seo";
 
 export default function BlogPage({entries}: InferGetStaticPropsType<typeof getStaticProps>) {
     const [search, setSearch] = useState("");
@@ -39,6 +40,7 @@ export default function BlogPage({entries}: InferGetStaticPropsType<typeof getSt
             exit={pageAnim.initial}
             transition={pageAnim.transition}
             className="flex flex-col gap-5 h-full mt-20">
+            <NextSeo title="blog." description="I occasionally write about things I find interesting." />
             <div className="flex">
                 <Input
                     placeholder="Search"
