@@ -18,7 +18,7 @@ export const Entry = defineDocumentType(() => ({
     computedFields: {
         slug: {
             type: "string",
-            resolve: doc => `/blog/entry/${doc._raw.flattenedPath.toLowerCase().replace(" ", "-")}`,
+            resolve: doc => `/blog/${doc._raw.flattenedPath.toLowerCase().replace(" ", "-")}`,
         },
     },
 }));
