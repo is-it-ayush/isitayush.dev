@@ -26,6 +26,7 @@ async function calculateAgeToYears() {
         const age = diff / 31556952000;
         return age.toPrecision(13);
     } else {
+        console.error(`Blocks/Error: The environment variable NEXT_PUBLIC_BIRTHDAY is not set.`);
         throw new DOMException("Blocks/Error: I guess we will never know how old I am.");
     }
 }
