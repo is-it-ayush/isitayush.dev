@@ -1,6 +1,6 @@
 import type {DefaultSeoProps} from "next-seo";
 
-const url =
+export const url =
     process.env.NODE_ENV === "production" ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "http://localhost:3000";
 
 const seo: DefaultSeoProps = {

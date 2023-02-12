@@ -7,6 +7,7 @@ import {motion} from "framer-motion";
 import {InferGetStaticPropsType, GetStaticProps} from "next";
 import {useMDXComponent} from "next-contentlayer/hooks";
 import {NextSeo} from "next-seo";
+import {url} from "@src/../next-seo.config";
 
 const mdxcomponents = {};
 
@@ -46,7 +47,7 @@ export default function Entry({data}: InferGetStaticPropsType<typeof getStaticPr
                     images: [
                         {
                             url: new URL(
-                                `https://isitayush.dev/api/og?title=${data?.title}&date=${
+                                `${url}/api/og?title=${data?.title}&date=${
                                     data?.publishedAt
                                         ? format(parseISO(data?.publishedAt), "LLLL d, yyyy")
                                         : "Sometime ago..."

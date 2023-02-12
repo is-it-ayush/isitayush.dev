@@ -8,7 +8,7 @@ import {useRouter} from "next/router";
 import Head from "next/head";
 import {AnimatePresence} from "framer-motion";
 import {DefaultSeo} from "next-seo";
-import seo from "../../next-seo.config";
+import seo from "@src/../next-seo.config";
 
 const font = Poppins({
     subsets: ["latin"],
