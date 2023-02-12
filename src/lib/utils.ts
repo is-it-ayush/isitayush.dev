@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export async function getRecentlyPlayed() {
     const {access_token} = await getAccessToken();
     if (!access_token) {
-        throw new DOMException("Hmmm, So we can't even get my songs anymore. :<");
+        throw new DOMException("Hmmm, So we can't even get my songs anymore.");
     }
     const response = await fetch("https://api.spotify.com/v1/me/player/recently-played", {
         headers: {
@@ -109,6 +109,6 @@ export const pageAnim = {
         opacity: 1,
     },
     transition: {
-        duration: 0.5,
+        duration: 0.3,
     },
 };

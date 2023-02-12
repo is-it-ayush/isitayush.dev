@@ -25,7 +25,7 @@ export const ThemeButton = () => {
                 adjust(e.matches);
             });
         };
-    }, [setTheme]);
+    }, []);
 
     const adjust = (isDark: boolean) => {
         if (isDark) {
