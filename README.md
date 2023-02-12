@@ -9,6 +9,16 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
   * [Vercel](https://vercel.com/)
   * [Content Layer](https://www.contentlayer.dev/)
 
+### Todo
+
+- [x] Add /about page
+- [x] Add /projects page
+- [x] Add /blog page with slug support
+- [ ] Improve Animations
+- [ ] Add SEO
+- [ ] Analytics
+- [ ] Improve the prose styles
+- [ ] Add Vercel OG Image
 
 ### Development
 
