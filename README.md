@@ -18,7 +18,7 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
 - [x] Favicons/Manifest
 - [x] Add SEO
 - [X] Add Vercel OG Image
-- [ ] Analytics
+- [x] Analytics
 ---
 - [ ] Deployment
 ---

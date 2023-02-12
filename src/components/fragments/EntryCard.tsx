@@ -53,7 +53,7 @@ export function EntryCard({entry, search, children}: {entry: Entry; search: stri
                                 ))}
                         </div>
                         <div>
-                            <Text size="base" weight="light">
+                            <Text size="sm" weight="light">
                                 {entry.summary.length > 100 ? entry.summary.slice(0, 100) + "..." : entry.summary}
                             </Text>
                         </div>
