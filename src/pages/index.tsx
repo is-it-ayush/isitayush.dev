@@ -1,7 +1,13 @@
 import Link from "next/link";
 import {Text} from "@src/components/ui/Text";
+import {useEffect} from "react";
 
 export default function Landing() {
+    useEffect(() => {
+        const e = process.env.NEXT_PUBLIC_SOMETHING;
+        console.log(e);
+    }, []);
+
     return (
         <div className="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0">
             <div className="flex flex-col space-y-2">

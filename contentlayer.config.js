@@ -13,12 +13,12 @@ export const Entry = defineDocumentType(() => ({
         publishedAt: {type: "date", required: true, description: "The date the post was published"},
         summary: {type: "string", required: true, description: "A short summary of the post"},
         image: {type: "string", required: false, description: "The main image of the post"},
-        tags: {type: "list", required: false, description: "The tags of the post", of: { type: 'string' }},
+        tags: {type: "list", required: false, description: "The tags of the post", of: {type: "string"}},
     },
     computedFields: {
         slug: {
             type: "string",
-            resolve: doc => doc._raw.flattenedPath,
+            resolve: doc => `/blog/entry/${doc._raw.flattenedPath.toLowerCase().replace(" ", "-")}`,
         },
     },
 }));
@@ -33,7 +33,7 @@ export default makeSource({
             [
                 rehypePrettyCode,
                 {
-                    theme: "one-dark-pro",
+                    theme: "vitesse-dark",
                     onVisitLine(node) {
                         // Prevent lines from collapsing in `display: grid` mode, and allow empty
                         // lines to be copy/pasted

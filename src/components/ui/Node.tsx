@@ -1,10 +1,11 @@
 import {Project} from "@src/lib/types";
 import {Container} from "@src/components/ui/Container";
 import {Text} from "@src/components/ui/Text";
-import {Tag} from "./Tag";
+import {Tag} from "../fragments/Tag";
 import {Link as LinkIcon, Github, Twitter} from "lucide-react";
 import Link from "next/link";
 import {ReactNode} from "react";
+import {stack} from "@src/lib/utils";
 
 export const Node = ({node, children}: {node: Project; children?: ReactNode}) => {
     return (
@@ -24,7 +25,11 @@ export const Node = ({node, children}: {node: Project; children?: ReactNode}) =>
                 </div>
                 <div className="flex flex-wrap justify-start gap-2">
                     {node.technologies.map((tech, i) => {
-                        return <Tag tag={tech} key={i} />;
+                        return Object.keys(stack).includes(tech) ? (
+                            <Link href={stack[tech].url}>
+                                <Tag key={i}>{stack[tech].name}</Tag>
+                            </Link>
+                        ) : null;
                     })}
                 </div>
                 <div className="flex flex-col gap-5">
