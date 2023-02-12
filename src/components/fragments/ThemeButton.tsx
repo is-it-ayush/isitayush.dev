@@ -8,6 +8,16 @@ export const ThemeButton = () => {
 
     useEffect(() => {
         setMounted(true);
+        /**
+         * A small hack by Tanner from his "Custom Hooks in React" JSConf talk. (2020)
+         * https://youtu.be/J-g9ZJha8FE?t=360
+         */
+        const matchMedia = window.matchMedia("(prefers-color-scheme: dark)");
+        if (matchMedia.matches) {
+            setTheme("dark");
+        } else {
+            setTheme("light");
+        }
     }, []);
 
     // When rendering client side don't display anything until you have confirmed the theme.
