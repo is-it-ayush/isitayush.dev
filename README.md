@@ -19,6 +19,7 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
 - [ ] Analytics
 - [ ] Improve the prose styles
 - [ ] Add Vercel OG Image
+- [ ] Sitemap
 
 ### Development
 
