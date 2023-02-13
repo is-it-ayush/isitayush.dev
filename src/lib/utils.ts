@@ -107,6 +107,15 @@ export const stack = {
         name: "GLSL",
         url: "https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)",
     },
+    radix: {
+        name: "Radix UI",
+        url: "https://www.radix-ui.com/",
+    },
+    shadcn: {
+        name: "UI Shadcn",
+        url: "https://ui.shadcn.com/",
+    },
+
 };
 
 export type Technologies = typeof stack;

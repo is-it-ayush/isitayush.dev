@@ -68,7 +68,7 @@ export const getStaticProps = async () => {
             timeline: {
                 from: new Date(Date.UTC(2023, 1, 5)),
             },
-            technologies: ["nextjs", "tailwind", "typescript", "react"],
+            technologies: ["typescript", "radix", "shadcn", "nextjs", "tailwind", "react"],
             description:
                 "This month, I tried to create a corner on the internet that I could call mine. Here I'll showcase my projects, write blogs, share ideas. I really enjoyed working on this project & I'm proud I could put all the pieces together within two weeks.",
             github: new URL("https://github.com/is-it-ayush/isitayush.dev"),

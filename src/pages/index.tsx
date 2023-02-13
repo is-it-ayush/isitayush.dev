@@ -9,6 +9,7 @@ export default function Landing() {
     useEffect(() => {
         const e = process.env.NEXT_PUBLIC_SOMETHING;
         const m = process.env.NEXT_PUBLIC_SOMETHING_ELSE;
+        if (e === undefined || m === undefined) return;
         const p = Math.random();
         if (p > 0.98) {
             console.log(e);
