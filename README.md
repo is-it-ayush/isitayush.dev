@@ -1,5 +1,5 @@
 [LICENSE]: ./LICENSE.md
-[.env.example]: ./.env.example
+[.env.example]: .example.env
 ### isitayush.dev
 
 This is the source code for my personal website, [isitayush.dev](https://isitayush.dev). I'm using the following technologies:
