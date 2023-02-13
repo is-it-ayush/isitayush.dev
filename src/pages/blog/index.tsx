@@ -6,7 +6,7 @@ import {InferGetStaticPropsType} from "next";
 import {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import {Separator} from "@src/components/ui/Separator";
-import {pageAnim} from "@src/lib/utils";
+import {generateRSSFeed, pageAnim} from "@src/lib/utils";
 import {NextSeo} from "next-seo";
 
 export default function BlogPage({entries}: InferGetStaticPropsType<typeof getStaticProps>) {
@@ -82,7 +82,7 @@ export async function getStaticProps() {
     const entries = allEntries.sort((a, b) => {
         return compareDesc(new Date(a.publishedAt), new Date(b.publishedAt));
     });
-
+    await generateRSSFeed(entries);
     return {
         props: {
             entries: entries,

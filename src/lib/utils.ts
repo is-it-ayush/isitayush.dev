@@ -1,5 +1,10 @@
+import {Entry} from "@contentlayer/generated";
 import {ClassValue, clsx} from "clsx";
 import {twMerge} from "tailwind-merge";
+import RSS from "rss";
+import {url} from "next-seo.config";
+import fs from "fs";
+import {format, parseISO} from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -117,3 +122,86 @@ export const pageAnim = {
         duration: 0.3,
     },
 };
+
+export async function generateRSSFeed(entries: Entry[]) {
+    if (process.env.NODE_ENV !== "production")
+        return console.log("RSS/Info: Skipping RSS feed generation in development mode.");
+
+    const feed = new RSS({
+        title: "Entries | Ayush Gupta",
+        description: "A collection of my entries on my blog.",
+        feed_url: `${url}/feed.xml`,
+        site_url: url,
+        image_url: `${url}/favicon-96x96.png`,
+        pubDate: new Date().toUTCString(),
+        copyright: `© ${new Date().getFullYear()} Ayush Gupta`,
+    });
+
+    entries.forEach(entry => {
+        feed.item({
+            title: entry.title,
+            description: entry.summary,
+            url: `${url}/blog/${entry._raw.flattenedPath.toLowerCase().replace(" ", "-")}`,
+            date: entry.publishedAt,
+        });
+    });
+
+    try {
+        fs.writeFileSync("./public/feed.xml", feed.xml({indent: true}));
+        console.log(`RSS/Success: Successfully generated RSS feed on ${format(new Date(), "dd/MM/yyyy HH:mm:ss")}.`);
+    } catch (e) {
+        console.error("RSS/Error: Error while writing RSS feed to file: ", e);
+    }
+}
+
+export async function generateSitemap(entries: Entry[]) {
+    if (process.env.NODE_ENV !== "production")
+        return console.log("Sitemap/Info: Skipping sitemap generation in development mode.");
+
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        <url>
+            <loc>${url}</loc>
+            <lastmod>${format(new Date(), "yyyy-MM-dd")}</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>1.0</priority>
+        </url>
+        <url>
+            <loc>${url}/about</loc>
+            <lastmod>${format(new Date(), "yyyy-MM-dd")}</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.9</priority>
+        </url>
+        <url>
+            <loc>${url}/projects</loc>
+            <lastmod>${format(new Date(), "yyyy-MM-dd")}</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.7</priority>
+        </url>
+        <url>
+            <loc>${url}/blog</loc>
+            <lastmod>${format(new Date(), "yyyy-MM-dd")}</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+        </url>
+        ${entries
+            .map(
+                entry => `
+            <url>
+                <loc>${url}/blog/${entry._raw.flattenedPath.toLowerCase().replace(" ", "-")}</loc>
+                <lastmod>${format(new Date(entry.publishedAt), "yyyy-MM-dd")}</lastmod>
+                <changefreq>hourly</changefreq>
+                <priority>0.8</priority>
+            </url>
+        `
+            )
+            .join("")}
+    </urlset>`;
+
+    try {
+        fs.writeFileSync("./public/sitemap.xml", sitemap);
+        console.log(`Sitemap/Success: Successfully generated sitemap on ${format(new Date(), "dd/MM/yyyy HH:mm:ss")}.`);
+    } catch (e) {
+        console.error("Sitemap/Error: Error while writing sitemap to file: ", e);
+    }
+}

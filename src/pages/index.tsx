@@ -2,7 +2,8 @@ import Link from "next/link";
 import {Text} from "@src/components/ui/Text";
 import {useEffect} from "react";
 import {motion} from "framer-motion";
-import {pageAnim} from "@src/lib/utils";
+import {generateSitemap, pageAnim} from "@src/lib/utils";
+import {allEntries} from "@contentlayer/generated";
 
 export default function Landing() {
     useEffect(() => {
@@ -63,4 +64,14 @@ export default function Landing() {
             </div>
         </motion.div>
     );
+}
+
+export async function getStaticProps() {
+    await generateSitemap(allEntries);
+
+    return {
+        props: {
+            revalidate: 60 * 60 * 6,
+        },
+    };
 }

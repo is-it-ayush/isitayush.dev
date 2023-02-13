@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title><![CDATA[Entries | Ayush Gupta]]></title>
+        <description><![CDATA[A collection of my entries on my blog.]]></description>
+        <link>http://localhost:3000</link>
+        <image>
+            <url>http://localhost:3000/favicon-96x96.png</url>
+            <title>Entries | Ayush Gupta</title>
+            <link>http://localhost:3000</link>
+        </image>
+        <generator>RSS for Node</generator>
+        <lastBuildDate>Mon, 13 Feb 2023 02:40:00 GMT</lastBuildDate>
+        <atom:link href="http://localhost:3000/feed.xml" rel="self" type="application/rss+xml"/>
+        <pubDate>Mon, 13 Feb 2023 02:40:00 GMT</pubDate>
+        <copyright><![CDATA[© 2023 Ayush Gupta]]></copyright>
+        <item>
+            <title><![CDATA[Hello World <3]]></title>
+            <description><![CDATA[I sometimes write about things I'm working on.]]></description>
+            <link>http://localhost:3000/blog/hello-world</link>
+            <guid isPermaLink="true">http://localhost:3000/blog/hello-world</guid>
+            <pubDate>Wed, 08 Feb 2023 00:00:00 GMT</pubDate>
+        </item>
+    </channel>
+</rss>

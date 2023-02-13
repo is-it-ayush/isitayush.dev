@@ -20,6 +20,17 @@ const nextConfig = {
             },
         ];
     },
+    webpack: (config, {isServer}) => {
+        // ignore fs and path when building for browser, resolves "fs" is not defined error
+        if (!isServer) {
+            config.resolve.fallback = {
+                fs: false,
+                path: false,
+            };
+        }
+
+        return config;
+    },
 };
 
 // https://nextjs.org/docs/advanced-features/security-headers

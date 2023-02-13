@@ -21,9 +21,9 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
 - [x] Analytics
 - [x] Better Dark Mode 
 ---
-- [ ] Deployment
+- [x] Deployment
 ---
-- [ ] Sitemap
+- [x] RSS Feed (https://isitayush.dev/feed.xml)
 - [ ] Improve the prose styles
 
 ### Development

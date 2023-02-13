@@ -25,6 +25,7 @@ export async function getStaticProps({params}: GetStaticProps & {params: {slug: 
     return {
         props: {
             data: entry,
+            revalidate: 60 * 60,
         },
     };
 }
@@ -44,6 +45,7 @@ export default function Entry({data}: InferGetStaticPropsType<typeof getStaticPr
                 openGraph={{
                     title: data?.title,
                     description: data?.summary,
+                    url: new URL(`${url}/blog/${data?._raw.flattenedPath.toLowerCase().replace(" ", "-")}`).href,
                     images: [
                         {
                             url: new URL(
