@@ -5,6 +5,7 @@ import {pageAnim} from "@src/lib/utils";
 import {motion} from "framer-motion";
 import {InferGetStaticPropsType} from "next";
 import {NextSeo} from "next-seo";
+import {url} from "next-seo.config";
 
 export default function ProjectsPage({data}: InferGetStaticPropsType<typeof getStaticProps>) {
     return (
@@ -62,7 +63,31 @@ export const getStaticProps = async () => {
             github: new URL("https://github.com/is-it-ayush/wethics"),
             website: new URL("https://soyouwannaknowtheweatherhuh.vercel.app/"),
         },
+        {
+            name: "isitayush.dev",
+            timeline: {
+                from: new Date(Date.UTC(2023, 1, 5)),
+            },
+            technologies: ["nextjs", "tailwind", "typescript", "react"],
+            description:
+                "This month, I tried to create a corner on the internet that I could call mine. Here I'll showcase my projects, write blogs, share ideas. I really enjoyed working on this project & I'm proud I could put all the pieces together within two weeks.",
+            github: new URL("https://github.com/is-it-ayush/isitayush.dev"),
+            website: new URL(url),
+        },
     ];
+
+    // sort in reverse chronology.
+    project_data.sort((a, b) => {
+        if (a.timeline.to && b.timeline.to) {
+            return b.timeline.to.getTime() - a.timeline.to.getTime();
+        } else if (a.timeline.to) {
+            return b.timeline.from.getTime() - a.timeline.to.getTime();
+        } else if (b.timeline.to) {
+            return b.timeline.to.getTime() - a.timeline.from.getTime();
+        } else {
+            return b.timeline.from.getTime() - a.timeline.from.getTime();
+        }
+    });
 
     return {
         props: {
