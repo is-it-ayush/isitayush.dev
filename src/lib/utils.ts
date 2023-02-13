@@ -215,10 +215,6 @@ export async function generateRobotsTxt() {
     Sitemap: ${url}/sitemap.xml
     `;
 
-    const file = fs.readFileSync("./public/robots.txt", "utf8");
-
-    if (file === robotsTxt) console.log("Robots.txt/Info: Skipping robots.txt generation as it is already up to date.");
-
     try {
         fs.writeFileSync("./public/robots.txt", robotsTxt);
         console.log(
