@@ -40,12 +40,14 @@ export default function App({Component, pageProps}: AppProps) {
                 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
                 <meta name="theme-color" content="#000000" />
             </Head>
-            <Script
-                src="https://analytics.umami.is/script.js"
-                data-website-id="23eb5918-c95a-4f05-bcec-70d605f3e8f8"
-                async
-                defer
-            />
+            {process.env.NODE_ENV === "production" && (
+                <Script
+                    src="https://analytics.umami.is/script.js"
+                    data-website-id={process.env.NEXT_PUBLIC_UMAMI_ID}
+                    async
+                    defer
+                />
+            )}
             <DefaultSeo {...seo} />
             <main
                 className={`relative flex min-h-screen ${font.className} w-full justify-center p-10 bg-[#E8E8E8] dark:bg-black`}>

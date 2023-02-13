@@ -10,6 +10,7 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
   * [Content Layer](https://www.contentlayer.dev/)
   * [Radix UI](https://www.radix-ui.com/)
   * [Shadcn UI](https://ui.shadcn.com/)
+  * [Umami](https://umami.is/)
 
 ### Todo
 
@@ -55,6 +56,8 @@ yarn dev // or npm run dev
 ### Deployment
 
 To deploy this project, you can use [Vercel](https://vercel.com/). It's free for open source projects & you can deploy it with just `npx vercel deploy`. You can also deploy it on [Netlify](https://www.netlify.com/) or [Render](https://render.com/). I haven't tested it, but it should work.
+
+- Make sure you have a `.env.production` file in the root directory. You can copy the contents of [.env.example] to `.env.production` & replace the values with your own.
 
 ### License
 
