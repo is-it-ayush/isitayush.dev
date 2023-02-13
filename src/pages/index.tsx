@@ -2,7 +2,7 @@ import Link from "next/link";
 import {Text} from "@src/components/ui/Text";
 import {useEffect} from "react";
 import {motion} from "framer-motion";
-import {generateSitemap, pageAnim} from "@src/lib/utils";
+import {generateRobotsTxt, generateSitemap, pageAnim} from "@src/lib/utils";
 import {allEntries} from "@contentlayer/generated";
 
 export default function Landing() {
@@ -68,6 +68,7 @@ export default function Landing() {
 
 export async function getStaticProps() {
     await generateSitemap(allEntries);
+    await generateRobotsTxt();
 
     return {
         props: {

@@ -205,3 +205,26 @@ export async function generateSitemap(entries: Entry[]) {
         console.error("Sitemap/Error: Error while writing sitemap to file: ", e);
     }
 }
+
+export async function generateRobotsTxt() {
+    if (process.env.NODE_ENV !== "production")
+        return console.log("Robots.txt/Info: Skipping robots.txt generation in development mode.");
+
+    const robotsTxt = `User-agent: *
+    Allow: /
+    Sitemap: ${url}/sitemap.xml
+    `;
+
+    const file = fs.readFileSync("./public/robots.txt", "utf8");
+
+    if (file === robotsTxt) console.log("Robots.txt/Info: Skipping robots.txt generation as it is already up to date.");
+
+    try {
+        fs.writeFileSync("./public/robots.txt", robotsTxt);
+        console.log(
+            `Robots.txt/Success: Successfully generated robots.txt on ${format(new Date(), "dd/MM/yyyy HH:mm:ss")}.`
+        );
+    } catch (e) {
+        console.error("Robots.txt/Error: Error while writing robots.txt to file: ", e);
+    }
+}
