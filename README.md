@@ -23,7 +23,7 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
 ---
 - [x] Deployment
 ---
-- [x] RSS Feed (https://isitayush.dev/feed.xml)
+- [x] RSS Feed (https://isitayush.dev/feed.xml), Sitemap (https://isitayush.dev/sitemap.xml), Robots.txt (https://isitayush.dev/robots.txt)
 - [ ] Improve the prose styles
 
 ### Development

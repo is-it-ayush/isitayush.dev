@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://isitayush.vercel.app/sitemap.xml
