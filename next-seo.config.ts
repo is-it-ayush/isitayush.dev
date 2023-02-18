@@ -5,7 +5,7 @@ export const url =
 
 const seo: DefaultSeoProps = {
     titleTemplate: "%s | Ayush Gupta",
-    defaultTitle: "isitayush",
+    defaultTitle: "Ayush Gupta",
     description: "A small corner on the internet which I call mine.",
     canonical: "https://isitayush.dev",
     additionalMetaTags: [
@@ -18,13 +18,13 @@ const seo: DefaultSeoProps = {
         type: "website",
         locale: "en_IN",
         url: url,
-        siteName: "isitayush",
+        siteName: "Ayush Gupta",
         images: [
             {
                 url: `${url}/api/og`,
                 width: 1200,
                 height: 630,
-                alt: "isitayush",
+                alt: "This is me. I mean it's not me but I could'nt find a better logo.",
             },
         ],
     },

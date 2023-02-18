@@ -1,0 +1,35 @@
+---
+title: Should/Shouldn't you use libraries?
+publishedAt: 2023-02-18
+summary: There is a reason why I don't use libraries often and here's why.
+tags:
+    - libraries
+    - software engineering
+---
+
+I've worked on a couple of projects at this point & almost everywhere I've installed
+dependencies/libraries that I need. Don't get me wrong, I can't imagine working without
+them. But I've noticed that I've been avoiding them lately. It helps when me when I'm building
+software that I know will be used by a lot of people.
+
+I want you to consider the following example. You're working a company `XYZ` & you're building their main
+product/service. You are supposed to build a feature that will allow users to upload a multi part file
+to the server. You've never done this before & so you decide to use a libary `P`. You do a quick
+`yarn add p` & you call a global function that `P` provides say `uploadFile(file)`. You're done.
+You've built the feature & you're happy. You push your code to the repo & you go home.
+
+Now, you're back at work the next day & there's a change in the plans by the management. They want
+to validate the file before it's uploaded. You're like "Oh, I can do that". You go to the docs of
+`P` but now you realize, `P` doesn't support this feature yet. You go to the issues & you see that
+there's either a dead issue or your use-case was never considered before. You open a PR but now
+you're stuck waiting for the maintainer to review it. You don't understand the code so you can't
+help. **You're stuck**.
+
+I've been through this quite a couple of times. Now, this isn't a problem with `P`. I'm sure there
+is a lot of hard work that goes into building a library I really support all the people behind it
+with all of my heart. But, I've noticed that I've been avoiding libraries when I can.
+I've trying to come up with my own solutions to problems where I know that putting in that extra
+5 hours will save me a fuck ton of time in the future.
+
+The key I want you to take away is to, **_find a balance_**. Use libraries if you can't avoid it but don't be
+afraid to build your own solutions. That's all software engineering is about. {'<'}3
