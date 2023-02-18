@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params}: GetStaticProps & {params: {slug: string}}) {
-    const entry = allEntries.find(entry => entry._raw.flattenedPath.toLowerCase().replace(" ", "-") === params.slug);
+    const entry = allEntries.find(entry => entry._raw.flattenedPath.toLowerCase().replace(/\s+/g, "-") === params.slug);
     return {
         props: {
             data: entry,
@@ -45,7 +45,7 @@ export default function Entry({data}: InferGetStaticPropsType<typeof getStaticPr
                 openGraph={{
                     title: data?.title,
                     description: data?.summary,
-                    url: new URL(`${url}/blog/${data?._raw.flattenedPath.toLowerCase().replace(" ", "-")}`).href,
+                    url: new URL(`${url}/blog/${data?._raw.flattenedPath.toLowerCase().replace(/\s+/g, "-")}`).href,
                     images: [
                         {
                             url: new URL(

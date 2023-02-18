@@ -150,7 +150,7 @@ export async function generateRSSFeed(entries: Entry[]) {
         feed.item({
             title: entry.title,
             description: entry.summary,
-            url: `${url}/blog/${entry._raw.flattenedPath.toLowerCase().replace(" ", "-")}`,
+            url: `${url}/blog/${entry._raw.flattenedPath.toLowerCase().replace(/\s+/g, "-")}`,
             date: entry.publishedAt,
         });
     });
@@ -197,7 +197,7 @@ export async function generateSitemap(entries: Entry[]) {
             .map(
                 entry => `
             <url>
-                <loc>${url}/blog/${entry._raw.flattenedPath.toLowerCase().replace(" ", "-")}</loc>
+                <loc>${url}/blog/${entry._raw.flattenedPath.toLowerCase().replace(/\s+/g, "-")}</loc>
                 <lastmod>${format(new Date(entry.publishedAt), "yyyy-MM-dd")}</lastmod>
                 <changefreq>hourly</changefreq>
                 <priority>0.8</priority>
