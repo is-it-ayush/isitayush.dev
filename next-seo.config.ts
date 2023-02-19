@@ -7,7 +7,6 @@ const seo: DefaultSeoProps = {
     titleTemplate: "%s | Ayush Gupta",
     defaultTitle: "Ayush Gupta",
     description: "A small corner on the internet which I call mine.",
-    canonical: "https://isitayush.dev",
     additionalMetaTags: [
         {
             name: "keywords",
