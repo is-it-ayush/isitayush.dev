@@ -5,69 +5,88 @@
 /** thanks lee (leerob.io). i'm stealing your styles. : ) */
 
 .prose *:not(pre) {
-    @apply text-black dark:text-white;
+  @apply text-black dark:text-white;
 }
 
 .prose a {
-    @apply decoration-gray-400 dark:decoration-gray-600 underline-offset-2 decoration-[0.1em];
+  @apply decoration-gray-400 dark:decoration-gray-600 underline-offset-2 decoration-[0.1em];
 }
 
 .prose .anchor:after {
-    @apply text-black dark:text-white;
-    content: "#";
+  @apply text-black dark:text-white;
+  content: "#";
 }
 
 .prose *:hover > .anchor {
-    @apply visible;
+  @apply visible;
 }
 
 .prose pre {
-    @apply border-2 border-black/5 dark:border-white/5 bg-[#E8E8E8] dark:bg-black rounded-none;
+  @apply border-2 border-black/5 dark:border-white/5 bg-[#E8E8E8] dark:bg-black rounded-none;
+}
+
+.prose blockquote {
+  @apply border-black/5 dark:border-white/5 dark:bg-black/5;
+}
+
+.prose blockquote p {
+  @apply font-semibold;
+}
+
+.prose :where(code)::before,
+.prose :where(code)::after,
+.prose blockquote p::before,
+.prose blockquote p::after {
+  content: "";
 }
 
 [data-theme="dark"] .prose pre {
-    filter: invert(3%);
+  filter: invert(3%);
 }
 
 [data-theme="light"] .prose pre code {
-    filter: invert(98%) hue-rotate(180deg);
+  filter: invert(98%) hue-rotate(180deg);
 }
 
 table {
-    display: block;
-    max-width: fit-content;
-    overflow-x: auto;
-    white-space: nowrap;
+  display: block;
+  max-width: fit-content;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .prose .callout > p {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 pre::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 pre {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 /* Remove Safari input shadow on mobile */
 input[type="text"],
 input[type="email"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .prose img {
-    /* Don't apply styles to next/image */
-    @apply m-0;
+  /* Don't apply styles to next/image */
+  @apply m-0;
 }
 
 .prose > :first-child {
-    /* Override removing top margin, causing layout shift */
-    margin-top: 1.25em !important;
-    margin-bottom: 1.25em !important;
+  /* Override removing top margin, causing layout shift */
+  margin-top: 1.25em !important;
+  margin-bottom: 1.25em !important;
+}
+
+.prose p {
+  @apply font-light;
 }
