@@ -1,0 +1,113 @@
+---
+title: Why you should sign your commits with gpg.
+publishedAt: 2023-03-11
+summary: Here we'll discuss the benfits of using gpg to sign your commits and how to set it up with github.
+tags:
+  - security
+  - github
+  - gpg
+---
+
+### Introduction
+
+If you're like me, then questions are something that I can't really
+sleep with. There is this drive inside my head to figure out how
+things work and why they work the way they do. I'm not sure if this
+is a good thing or a bad thing, but it's something that I've grown
+to accept & like.
+
+One of the questions that I've had for a while now is how does a
+provider like Github know that the commits that I'm pushing to my
+repositories are actually mine? I don't recall setting up
+anything to prove my identity. I don't even recall logging
+in with a password. So how does Github know that I'm
+who I claim to be?
+
+I somehow knew the answer but still searched the internet to verify it &
+it turns out I was right. After thinking a little bit, It all settled in
+my head. Hang tight, I'll explain it to you & I hope it'll make sense
+to you as well.
+
+### What's going on?
+
+Tools like [`git`](https://git-scm.com/) cli are supposed to be universal
+i.e. they're supposed to work with any provider. Accounts on the other hand
+are provider specific, It doesn't make sense for `git` to know about
+your Github/Gitlab/Bitbucket account. So, It cannot verify that you are
+what you say you are.
+
+This check falls back to the provider who actually hosts both your
+account & the repository (hopefully). If the commit history meta has
+your email & name. Github or any other provider can look up your
+account in it's database & display the commits as yours otherwise
+it simply displays the name & the email associated with the commit.
+
+### But, what if someone else pushes commits with my email & name?
+
+Now a question you might quickly come up with is, What if a bad actor
+decides to push commits with your email & name? Will Github still
+display the commits as yours?
+
+Unfortunately, **yes**. Here's an example of a commit that I pushed
+to my repository. One without editing the email & name. And the other
+by making my email & name to Jhon Doe.
+
+<Image
+  src="/assets/gpg-sign/initial_github_commit.png"
+  alt="The `chore: init` is the commit that I pushed without changing the email & name. The `chore: add hi` was the commit where I changed my name & email to Jhon Doe."
+  width={800}
+  height={400}
+/>
+
+I was able to successfully push the commit with my name & email changed to
+Jhon Doe. Had the email & name were registered I'd also get a redirect to
+their profile inside Github without them ever knowing. It's scary to know
+that someone can make commits on your behalf & while we can't really stop someone
+from doing this. We can infact, can make it more obvious.
+
+### How do we make it more obvious?
+
+This is where [`gpg`](https://gnupg.org/) steps in. There are two things we could
+do:
+
+- We could sign our commits with a private key.
+- We could tell our provider to always flag commits associated with our email that aren't
+  signed with a `Unverified` badge.
+
+This way, if someone tries to push commits with our email & name. One can easily
+determine that github cannot verify the authenticity of the commit by simply looking
+at the `Unverified` badge.
+
+If you look at the above image. You'll also notice the `Unverified`
+badge show up on my `chore: init` commit. I intentionally didn't sign the commit with
+my private key to show you how it looks like.
+
+### Okay, Teach me how to set this up.
+
+Well, I am not really great at explaining things. Hence, I recommend you to read the
+[official documentation](https://docs.github.com/en/github/authenticating-to-github/managing-commit-signature-verification/about-commit-signature-verification)
+for setting up `gpg` with Github. It's pretty straight forward &
+easy to follow. For other providers such as Gitlab, Bitbucket etc.
+I'm hoping the process to be similar.
+
+### Some extra tips.
+
+A few more things I'd recommend you to do:
+
+- Make sure you key is atleast 4096 bits long.
+- Make sure you key is backed up in atleast 2 places.
+
+Here's a [gpg cheatsheet](http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/) that
+will help you find commands quickly.
+
+### Bonus
+
+GPG is not just limited to signing commits. You can also use it to encrypt
+your files & messages & make sure that only the intended recipient can
+decrypt them. You can also use it to sign your emails & make sure that
+they are not tampered with.
+
+You can also upload your public key to a keyserver so that others can
+verify your identity. There is so much to talk about but I'll wrap it up
+here. Maybe someday, I'll write a dedicated post about it. Till then,
+`मै आशा करता हूँ की आपको ये पोस्ट से कुछ सीखने को मिला होगा और अच्छी लगी होगी.` BBye {'<'}3

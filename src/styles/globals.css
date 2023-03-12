@@ -4,7 +4,7 @@
 
 /** thanks lee (leerob.io). i'm stealing your styles. : ) */
 
-.prose *:not(pre) {
+.prose *:not(pre, pre *, code, code *, p > span) {
   @apply text-black dark:text-white;
 }
 
@@ -23,6 +23,14 @@
 
 .prose pre {
   @apply border-2 border-black/5 dark:border-white/5 bg-[#E8E8E8] dark:bg-black rounded-none;
+}
+
+.prose code:not(pre code) {
+  @apply text-gray-900 dark:text-white/80 px-1;
+}
+
+p:where([class*="not-prose"]) > span {
+  @apply text-gray-800 dark:text-gray-300;
 }
 
 .prose blockquote {
