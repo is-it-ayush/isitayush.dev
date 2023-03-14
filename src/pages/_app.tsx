@@ -10,7 +10,7 @@ import type {AppProps} from "next/app";
 import Head from "next/head";
 import {useRouter} from "next/router";
 import Script from "next/script";
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -20,6 +20,12 @@ const font = Poppins({
 export default function App({Component, pageProps}: AppProps) {
   const router = useRouter();
   const previousRoute = usePreviousRoute();
+
+  useEffect(() => {
+    if (!previousRoute) {
+      router.prefetch("/"); // prefetch home.
+    }
+  }, [previousRoute, router]);
 
   return (
     <ThemeProvider defaultTheme="light">
