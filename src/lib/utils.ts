@@ -1,17 +1,17 @@
-import {Entry} from "@contentlayer/generated";
-import {ClassValue, clsx} from "clsx";
-import {twMerge} from "tailwind-merge";
-import RSS from "rss";
-import {url} from "next-seo.config";
+import { Entry } from "@contentlayer/generated";
+import { ClassValue, clsx } from "clsx";
+import { format } from "date-fns";
 import fs from "fs";
-import {format, parseISO} from "date-fns";
+import { url } from "next-seo.config";
+import RSS from "rss";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
 export async function getRecentlyPlayed() {
-    const {access_token} = await getAccessToken();
+    const { access_token } = await getAccessToken();
 
     const response = await fetch("https://api.spotify.com/v1/me/player/recently-played", {
         headers: {
@@ -47,7 +47,7 @@ export async function getAccessToken() {
 }
 
 // unused, but I'll keep it here for now
-export function fetchNamesWithLongerArrangedAtLast<T extends {name: string}>(arr: T[], length: number) {
+export function fetchNamesWithLongerArrangedAtLast<T extends { name: string }>(arr: T[], length: number) {
     const longer = arr.filter(item => item.name.length > length);
     const shorter = arr.filter(item => item.name.length <= length);
 
@@ -156,7 +156,7 @@ export async function generateRSSFeed(entries: Entry[]) {
     });
 
     try {
-        fs.writeFileSync("./public/feed.xml", feed.xml({indent: true}));
+        fs.writeFileSync("./public/feed.xml", feed.xml({ indent: true }));
         console.log(`RSS/Success: Successfully generated RSS feed on ${format(new Date(), "dd/MM/yyyy HH:mm:ss")}.`);
     } catch (e) {
         console.error("RSS/Error: Error while writing RSS feed to file: ", e);
