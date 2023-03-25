@@ -16,15 +16,6 @@ const mdxcomponents = {
   Image,
 };
 
-export async function getStaticPaths() {
-  const paths = allEntries.map(entry => entry.slug);
-  console.log(`paths: ${paths}`);
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
 export async function getServerSideProps({
   params,
 }: GetStaticProps & {params: {slug: string}}) {

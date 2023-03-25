@@ -33,7 +33,7 @@ export function EntryCard({
         animate={variants.visible}
         exit={variants.hidden}
         transition={variants.tranistion}>
-        <Link href={entry.slug}>
+        <Link href={entry.slug} prefetch={true}>
           <Container className="space-y-2">
             <div className="flex flex-col justify-between space-y-2">
               <Text size="lg" weight="semibold" ratio={1}>
