@@ -1,14 +1,15 @@
-import { allEntries } from "@contentlayer/generated";
-import { url } from "@src/../next-seo.config";
-import { Image } from "@src/components/ui/Image";
-import { Tag } from "@src/components/ui/Tag";
-import { Text } from "@src/components/ui/Text";
-import { createPostOrUpdateViews, pageAnim } from "@src/lib/utils";
-import { format, parseISO } from "date-fns";
-import { motion } from "framer-motion";
-import { GetStaticProps, InferGetStaticPropsType } from "next";
-import { useMDXComponent } from "next-contentlayer/hooks";
-import { NextSeo } from "next-seo";
+import {allEntries} from "@contentlayer/generated";
+import {url} from "@src/../next-seo.config";
+import {Image} from "@src/components/ui/Image";
+import {Tag} from "@src/components/ui/Tag";
+import {Text} from "@src/components/ui/Text";
+import {createPostOrUpdateViews, pageAnim} from "@src/lib/utils";
+import {format, parseISO} from "date-fns";
+import {motion} from "framer-motion";
+import {GetStaticProps} from "next";
+import {useMDXComponent} from "next-contentlayer/hooks";
+import {NextSeo} from "next-seo";
+import {InferGetServerSidePropsType} from "next/types";
 import readingTime from "reading-time";
 
 const mdxcomponents = {
@@ -24,7 +25,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({
+export async function getServerSideProps({
   params,
 }: GetStaticProps & {params: {slug: string}}) {
   const entry = allEntries.find(
@@ -41,14 +42,13 @@ export async function getStaticProps({
         entry: entry,
         extra: {...information},
       },
-      revalidate: 60 * 60,
     },
   };
 }
 
 export default function Entry({
   data,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const Body = useMDXComponent(data?.entry?.body.code ?? "");
   return (
     <motion.article
@@ -90,11 +90,7 @@ export default function Entry({
           },
         }}
       />
-      <Text
-        heading={true}
-        headingSize="h1"
-        weight="medium"
-        size="4xl">
+      <Text heading={true} headingSize="h1" weight="medium" size="4xl">
         {data?.entry?.title}
       </Text>
       {data?.entry?.tags && (
