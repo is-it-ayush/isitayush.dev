@@ -23,13 +23,13 @@ module.exports = {
           },
         },
       },
-    },
-    animation: {
-      gradient_animation: "gradient-move 5s ease infinite",
-      indeterminate: "indeterminate 1s ease-in-out infinite",
-    },
-    backgroundSize: {
-      400: "400%",
+      animation: {
+        gradient_animation: "gradient-move 5s ease infinite",
+        indeterminate: "indeterminate 1s ease-in-out infinite",
+      },
+      backgroundSize: {
+        400: "400%",
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

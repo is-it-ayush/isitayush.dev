@@ -12,10 +12,7 @@ datasource db {
 }
 
 model Post {
-  id        String   @id @default(cuid())
-  title     String
-  slug      String?
-  views     Int      @default(0)
-  createdAt DateTime @default(now())
+  id    String  @id @default(cuid())
+  slug  String?
+  views Int     @default(0)
 }
-

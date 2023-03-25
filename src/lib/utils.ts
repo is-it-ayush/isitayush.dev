@@ -2,7 +2,7 @@ import { Entry } from "@contentlayer/generated";
 import { db } from "@src/server/db";
 import { ClassValue, clsx } from "clsx";
 import { randomUUID } from "crypto";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import fs from "fs";
 import { url } from "next-seo.config";
 import RSS from "rss";
@@ -236,9 +236,8 @@ export async function generateRobotsTxt() {
     }
 }
 
-export async function createPostOrUpdateViews(entry: Entry | undefined) {
-    if (!entry) return;
-    const slug = entry._raw.flattenedPath.toLowerCase().replace(/\s+/g, "-");
+export async function createPostOrUpdateViews(slug: string) {
+    if (!slug) return;
 
     const post = await db
         .selectFrom("Post")
@@ -258,14 +257,26 @@ export async function createPostOrUpdateViews(entry: Entry | undefined) {
             .insertInto("Post")
             .values({
                 id: randomUUID(),
-                title: entry.title,
                 slug: slug,
                 views: 1,
-                createdAt: parseISO(entry.publishedAt)
             })
             .execute();
     }
 
     const information = await db.selectFrom("Post").select(["views", "id"]).where("slug", "=", slug).executeTakeFirst();
     return information;
+}
+
+export const slugViewAnim = {
+    initial: {
+        opacity: 0,
+        y: -10,
+    },
+    animate: {
+        opacity: 1,
+        y: 0,
+    },
+    transition: {
+        duration: 0.2,
+    },
 }

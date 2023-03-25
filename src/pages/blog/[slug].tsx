@@ -3,20 +3,36 @@ import {url} from "@src/../next-seo.config";
 import {Image} from "@src/components/ui/Image";
 import {Tag} from "@src/components/ui/Tag";
 import {Text} from "@src/components/ui/Text";
-import {createPostOrUpdateViews, pageAnim} from "@src/lib/utils";
+import {pageAnim, slugViewAnim} from "@src/lib/utils";
 import {format, parseISO} from "date-fns";
-import {motion} from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
 import {GetStaticProps} from "next";
 import {useMDXComponent} from "next-contentlayer/hooks";
 import {NextSeo} from "next-seo";
-import {InferGetServerSidePropsType} from "next/types";
+import {InferGetStaticPropsType} from "next/types";
 import readingTime from "reading-time";
+import useSwr from "swr";
 
 const mdxcomponents = {
   Image,
 };
 
-export async function getServerSideProps({
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
+export const getStaticPaths = async () => {
+  const paths = allEntries.map(entry => ({
+    params: {
+      slug: entry._raw.flattenedPath.toLowerCase().replace(/\s+/g, "-"),
+    },
+  }));
+
+  return {
+    paths,
+    fallback: "blocking",
+  };
+};
+
+export async function getStaticProps({
   params,
 }: GetStaticProps & {params: {slug: string}}) {
   const entry = allEntries.find(
@@ -25,13 +41,11 @@ export async function getServerSideProps({
       params.slug
   );
 
-  let information = await createPostOrUpdateViews(entry);
-
   return {
     props: {
       data: {
         entry: entry,
-        extra: {...information},
+        revalidate: 60 * 60,
       },
     },
   };
@@ -39,8 +53,26 @@ export async function getServerSideProps({
 
 export default function Entry({
   data,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const Body = useMDXComponent(data?.entry?.body.code ?? "");
+
+  const {
+    data: extra,
+    error,
+    isLoading,
+  } = useSwr<{
+    views: number;
+    id: string;
+  }>(
+    `/api/views/${data.entry?._raw.flattenedPath
+      .toLowerCase()
+      .replace(/\s+/g, "-")}`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    }
+  );
+
   return (
     <motion.article
       initial={pageAnim.initial}
@@ -96,18 +128,44 @@ export default function Entry({
           {format(parseISO(data?.entry?.publishedAt), "LLLL d, yyyy")}
         </Text>
       )}
-      {data?.extra?.views && (
-        <div className="flex flex-row gap-2 items-center justify-between">
-          <Text weight="light" size="sm" className="my-0" ratio={1}>
-            {Intl.NumberFormat("en-IN").format(data.extra.views)} views
-          </Text>
-          {data?.entry?.body.code && (
-            <Text weight="light" size="sm" className="my-0" ratio={1}>
-              {readingTime(data.entry.body.code).text}
-            </Text>
+      <div className="flex flex-row gap-2 items-center justify-between">
+        <AnimatePresence mode="popLayout">
+          {isLoading ? (
+            <motion.div
+              key="loading_views"
+              initial={slugViewAnim.initial}
+              animate={slugViewAnim.animate}
+              exit={slugViewAnim.initial}
+              transition={slugViewAnim.transition}
+              className="animate-pulse rounded-[20px] h-[20px] w-[50px] bg-gray-200 dark:bg-white/10"></motion.div>
+          ) : (
+            extra?.views && (
+              <motion.div
+                key="views"
+                initial={slugViewAnim.initial}
+                animate={slugViewAnim.animate}
+                exit={slugViewAnim.initial}
+                transition={slugViewAnim.transition}>
+                <Text weight="light" size="sm" className="my-0" ratio={1}>
+                  {Intl.NumberFormat("en-IN").format(extra.views)} views
+                </Text>
+              </motion.div>
+            )
           )}
-        </div>
-      )}
+          {data?.entry?.body.code && (
+            <motion.div
+              key="reading_time"
+              initial={{opacity: 0}}
+              animate={{opacity: 1}}
+              exit={{opacity: 0}}
+              transition={{duration: 0.3, delay: 0.5}}>
+              <Text weight="light" size="sm" className="my-0" ratio={1}>
+                {readingTime(data.entry.body.code).text}
+              </Text>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
       <Body components={mdxcomponents} />
     </motion.article>
   );
