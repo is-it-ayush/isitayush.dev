@@ -1,0 +1,351 @@
+---
+title: A dive into GPG & SSH
+publishedAt: 2023-03-19
+summary: The blog summarizes the difference between GPG and SSH.
+tags:
+  - security
+  - gpg
+  - ssh
+  - shell
+---
+
+> tldr;
+> SSH = connect to a remote computer and access a shell on it.
+> GPG = encrypt and sign your data and communication.
+
+I guess the last blog blew up. It got nearly 1000 views in the month of march.
+I'm really bad at writing tbh and it made my entire month better. Thanks to all
+of you who read it. I read all your comments on [the post](https://app.daily.dev/posts/OiRT0Zg6D#c-DlZv6D3Wa)
+& lastly thanks to [Richard](https://app.daily.dev/richardevcom) for posting it.
+I'm really glad that you liked it. 🖤
+
+### Introduction
+
+In the same post, [Kirill](https://app.daily.dev/kkurko) asked me to write a
+blog on GPG & SSH. So here it is & I'll try my best to explain it in a simple
+way.
+
+I really like to know why things are the way they are & what decisions
+led us here. If you are like me, Read on. Otherwise, I recommend you to skip
+to the [vs](#gpg-vs-ssh) section. : )
+
+### Rewind Time
+
+I'd like to invite you to a time machine. Let's go back to 1995. A time when
+the internet was still in its infancy. Security wasn't a major concern back then.
+University of Helsinki, Finland sufered a sniffing attack on the network.
+[Tatu Ylönen](https://ylonen.org/), a researcher at the university, developed SSH
+as a solution. He later relized that it could be used widely and released it as
+an open-source project. SSH is now used by millions of people around the world.
+
+On the other hand, PGP or Pretty Good Privacy was developed by [Phil Zimmermann](https://philzimmermann.com/EN/background/index.html)
+in 1991. It was a encryption program that could be used to encrypt and sign
+texts, emails, files, directories, and even disks. There's a really cool story
+behind it which you can read [here](https://en.wikipedia.org/wiki/Pretty_Good_Privacy#History)
+as it wasn't a smooth ride. Later, in 1997, Zimmermann combined his team with
+Viacrypt and formed [PGP Inc.](https://en.wikipedia.org/wiki/PGP_Corporation)
+Many people wanted to write their own software that interoperated
+with PGP. Zimmermann became concerned as he thought that it would not be good
+due to it's importance in the world. To solve this, In July 1997, PGP Inc. proposed
+to the [IETF](https://www.ietf.org/) to create an open standard for encryption. The result was OpenPGP &
+OpenPGP Working Group. [The Free Software Foundation](https://www.fsf.org/) developed their own version
+of PGP which was compliant with the OpenPGP standard. This came to be known as
+[GnuPG](https://www.fsf.org/) or GPG. It was released in 1999. GPG is now used by millions of people
+around the world to encrypt, sign, and verify their data.
+
+### GPG vs SSH
+
+GPG and SSH are **two different** tools designed to tackle two different although similar problems.
+I've already talked a lot about them in the history bit, so let's dive into them without wasting any
+time. I'll also answer your question, _**"but...but...how does it help me?"**_ from
+the perspective of an average software engineer.
+
+### SSH
+
+SSH is a network protocol & OpenSSH is a implementation of that protocol.
+It's a very simple, yet powerful tool which allows you to manage a computer
+remotely through a terminal. To understand the idea behind SSH. I'll show you
+a few use cases:
+
+- Wanna have a shell into your home workstation while on a vacation across the country? **SSH**!!!.
+- Wanna have a shell into your server to check if the service is running? Guess What! **SSH**!!!.
+- Oh! The Debian instance you spun up with `Order` service is down? Once again, **SSH**!!!.
+
+You get the idea! {'<'}3.
+
+### Setting Up SSH
+
+Generally, SSH is already installed on most Linux distros & Windows
+ships with it too. Although it's not enabled by default on machines.
+Let's now see how we can set it up.
+
+Here, the `Server Machine` is the machine that you want to connect to &
+`Client Machine` is the machine that you want to connect from.
+
+- Installing SSH Server on Server Machine.
+  - `sudo apt install openssh-server` (Debian)
+  - `Apps -> Optional Features -> OpenSSH Server` (Windows)
+- Installing SSH Client on Client Machine.
+  - `sudo apt install openssh-client` (Debian)
+  - `Apps -> Optional Features -> OpenSSH Client` (Windows)
+- Generating a RSA Key Pair on Client Machine.
+  - `ssh-keygen -b 4096` (Debian/Ubuntu/Windows)
+- Copy the contents of this generated public key. You can find it at:
+  - `cat ~/.ssh/id_rsa.pub` (Debian)
+  - `%userprofile%\.ssh\id_rsa.pub` (Windows)
+- Paste the contents of the public key into the `~/.ssh/authorized_keys` file on the Server Machine.
+  - `echo "paste your key here" >> ~/.ssh/authorized_keys` (Debian)
+  - `echo "paste your key here" >> %programdata%\ssh\authorized_keys` (Windows)
+- Restart the SSH Server on Server Machine.
+  - `sudo systemctl restart ssh` (Debian)
+  - `Restart-Service sshd` (Windows: Powershell)
+- Finally! ✨ Connecting to the Server Machine from Client Machine.
+  - `ssh user@server` (Debian/Windows)
+
+...Connecting.
+
+Hey Windows! Uh Oh, Is there an error? I know. I was stuck with it for 3 days until I figured it out.
+Sometimes, This can be a bit tricky but essentially if you encounter any error. Double check your domain & username.
+To check it. Open up Powershell as Admin & the run the following command:
+
+```powershell
+[System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+```
+
+You can now use the output of this command to connect to your server for example:
+`ssh DOMAIN\\USERNAME@server`.
+
+> Note how I've used double backslash instead of single backslash. This is
+> because you'll need to escape the backslash since it's a special character.
+
+Here's a bigger [guide](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-debian-10) that covers
+this in more detail. **If you get stuck, Google everything.**
+
+### GPG
+
+I haven't forgotten GPG. In summary, GPG is really cool tool that uses assymetric cryptography under the hood
+which then allows you to do some really fancy things with files & data. I almost use it daily.
+From signing git commits to sending weird messages to my friends who I know will never be able to
+decrypt it. GPG has been my go-to tool for quite some time now & I hope I can convince you of it's
+**mystical powers**. Let's get you set up.
+
+### Setting Up GPG
+
+This one's very easy. Here's how you can set it up.
+
+- Installing GPG on your machine.
+  - `sudo apt install gnupg` (Debian)
+  - `Gpg4win Binary Installer` [here](https://www.gpg4win.org/download.html). (Windows)
+- Yep that's it. You can now use GPG on your machine.
+
+### First Key Pair
+
+Before we do anything fancy. We need to first get you a keypair but even before that, we need to
+understand what a keypair is. From the word, "keypair" you can definately conclude it's a pair of keys.
+One key is public & the other is private. What do I mean by that? Think of a keyring with 2 keys.
+A private key that is really-really secret just for the **_special you_** ✨ & A public key that you
+can share with the world. In the world of cryptography, people identify you by your public key & you
+know them by their public key. It's really that simple! The keyring concept applies to GnuPG or GPG
+too. You'll have other's public key in your keyring & they'll have your public key in their keyring.
+
+Want to check out your keyring? Run the following command.
+
+```sh
+gpg --list-keys # This will list all the public keys in your keyring.
+gpg --list-secret-keys # This will list all the private keys in your keyring.
+```
+
+Let's move onto generating your first keypair. You'll be asked a few questions & for that I recommend a few things
+that you should keep in mind.
+
+- Use a [strong passphrase](https://www.explainxkcd.com/wiki/images/6/6a/password_strength.png) with good entropy.
+- Set an expiration date. Typically, I set it to 1 years or 2 years. You can extend it later.
+- Set your name & email. You can use any name & email you want as there are no
+  restrictions. Normally, I use my real name & email because it's easier for other's to identify my
+  public key instead of calling me `Potato4109's` over the internet haha.
+- **Important**: Use `4096` bits for the key size. Don't use anything less than that for security reasons.
+
+Now, let's generate you a key pair. Run the following command & follow the prompts.
+
+```sh
+gpg --full-generate-key
+```
+
+Congratulations! You've just generated your first key pair & you now own a public key & a private key in your keyring.
+We'll now dive into how to use these keys to do some really cool things! 🎉
+
+### Getting fancy with GPG
+
+I'll suggest you to always have a cheatsheet as a bookmark & [here's](https://gock.net/blog/2020/gpg-cheat-sheet/)
+a really good one. Let's quickly go over through some of the most common things you'll do with GPG.
+
+Before, we do anything fancy. Let's get our **Key Id**. You can find your key id by running
+the following command.
+
+```sh
+gpg --list-secret-keys --keyid-format LONG | grep pub
+```
+
+You'll get something like this in the output.
+
+```sh
+➜  personal gpg --list-keys --keyid-format LONG | grep pub
+/home/isitayush/.gnupg/pubring.kbx
+pub   rsa4096/752E6D3E149DE364 2022-10-23 [SC] [expires: 2024-03-22]
+```
+
+Here! `752E6D3E149DE364` is my key id. Your's will be different. You can use this key id
+to identify your key whenever you run any GPG command. We'll need to send your key to a keyserver
+so that your friends & other people can find you across the planet.
+
+```sh
+gpg --keyserver hkps://keys.openpgp.org --send-keys <your-key-id>
+```
+
+That's it! Your public key is out there now. Remember the email you used
+when you generated your key? You can now share that email with your friends & they can
+find your public key by running the following command.
+
+```sh
+gpg --keyserver hkps://keys.openpgp.org --search-keys <your-email>
+```
+
+You can also similary search for other people's public keys by using their email instead.
+
+GnuPG will automatically search for the public key on the keyserver & If it find's any public keys
+matching that email you provided, it'll give you an option to import it into your keyring.
+
+> You can use any keyserver you want. I prefer `keys.openpgp.org` & `keyserver.ubuntu.com`.
+> You can find a list of key servers [here](https://frank.sauerburger.io/2020/01/15/openpgp-keyservers.html).
+
+You can also import other people's public keys by running the following command.
+
+```sh
+gpg --keyserver hkps://keys.openpgp.org --recv-keys <other-person-key-id>
+# or
+gpg --import <path-to-public-key-file> # This will import the public key from a local file.
+```
+
+You can also export your public key. I recommend you read [this](https://www.gnupg.org/gph/en/manual/x56.html)
+for more information.
+
+#### Encrypting & Decrypting
+
+I'll assume you're familiar with some basic shell commands like `cd`, `ls`,
+`cat`, `mkdir`, `touch` etc. Google them if you don't. We'll goto home directory, create a
+new directory called "gpg-test" & then cd into it.
+
+```sh
+cd ~ && mkdir gpg-test && cd gpg-test
+```
+
+This is the fun bit, now we'll create a file called `secret.txt` & write some text in it.
+
+```sh
+echo "This is a secret" > secret.txt
+```
+
+If you now do `ls` you'll see a file called `secret.txt` in your directory & similarly if you do
+`cat secret.txt` you'll see the text you just wrote in it. Now, let's encrypt this file.
+Just enter your own email in the `-r` or `--recipient` flag for now.
+
+```sh
+gpg --encrypt --recipient <your_friends_key_id_or_email> secret.txt
+```
+
+You can specify your own id here too (You should for this example atleast).
+
+This will produce a file called `secret.txt.gpg` in your directory. If you do `ls` you'll see
+that file. If you do `cat secret.txt.gpg` you'll see a bunch of gibberish. This is because
+the file is encrypted. You can only decrypt it if you have the private key in your keyring
+for the associated public key mentioned in the above command using the `-r` or `--recipient`
+flag. Since, we specified our own email in `-r`. We can decrypt it. Let's do it.
+
+```sh
+gpg --decrypt secret.txt.gpg
+```
+
+It'll ask you for your password & then you'll see the original text again. Congratulations! You just
+encrypted your first file. You can also encrypt a file for multiple people by specifying multiple recipients.
+
+```sh
+gpg --encrypt -r <your_friends_key_id_or_email> -r <your_friends_key_id_or_email> secret.txt
+```
+
+It's really easy to be honest. You can encrypt anything you want. Here is a short trick I use when
+I don't want to create a file & just want to encrypt some text. Run this,
+
+```sh
+echo "<your_text>" | gpg --encrypt -r <key_id_or_email>
+```
+
+It'll encrypt the text & print it to stdout. You can then copy it & paste it anywhere you want.
+You can also decrypt it by running the following command (only if you're the recipient in `-r`).
+
+```sh
+echo "<encrypted_text>" | gpg --decrypt
+```
+
+### Signing & Verifying
+
+Lastly, Let's see how to sign & verify files. What is signing? Exactly what it says. Say, you're
+sending a file to someone & you want to make sure that the file is not tampered with. You can sign
+the file & send it to them. They can then verify the signature to make sure that the file is not
+tampered with. Let's see how to do that. I'll create a file called `hello.txt` & write some
+text in it.
+
+```sh
+echo "Hello World" > hello.txt
+```
+
+Now, I'll sign this file using my private key so that other's can verify it against my public key.
+Signing is used in conjunction with encryption.
+
+```
+gpg --sign hello.txt
+```
+
+This will produce a file called `hello.txt.gpg` in your directory. You can verify the signature
+by running the following command.
+
+```sh
+gpg --verify hello.txt.gpg
+```
+
+If someone else wants to check if the file is signed by you, they can check it against your public key
+or your email. You can find your public key by running the following command by using `--check-signatures`
+flag & specifying my email.
+
+### A few more things
+
+There are a few helpful flags I want you to know about. Let's quickly go over them.
+
+| Flag            | Description                                                                                                                       | Example                                                                |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `--armor`       | This flag will output the encrypted/signed file in ASCII format.                                                                  | `gpg --encrypt --armor -r <key_id_or_email> secret.txt`                |
+| `--output`      | This flag will output the encrypted/signed file to a file of your choice.                                                         | `gpg --encrypt --output encrypted.txt -r <key_id_or_email> secret.txt` |
+| `--detach-sign` | This flag will output the signature in a separate file.                                                                           | `gpg --detach-sign hello.txt`                                          |
+| `--clearsign`   | This flag will attach the signature to the file itself but the content of the file will be clearly visible beside the signatures. | `gpg --clearsign hello.txt`                                            |
+
+### Bonus
+
+When I was experimenting with GPG. I think I broke zsh. 🥲
+
+<Image
+  src="/assets/ssh-vs-gpg/bugged_zsh.png"
+  alt="Is it a bird? Is it a plane? No, It's buffer overflow! (I guess)."
+  width={800}
+  height={400}
+/>
+
+To dive deeper, I recommend you to read [GNU Privacy Handbook](https://www.gnupg.org/gph/en/manual.html)
+& do `man gpg` & `man ssh` in your terminal. You'll learn a lot.
+
+### Conclusion
+
+That's it! I suggest you to experiment with all of these commands. You now know how to
+use GnuPG to encrypt & sign files. You also know how to connect to other machines using SSH.
+What a journey! I hope you enjoyed this blog. It took me about a two weekends to write & I
+learned a lot while writing it. I hope you learned something too.
+If you have any questions, feel free to RT me @ [Twitter](https://twitter.com/is_it_ayush).
+I'll try my best to answer them & finally thank you for reading it. I really appreciate it. 🖤

@@ -1,6 +1,8 @@
 import { Entry } from "@contentlayer/generated";
+import { db } from "@src/server/db";
 import { ClassValue, clsx } from "clsx";
-import { format } from "date-fns";
+import { randomUUID } from "crypto";
+import { format, parseISO } from "date-fns";
 import fs from "fs";
 import { url } from "next-seo.config";
 import RSS from "rss";
@@ -232,4 +234,38 @@ export async function generateRobotsTxt() {
     } catch (e) {
         console.error("Robots.txt/Error: Error while writing robots.txt to file: ", e);
     }
+}
+
+export async function createPostOrUpdateViews(entry: Entry | undefined) {
+    if (!entry) return;
+    const slug = entry._raw.flattenedPath.toLowerCase().replace(/\s+/g, "-");
+
+    const post = await db
+        .selectFrom("Post")
+        .where("slug", "=", slug)
+        .selectAll()
+        .executeTakeFirst();
+
+    if (post) {
+        await db
+            .updateTable("Post")
+            .set({ views: post.views + 1 })
+            .where("slug", "=", slug)
+            .execute();
+    }
+    else {
+        await db
+            .insertInto("Post")
+            .values({
+                id: randomUUID(),
+                title: entry.title,
+                slug: slug,
+                views: 1,
+                createdAt: parseISO(entry.publishedAt)
+            })
+            .execute();
+    }
+
+    const information = await db.selectFrom("Post").select(["views", "id"]).where("slug", "=", slug).executeTakeFirst();
+    return information;
 }

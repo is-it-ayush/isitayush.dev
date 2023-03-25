@@ -1,7 +1,7 @@
 import {AnimatePresence, motion} from "framer-motion";
 import NextImage, {ImageProps} from "next/image";
 import React from "react";
-import {Tag} from "../fragments/Tag";
+import {Tag} from "@src/components/ui/Tag";
 import {Text} from "./Text";
 
 const magnifyAnim = {

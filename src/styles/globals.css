@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/** https://web.dev/add-touch-to-your-site/#suppressing-default-browser-styles */
+* {
+  -webkit-tap-highlight-color: transparent;
+  outline: 0;
+}
+
 /** thanks lee (leerob.io). i'm stealing your styles. : ) */
 
 .prose *:not(pre, pre *, code, code *, p > span) {
@@ -38,7 +44,7 @@ p:where([class*="not-prose"]) > span {
 }
 
 .prose blockquote p {
-  @apply font-semibold;
+  @apply font-extralight not-italic text-black dark:text-white;
 }
 
 .prose :where(code)::before,
