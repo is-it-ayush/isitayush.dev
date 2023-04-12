@@ -7,13 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "clean": "find . -name node_modules -o -name .contentlayer -o -name .next -type d -prune | xargs rm -rf",
     "db:push": "dotenv -e .env.local -- prisma db push",
     "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
     "db:reset": "dotenv -e .env.local -- prisma migrate reset",
     "db:gen": "dotenv -e .env.local -- prisma generate"
   },
   "dependencies": {
-    "@next/font": "^13.1.6",
+    "@next/font": "13.1.6",
     "@planetscale/database": "^1.6.0",
     "@prisma/client": "^4.11.0",
     "@radix-ui/react-progress": "^1.0.1",
@@ -25,6 +26,7 @@
     "clsx": "^1.2.1",
     "contentlayer": "^0.3.0",
     "date-fns": "^2.29.3",
+    "dotenv": "^16.0.3",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "framer-motion": "^9.0.2",
@@ -51,7 +53,6 @@
     "sqlstring": "^2.3.3",
     "superjson": "^1.12.2",
     "swr": "^2.1.1",
-    "tailwind-merge": "^1.9.1",
     "typescript": "4.9.5"
   },
   "devDependencies": {
@@ -60,8 +61,11 @@
     "@types/react-dom": "18.0.10",
     "@types/react-highlight-words": "^0.16.4",
     "@types/rss": "^0.0.30",
+    "tailwind-merge": "^1.9.1",
     "@types/spotify-api": "^0.0.20",
+    "@contentlayer/source-files": "^0.3.1",
     "autoprefixer": "^10.4.13",
+    "dotenv-cli": "^7.2.1",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"
   }

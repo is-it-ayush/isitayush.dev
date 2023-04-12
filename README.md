@@ -15,6 +15,7 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
 - [Prisma](https://www.prisma.io/)
 - [Kysely](https://github.com/koskimas/kysely)
 - [PlanetScale](https://www.planetscale.com/)
+- [SWR](https://swr.vercel.app/)
 
 ### Todo
 
@@ -38,7 +39,8 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
 - [x] Improve the prose styles
 - [x] Added a home button on routes that have do not have a history. Thanks to [@kukko](https://app.daily.dev/kkurko) for such a great suggestion.
 - [x] Added a views counter for blog posts.
-- [ ] Add a 404 page & a 500 page
+- [x] Setup CI. 
+- [ ] Add a 404 page & a 500 page.
 
 ### Development
 
