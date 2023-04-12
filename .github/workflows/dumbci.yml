@@ -32,7 +32,7 @@ jobs:
 
       - name: Setup Environment Variables
         run: |
-          echo "${{ vars.SPOTIFY_STUFF }}" > .env
+          echo "${{ secrets.SPOTIFY_STUFF }}" > .env
 
       - name: "Information"
         run: |
