@@ -24,6 +24,10 @@ jobs:
         with:
           version: 8.2.0
 
+      - name: Setup Environment Variables
+        run: |
+          echo "${{ secrets.SPOTIFY_STUFF }}" > .env
+
       - name: "Information"
         run: |
           echo "OS: $(uname -a)"
