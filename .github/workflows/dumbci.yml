@@ -12,8 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Clean
-        run: pnpm clean
+      - name: "Information"
+        run: |
+          echo "OS: $(uname -a)"
+          echo "Node Environment: $(node -e "console.log(process.env.NODE_ENV)")"
+          echo "Node Version: $(node -v)"
+          echo "NPM Version: $(npm -v)"
+          echo "PNPM Version: $(pnpm -v)"
       - name: Install
         run: pnpm install
       - name: Lint
