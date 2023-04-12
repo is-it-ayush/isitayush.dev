@@ -25,10 +25,6 @@ jobs:
         with:
           version: 8.2.0
 
-      - name: Setup Environment Variables
-        run: |
-          echo "${{ vars.SPOTIFY_STUFF }}" > .env
-
       - name: "Information"
         run: |
           echo "OS: $(uname -a)"
@@ -42,8 +38,4 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      - name: Generate Types
-        run: pnpm db:gen
-
-      - name: Build
-        run: pnpm build
+      # Vercel does the build for us, so it'd be stupid to build & clean here. : )
