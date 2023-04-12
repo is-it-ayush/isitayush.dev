@@ -11,21 +11,36 @@ jobs:
   dumbci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: latest
+
       - name: "Information"
         run: |
           echo "OS: $(uname -a)"
-          echo "Node Environment: $(node -e "console.log(process.env.NODE_ENV)")"
           echo "Node Version: $(node -v)"
           echo "NPM Version: $(npm -v)"
-          echo "PNPM Version: $(pnpm -v)"
+
       - name: Install
         run: pnpm install
+
       - name: Lint
         run: pnpm lint
+
       - name: Generate Types
         run: pnpm db:gen
+
       - name: Test
         run: pnpm test
+
       - name: Build
         run: pnpm build
