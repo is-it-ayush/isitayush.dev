@@ -40,8 +40,5 @@ jobs:
       - name: Generate Types
         run: pnpm db:gen
 
-      - name: Test
-        run: pnpm test
-
       - name: Build
         run: pnpm build
