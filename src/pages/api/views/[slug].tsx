@@ -1,5 +1,5 @@
-import {createPostOrUpdateViews} from "@src/lib/utils";
-import {NextApiRequest, NextApiResponse} from "next";
+import { createPostOrUpdateViews } from "@src/lib/utils";
+import { NextApiRequest, NextApiResponse } from "next";
 
 async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
   const slug = req.query.slug?.toString();
@@ -9,7 +9,7 @@ async function handleRequest(req: NextApiRequest, res: NextApiResponse) {
     });
   }
   const views = await createPostOrUpdateViews(slug);
-  return res.status(200).send({...views});
+  return res.status(200).send({ ...views });
 }
 
 export default handleRequest;

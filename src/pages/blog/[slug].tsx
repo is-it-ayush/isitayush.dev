@@ -1,15 +1,15 @@
-import {allEntries} from "@contentlayer/generated";
-import {url} from "@src/../next-seo.config";
-import {Image} from "@src/components/ui/Image";
-import {Tag} from "@src/components/ui/Tag";
-import {Text} from "@src/components/ui/Text";
-import {pageAnim, slugViewAnim} from "@src/lib/utils";
-import {format, parseISO} from "date-fns";
-import {AnimatePresence, motion} from "framer-motion";
-import {GetStaticProps} from "next";
-import {useMDXComponent} from "next-contentlayer/hooks";
-import {NextSeo} from "next-seo";
-import {InferGetStaticPropsType} from "next/types";
+import { allEntries } from "@contentlayer/generated";
+import { url } from "@src/../next-seo.config";
+import { Image } from "@src/components/ui/Image";
+import { Tag } from "@src/components/ui/Tag";
+import { Text } from "@src/components/ui/Text";
+import { pageAnim, slugViewAnim } from "@src/lib/utils";
+import { format, parseISO } from "date-fns";
+import { AnimatePresence, motion } from "framer-motion";
+import { GetStaticProps } from "next";
+import { useMDXComponent } from "next-contentlayer/hooks";
+import { NextSeo } from "next-seo";
+import { InferGetStaticPropsType } from "next/types";
 import readingTime from "reading-time";
 import useSwr from "swr";
 
@@ -17,10 +17,10 @@ const mdxcomponents = {
   Image,
 };
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export const getStaticPaths = async () => {
-  const paths = allEntries.map(entry => ({
+  const paths = allEntries.map((entry) => ({
     params: {
       slug: entry._raw.flattenedPath.toLowerCase().replace(/\s+/g, "-"),
     },
@@ -34,9 +34,9 @@ export const getStaticPaths = async () => {
 
 export async function getStaticProps({
   params,
-}: GetStaticProps & {params: {slug: string}}) {
+}: GetStaticProps & { params: { slug: string } }) {
   const entry = allEntries.find(
-    entry =>
+    (entry) =>
       entry._raw.flattenedPath.toLowerCase().replace(/\s+/g, "-") ===
       params.slug
   );
@@ -155,10 +155,10 @@ export default function Entry({
           {data?.entry?.body.code && (
             <motion.div
               key="reading_time"
-              initial={{opacity: 0}}
-              animate={{opacity: 1}}
-              exit={{opacity: 0}}
-              transition={{duration: 0.3, delay: 0.5}}>
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, delay: 0.5 }}>
               <Text weight="light" size="sm" className="my-0" ratio={1}>
                 {readingTime(data.entry.body.code).text}
               </Text>

@@ -1,11 +1,11 @@
-import {Container} from "@src/components/ui/Container";
-import {Text} from "@src/components/ui/Text";
-import {Project} from "@src/lib/types";
-import {stack} from "@src/lib/utils";
-import {Github, Link as LinkIcon} from "lucide-react";
+import { Container } from "@src/components/ui/Container";
+import { Text } from "@src/components/ui/Text";
+import { Project } from "@src/lib/types";
+import { stack } from "@src/lib/utils";
+import { Github, Link as LinkIcon } from "lucide-react";
 import Link from "next/link";
-import {ReactNode} from "react";
-import {Tag} from "@src/components/ui/Tag";
+import { ReactNode } from "react";
+import { Tag } from "@src/components/ui/Tag";
 
 export const Node = ({
   node,
