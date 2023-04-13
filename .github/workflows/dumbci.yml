@@ -52,7 +52,6 @@ jobs:
 
       - name: Build
         run: pnpm build
-
   deploy-preview:
     runs-on: ubuntu-latest
     needs: lint-and-build
