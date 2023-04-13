@@ -54,15 +54,15 @@ jobs:
           vercel build --token=${{ secrets.VERCEL_AUTH }}
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_AUTH }}
   deploy-production:
-  runs-on: ubuntu-latest
-  needs: lint-and-build
-  environment: production
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+    runs-on: ubuntu-latest
+    needs: lint-and-build
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Deploy Preview
-      run: |
-        vercel pull --yes --environment=production --token=${{ secrets.VERCEL_AUTH }}
-        vercel build --prod --token=${{ secrets.VERCEL_AUTH }}
-        vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_AUTH }}
+      - name: Deploy Preview
+        run: |
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_AUTH }}
+          vercel build --prod --token=${{ secrets.VERCEL_AUTH }}
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_AUTH }}
