@@ -35,7 +35,7 @@ export default function ProjectsPage({
 export const getStaticProps = async () => {
   const project_data: Project[] = [
     {
-      name: "A Thing",
+      name: "a thing.",
       timeline: {
         from: new Date(Date.UTC(2022, 10, 10)),
         to: new Date(Date.UTC(2022, 11, 4)),
@@ -47,7 +47,7 @@ export const getStaticProps = async () => {
       website: new URL("https://athing.vercel.app/"),
     },
     {
-      name: "Dimensional Rift",
+      name: "dimensional rift.",
       timeline: {
         from: new Date(Date.UTC(2022, 3)),
       },
@@ -58,7 +58,7 @@ export const getStaticProps = async () => {
       website: new URL("https://dimensional-rift.vercel.app"),
     },
     {
-      name: "Wethics",
+      name: "wethics.",
       timeline: {
         from: new Date(Date.UTC(2021, 4, 11)),
       },
@@ -85,6 +85,18 @@ export const getStaticProps = async () => {
         "This month, I tried to create a corner on the internet that I could call mine. Here I'll showcase my projects, write blogs, share ideas. I really enjoyed working on this project & I'm proud I could put all the pieces together within two weeks.",
       github: new URL("https://github.com/is-it-ayush/isitayush.dev"),
       website: new URL(url),
+    },
+    {
+      name: "cellular automata.",
+      timeline: {
+        from: new Date(Date.UTC(2023, 3, 2)),
+        to: new Date(Date.UTC(2023, 3, 4)),
+      },
+      technologies: ["p5", "typescript"],
+      description:
+        "There is something unique about observing emergent behaviour in a system. There is a bit of mathematical magic in it but it all boils down to a few very simple rules. This project was an attempt to implement John Conway's Game of Life with p5.js & I enjoyed every bit of it.",
+      github: new URL("https://github.com/is-it-ayush/cellular-automata"),
+      website: new URL("https://cellular-automaton-delta.vercel.app/"),
     },
   ];
 

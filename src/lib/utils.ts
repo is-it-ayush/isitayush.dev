@@ -127,6 +127,10 @@ export const stack = {
     name: "UI Shadcn",
     url: "https://ui.shadcn.com/",
   },
+  p5: {
+    name: "p5.js",
+    url: "https://p5js.org/",
+  },
 };
 
 export type Technologies = typeof stack;
