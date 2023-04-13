@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "clean": "find . -name node_modules -o -name .contentlayer -o -name .next -type d -prune | xargs rm -rf",
+    "pretty": "prettier --write .",
     "db:push": "dotenv -e .env.local -- prisma db push",
     "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
     "db:reset": "dotenv -e .env.local -- prisma migrate reset",
@@ -56,17 +57,18 @@
     "typescript": "4.9.5"
   },
   "devDependencies": {
+    "@contentlayer/source-files": "^0.3.1",
     "@types/node": "18.11.19",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "@types/react-highlight-words": "^0.16.4",
     "@types/rss": "^0.0.30",
-    "tailwind-merge": "^1.9.1",
     "@types/spotify-api": "^0.0.20",
-    "@contentlayer/source-files": "^0.3.1",
     "autoprefixer": "^10.4.13",
+    "prettier": "^2.8.7",
     "dotenv-cli": "^7.2.1",
     "postcss": "^8.4.21",
+    "tailwind-merge": "^1.9.1",
     "tailwindcss": "^3.2.4"
   }
 }
