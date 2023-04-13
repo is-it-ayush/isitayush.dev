@@ -39,7 +39,7 @@ This is the source code for my personal website, [isitayush.dev](https://isitayu
 - [x] Improve the prose styles
 - [x] Added a home button on routes that have do not have a history. Thanks to [@kukko](https://app.daily.dev/kkurko) for such a great suggestion.
 - [x] Added a views counter for blog posts.
-- [x] Setup CI. 
+- [x] Setup CI.
 - [ ] Add a 404 page & a 500 page.
 
 ### Development
@@ -82,7 +82,7 @@ The pipeline for pushing new schema to planetscale or any other database is as f
 Now run `yarn db:gen` to generate the prisma types. These generated prisma types are then used by the kysely queries. So, you have to manually add them to the `interface Database` in `src/lib/db.ts`.
 Thanks [nexxel](https://www.nexxel.dev/blog/typesafe-database) for the hack.
 
->tldr; `yarn db:push` -> `yarn db:gen` -> Add the generated types to `interface Database` in `src/lib/db.ts`.
+> tldr; `yarn db:push` -> `yarn db:gen` -> Add the generated types to `interface Database` in `src/lib/db.ts`.
 
 ### Deployment
 

@@ -1,8 +1,8 @@
-import {AnimatePresence, motion} from "framer-motion";
-import NextImage, {ImageProps} from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
+import NextImage, { ImageProps } from "next/image";
 import React from "react";
-import {Tag} from "@src/components/ui/Tag";
-import {Text} from "./Text";
+import { Tag } from "@src/components/ui/Tag";
+import { Text } from "./Text";
 
 const magnifyAnim = {
   initial: {
@@ -44,7 +44,7 @@ const tipAnim = {
   },
 };
 
-export const Image = ({src, alt, width, height, ...rest}: ImageProps) => {
+export const Image = ({ src, alt, width, height, ...rest }: ImageProps) => {
   const [magnify, setMagnify] = React.useState(false);
   return (
     <div

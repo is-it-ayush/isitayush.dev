@@ -1,11 +1,11 @@
-import {AgeCounter} from "@src/components/fragments/AgeCounter";
-import {Container} from "@src/components/ui/Container";
-import {Text} from "@src/components/ui/Text";
-import {getRecentlyPlayed, pageAnim} from "@src/lib/utils";
-import {motion} from "framer-motion";
-import {Github, Twitter} from "lucide-react";
-import {InferGetServerSidePropsType} from "next";
-import {NextSeo} from "next-seo";
+import { AgeCounter } from "@src/components/fragments/AgeCounter";
+import { Container } from "@src/components/ui/Container";
+import { Text } from "@src/components/ui/Text";
+import { getRecentlyPlayed, pageAnim } from "@src/lib/utils";
+import { motion } from "framer-motion";
+import { Github, Twitter } from "lucide-react";
+import { InferGetServerSidePropsType } from "next";
+import { NextSeo } from "next-seo";
 import Link from "next/link";
 
 export default function AboutPage({
@@ -89,7 +89,7 @@ export default function AboutPage({
                 weight="normal"
                 size="base"
                 className="hover:underline hover:cursor-pointer italic">
-                {recentlyPlayed.track.name}
+                {recentlyPlayed.track?.name}
               </Text>
             </Link>
           </Container>
@@ -128,8 +128,25 @@ export async function getStaticProps() {
     await getRecentlyPlayed();
   return {
     props: {
-      recentlyPlayed: recentlyPlayed.items[0],
+      recentlyPlayed: recentlyPlayed.items[0]
+        ? recentlyPlayed.items[0]
+        : {
+            track: {
+              name: "My Voice",
+              external_urls: {
+                spotify: "https://isitayush.dev",
+              },
+              artists: [
+                {
+                  name: "Lil Ayush",
+                  external_urls: {
+                    spotify: "https://isitayush.dev",
+                  },
+                },
+              ],
+            },
+          },
+      revalidate: 60,
     },
-    revalidate: 60,
   };
 }

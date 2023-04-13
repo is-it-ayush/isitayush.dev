@@ -1,18 +1,18 @@
-import type {Entry} from "@contentlayer/generated";
-import {Container} from "@src/components/ui/Container";
-import {Tag} from "@src/components/ui/Tag";
-import {Text} from "@src/components/ui/Text";
-import {format, parseISO} from "date-fns";
-import {motion} from "framer-motion";
+import type { Entry } from "@contentlayer/generated";
+import { Container } from "@src/components/ui/Container";
+import { Tag } from "@src/components/ui/Tag";
+import { Text } from "@src/components/ui/Text";
+import { format, parseISO } from "date-fns";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import {ReactNode} from "react";
+import { ReactNode } from "react";
 import Highlighter from "react-highlight-words";
 import readingTime from "reading-time";
 
 export const variants = {
-  hidden: {opacity: 0, y: 10},
-  visible: {opacity: 1, y: 0},
-  tranistion: {duration: 0.2},
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
+  tranistion: { duration: 0.2 },
 };
 
 export function EntryCard({

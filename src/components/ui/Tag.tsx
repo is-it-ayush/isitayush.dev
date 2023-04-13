@@ -1,6 +1,6 @@
-import {cn} from "@src/lib/utils";
-import {ClassValue} from "clsx";
-import {ReactNode} from "react";
+import { cn } from "@src/lib/utils";
+import { ClassValue } from "clsx";
+import { ReactNode } from "react";
 
 export const Tag = ({
   children,
