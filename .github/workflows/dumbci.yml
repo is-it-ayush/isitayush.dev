@@ -55,7 +55,7 @@ jobs:
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_AUTH }}
   deploy-production:
   runs-on: ubuntu-latest
-  needs: deploy-preview
+  needs: lint-and-build
   environment: production
   steps:
     - name: Checkout
