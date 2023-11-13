@@ -3,7 +3,7 @@ import { Container } from "@src/components/ui/Container";
 import { Text } from "@src/components/ui/Text";
 import { getRecentlyPlayed, pageAnim } from "@src/lib/utils";
 import { motion } from "framer-motion";
-import { Github, Twitter } from "lucide-react";
+import { Github, Headphones, Linkedin, Twitter } from "lucide-react";
 import { InferGetServerSidePropsType } from "next";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
@@ -114,6 +114,30 @@ export default function AboutPage({
               <Twitter size={24} />
               <Text weight="medium" size="lg">
                 Twitter
+              </Text>
+            </Container>
+          </Link>
+        </div>
+        <div className="flex flex-col lg:flex-row gap-2">
+          <Link
+            href="https://cal.com/isitayush/quick-chat"
+            target="_blank"
+            className="lg:min-w-[49%]">
+            <Container row={true} className="space-x-2">
+              <Headphones size={24} />
+              <Text weight="medium" size="lg">
+                Meeting
+              </Text>
+            </Container>
+          </Link>
+          <Link
+            href="https://www.linkedin.com/in/isitayush/"
+            target="_blank"
+            className="lg:min-w-[49%]">
+            <Container row={true} className="space-x-2">
+              <Linkedin size={24} />
+              <Text weight="medium" size="lg">
+                LinkedIn
               </Text>
             </Container>
           </Link>
