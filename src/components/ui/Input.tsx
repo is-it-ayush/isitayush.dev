@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { ClassValue } from "clsx";
 import { cn } from "@src/lib/utils";
 import { Eye, EyeOff } from "lucide-react";
 

@@ -28,12 +28,12 @@ export function EntryCard({
   return (
     <>
       <motion.div
-        className="max-w-[300px] lg:max-w-[400px]"
+        className="w-[360px] lg:w-[400px]"
         initial={variants.hidden}
         animate={variants.visible}
         exit={variants.hidden}
         transition={variants.tranistion}>
-        <Link href={entry.slug} prefetch={true}>
+        <Link href={entry.slug}>
           <Container className="space-y-2">
             <div className="flex flex-col justify-between space-y-2">
               <Text size="lg" weight="semibold" ratio={1}>

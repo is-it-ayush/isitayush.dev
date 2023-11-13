@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Separator } from "@src/components/ui/Separator";
 import { generateRSSFeed, pageAnim } from "@src/lib/utils";
 import { NextSeo } from "next-seo";
+import { Text } from "@src/components/ui/Text";
 
 export default function BlogPage({
   entries,
@@ -46,7 +47,7 @@ export default function BlogPage({
         title="blog."
         description="I occasionally write about things I find interesting."
       />
-      <div className="flex">
+      <div className="flex px-4">
         <Input
           placeholder="Search"
           value={search}
@@ -56,7 +57,7 @@ export default function BlogPage({
           className="w-full"
         />
       </div>
-      <div className="flex flex-col space-y-4 min-w-[300px] lg:max-w-[600px]">
+      <div className="flex flex-col gap-4">
         <AnimatePresence mode="wait">
           {filteredEntries.length !== 0 ? (
             filteredEntries.map((entry, i) => {

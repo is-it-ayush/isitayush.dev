@@ -26,7 +26,7 @@ export default function Landing() {
       className="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0 items-start lg:items-center justify-center">
       <div className="flex flex-col space-y-2">
         <Text size={"sm"} weight={"light"}>
-          Hi, I&apos;m
+          hi, I&apos;m
         </Text>
         <Text
           size={"5xl"}
@@ -35,33 +35,8 @@ export default function Landing() {
           a y u s h.
         </Text>
         <Text size={"sm"} weight={"light"}>
-          I write code for a living.
+          i write code for a living.
         </Text>
-      </div>
-      <div className="flex flex-col justify-center">
-        <ul className="flex flex-col space-y-2">
-          <li>
-            <Text size={"base"} weight={"light"} ratio={1}>
-              <Link href="/about" className="underline italic">
-                /about
-              </Link>
-            </Text>
-          </li>
-          <li>
-            <Text size={"base"} weight={"light"} ratio={1}>
-              <Link href="/projects" className="underline italic">
-                /projects
-              </Link>
-            </Text>
-          </li>
-          <li>
-            <Text size={"base"} weight={"light"} ratio={1}>
-              <Link href="/blog" className="underline italic">
-                /blog
-              </Link>
-            </Text>
-          </li>
-        </ul>
       </div>
     </motion.div>
   );

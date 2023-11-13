@@ -3,7 +3,7 @@ import { Container } from "@src/components/ui/Container";
 import { Text } from "@src/components/ui/Text";
 import { getRecentlyPlayed, pageAnim } from "@src/lib/utils";
 import { motion } from "framer-motion";
-import { Github, Twitter } from "lucide-react";
+import { Github, Headphones, Linkedin, Twitter } from "lucide-react";
 import { InferGetServerSidePropsType } from "next";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
@@ -20,9 +20,6 @@ export default function AboutPage({
       className="flex flex-col space-y-4 max-w-[400px] mt-10 lg:mt-0 justify-center">
       <NextSeo title="about." description="A little bit about me." />
       <Container>
-        <Text weight="medium" size="xl">
-          About
-        </Text>
         <Text weight="light" size="sm" className="mt-2">
           Hi, I&apos;m Ayush. I do things. Sometimes I write code & the other
           time&apos;s I overthink. I like code, maths, philosophy & exurb1a vids
@@ -33,13 +30,13 @@ export default function AboutPage({
         <div className="flex flex-col lg:flex-row gap-2">
           <Container className="lg:min-w-[49%]">
             <Text weight="medium" size="lg">
-              Age
+              age.
             </Text>
             <AgeCounter />
           </Container>
           <Container className="lg:min-w-[49%]">
             <Text weight="medium" size="lg">
-              Fav. Animal
+              fav. animal
             </Text>
             <Text weight="normal" size="base">
               Cat 🖤
@@ -54,7 +51,7 @@ export default function AboutPage({
                 size="lg"
                 ratio={0}
                 className="whitespace-pre">
-                Last Song
+                last song.
               </Text>
               <div className="whitespace-pre gap-1 flex flex-row">
                 {recentlyPlayed.track.artists.map((artist, index) => {
@@ -102,7 +99,7 @@ export default function AboutPage({
             <Container row={true} className="space-x-2">
               <Github size={24} />
               <Text weight="medium" size="lg">
-                Github
+                github.
               </Text>
             </Container>
           </Link>
@@ -113,7 +110,31 @@ export default function AboutPage({
             <Container row={true} className="space-x-2">
               <Twitter size={24} />
               <Text weight="medium" size="lg">
-                Twitter
+                twitter.
+              </Text>
+            </Container>
+          </Link>
+        </div>
+        <div className="flex flex-col lg:flex-row gap-2">
+          <Link
+            href="https://cal.com/isitayush/quick-chat"
+            target="_blank"
+            className="lg:min-w-[49%]">
+            <Container row={true} className="space-x-2">
+              <Headphones size={24} />
+              <Text weight="medium" size="lg">
+                meeting.
+              </Text>
+            </Container>
+          </Link>
+          <Link
+            href="https://www.linkedin.com/in/isitayush/"
+            target="_blank"
+            className="lg:min-w-[49%]">
+            <Container row={true} className="space-x-2">
+              <Linkedin size={24} />
+              <Text weight="medium" size="lg">
+                linkedin.
               </Text>
             </Container>
           </Link>

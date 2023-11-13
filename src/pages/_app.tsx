@@ -1,4 +1,4 @@
-import { Poppins } from "@next/font/google";
+import { Poppins } from "next/font/google";
 import seo from "@src/../next-seo.config";
 import { ThemeButton } from "@src/components/fragments/ThemeButton";
 import { Text } from "@src/components/ui/Text";
@@ -10,7 +10,8 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import Link from "next/link";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -20,12 +21,6 @@ const font = Poppins({
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const previousRoute = usePreviousRoute();
-
-  useEffect(() => {
-    if (!previousRoute) {
-      router.prefetch("/"); // prefetch home.
-    }
-  }, [previousRoute, router]);
 
   return (
     <ThemeProvider defaultTheme="light">
@@ -118,9 +113,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <div className="fixed left-[50%] top-5 z-[5] flex w-[90%] -translate-x-[50%] flex-row items-center justify-between bg-[#E8E8E8] drop-shadow-lg backdrop-blur-[5px] dark:bg-black/5 bg-opacity-20">
           <div className="flex flex-row space-x-2">
             <div className="border-2 border-black dark:border-white"></div>
-            <Text size={"sm"} weight={"light"}>
+            <Link href="/" className="text-sm font-light">
               ayush.
-            </Text>
+            </Link>
           </div>
           {router.pathname !== "/" && previousRoute && (
             <button
@@ -133,22 +128,35 @@ export default function App({ Component, pageProps }: AppProps) {
               </Text>
             </button>
           )}
-          {router.pathname !== "/" && !previousRoute && (
-            <button
-              className="flex flex-row"
-              onClick={() => {
-                router.push("/");
-              }}>
-              <Text size={"sm"} weight={"light"}>
-                home.
-              </Text>
-            </button>
-          )}
           <ThemeButton />
         </div>
         <AnimatePresence>
           <Component {...pageProps} />
         </AnimatePresence>
+        <div className="fixed left-[50%] bottom-5 z-[5] flex w-[90%] -translate-x-[50%] flex-row items-center justify-between bg-[#E8E8E8] drop-shadow-lg backdrop-blur-[5px] dark:bg-black/5 bg-opacity-20">
+          <div className="flex flex-row w-full justify-between">
+            <div className="flex flex-row gap-2">
+              <div className="border-2 border-black dark:border-white"></div>
+              <Link href="/about" className="underline text-sm font-light">
+                /about
+              </Link>
+              <Link href="/projects" className="underline text-sm font-light">
+                /projects
+              </Link>
+              <Link href="/blog" className="underline text-sm font-light">
+                /blog
+              </Link>
+            </div>
+            <div className="flex flex-row gap-2 w-fit">
+              <Text size="sm" weight="light">
+                09DWLPG6152H1Z9
+              </Text>
+              <Text size="sm" weight="semibold" className="hidden md:flex">
+                Tax ID
+              </Text>
+            </div>
+          </div>
+        </div>
       </main>
     </ThemeProvider>
   );
