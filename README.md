@@ -24,6 +24,7 @@ checkout [changelog].
 ### development.
 
 this will clone, install, cd & start the dev server in one line. :3
+
 ```
 git clone https://github.com/is-it-ayush/isitayush.dev.git &&
 cd isitayush.dev &&
@@ -34,11 +35,12 @@ pnpm dev
 ### heartbeat.
 
 ##### november update.
+
 akshually 🤓, drizzle was harder than i thought (tried it 3 months ago). switched back to prisma. (i have sql skill issue)
 
 #### april update.
-At first I thought kysely must have something to sync my schema to the db until I realized it's not a ORM but a querying library. To workaround this I had to fallback to Prisma. I'm not really happy with the prisma & kysely setup here because they're dependent on each other. I'll switch this to [Drizzle](https://drizzle.team/) in the future but for now it works & Its okay.
 
+At first I thought kysely must have something to sync my schema to the db until I realized it's not a ORM but a querying library. To workaround this I had to fallback to Prisma. I'm not really happy with the prisma & kysely setup here because they're dependent on each other. I'll switch this to [Drizzle](https://drizzle.team/) in the future but for now it works & Its okay.
 
 ### Database
 

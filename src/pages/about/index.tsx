@@ -152,21 +152,21 @@ export async function getStaticProps() {
       recentlyPlayed: recentlyPlayed.items[0]
         ? recentlyPlayed.items[0]
         : {
-          track: {
-            name: "My Voice",
-            external_urls: {
-              spotify: "https://isitayush.dev",
-            },
-            artists: [
-              {
-                name: "Lil Ayush",
-                external_urls: {
-                  spotify: "https://isitayush.dev",
-                },
+            track: {
+              name: "My Voice",
+              external_urls: {
+                spotify: "https://isitayush.dev",
               },
-            ],
+              artists: [
+                {
+                  name: "Lil Ayush",
+                  external_urls: {
+                    spotify: "https://isitayush.dev",
+                  },
+                },
+              ],
+            },
           },
-        },
       revalidate: 60,
     },
   };

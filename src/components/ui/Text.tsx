@@ -10,15 +10,15 @@ interface TextProps {
   className?: string;
   size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
   weight?:
-  | "thin"
-  | "extralight"
-  | "light"
-  | "normal"
-  | "medium"
-  | "semibold"
-  | "bold"
-  | "extrabold"
-  | "black";
+    | "thin"
+    | "extralight"
+    | "light"
+    | "normal"
+    | "medium"
+    | "semibold"
+    | "bold"
+    | "extrabold"
+    | "black";
   ratio?: number;
 }
 
@@ -62,21 +62,17 @@ export const Text = ({
     return (
       <Heading className={cn("flex", sizeClass, weightClass, className)}>
         {allowBalanced ? (
-          <Balancer ratio={ratio}>
-            {children}
-          </Balancer>) : children
-        }
+          <Balancer ratio={ratio}>{children}</Balancer>
+        ) : (
+          children
+        )}
       </Heading>
     );
   }
 
   return (
     <p className={cn("flex", sizeClass, weightClass, className)}>
-      {allowBalanced ? (
-        <Balancer ratio={ratio}>
-          {children}
-        </Balancer>) : children
-      }
+      {allowBalanced ? <Balancer ratio={ratio}>{children}</Balancer> : children}
     </p>
   );
 };

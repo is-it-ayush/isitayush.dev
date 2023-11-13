@@ -1,4 +1,5 @@
 #### november
+
 - [x] Migrate to pnpm.
 - [x] Update libraires.
 - [x] Add Meeting & Linkedin links to /about.
@@ -9,6 +10,7 @@
 - [x] Remove heading from each page.
 
 #### april
+
 - [x] Add /about page
 - [x] Add /projects page
 - [x] Add /blog page with slug support
