@@ -2,22 +2,43 @@
     <channel>
         <title><![CDATA[Entries | Ayush Gupta]]></title>
         <description><![CDATA[A collection of my entries on my blog.]]></description>
-        <link>http://localhost:3000</link>
+        <link>https://www.isitayush.dev</link>
         <image>
-            <url>http://localhost:3000/favicon-96x96.png</url>
+            <url>https://www.isitayush.dev/favicon-96x96.png</url>
             <title>Entries | Ayush Gupta</title>
-            <link>http://localhost:3000</link>
+            <link>https://www.isitayush.dev</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 13 Feb 2023 02:40:00 GMT</lastBuildDate>
-        <atom:link href="http://localhost:3000/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 13 Feb 2023 02:40:00 GMT</pubDate>
+        <lastBuildDate>Mon, 13 Nov 2023 22:33:15 GMT</lastBuildDate>
+        <atom:link href="https://www.isitayush.dev/feed.xml" rel="self" type="application/rss+xml"/>
+        <pubDate>Mon, 13 Nov 2023 22:33:15 GMT</pubDate>
         <copyright><![CDATA[© 2023 Ayush Gupta]]></copyright>
+        <item>
+            <title><![CDATA[A dive into GPG and SSH.]]></title>
+            <description><![CDATA[The blog summarizes the difference between GPG and SSH.]]></description>
+            <link>https://www.isitayush.dev/blog/ssh-vs-gpg</link>
+            <guid isPermaLink="true">https://www.isitayush.dev/blog/ssh-vs-gpg</guid>
+            <pubDate>Sun, 26 Mar 2023 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Why you should sign your commits with gpg.]]></title>
+            <description><![CDATA[Here we'll discuss the benfits of using gpg to sign your commits and how to set it up with github.]]></description>
+            <link>https://www.isitayush.dev/blog/gpg-and-singing-commits</link>
+            <guid isPermaLink="true">https://www.isitayush.dev/blog/gpg-and-singing-commits</guid>
+            <pubDate>Sat, 11 Mar 2023 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Should/Shouldn't I use libraries?]]></title>
+            <description><![CDATA[There is a reason why I don't use libraries often and here's why.]]></description>
+            <link>https://www.isitayush.dev/blog/why-i-steer-away-from-libraries-when-i-can</link>
+            <guid isPermaLink="true">https://www.isitayush.dev/blog/why-i-steer-away-from-libraries-when-i-can</guid>
+            <pubDate>Sat, 18 Feb 2023 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Hello World <3]]></title>
             <description><![CDATA[I sometimes write about things I'm working on.]]></description>
-            <link>http://localhost:3000/blog/hello-world</link>
-            <guid isPermaLink="true">http://localhost:3000/blog/hello-world</guid>
+            <link>https://www.isitayush.dev/blog/hello-world</link>
+            <guid isPermaLink="true">https://www.isitayush.dev/blog/hello-world</guid>
             <pubDate>Wed, 08 Feb 2023 00:00:00 GMT</pubDate>
         </item>
     </channel>
