@@ -6,8 +6,6 @@ export const Container = ({
   row = false,
   hover = true,
   padding = true,
-  border = true,
-  ...props
 }: {
   children: ReactNode;
   className?: ClassValue;

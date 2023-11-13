@@ -90,7 +90,6 @@ export const getStaticProps = async () => {
       name: "cellular automata.",
       timeline: {
         from: new Date(Date.UTC(2023, 3, 2)),
-        to: new Date(Date.UTC(2023, 3, 4)),
       },
       technologies: ["p5", "typescript"],
       description:

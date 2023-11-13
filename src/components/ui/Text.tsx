@@ -10,15 +10,15 @@ interface TextProps {
   className?: string;
   size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
   weight?:
-    | "thin"
-    | "extralight"
-    | "light"
-    | "normal"
-    | "medium"
-    | "semibold"
-    | "bold"
-    | "extrabold"
-    | "black";
+  | "thin"
+  | "extralight"
+  | "light"
+  | "normal"
+  | "medium"
+  | "semibold"
+  | "bold"
+  | "extrabold"
+  | "black";
   ratio?: number;
 }
 
@@ -29,7 +29,7 @@ export const Text = ({
   className,
   size = "base",
   weight = "normal",
-  ratio = heading ? 1 : 0,
+  ratio = heading ? 1 : undefined,
 }: TextProps) => {
   const sizeClass = {
     xs: "text-xs",
@@ -55,22 +55,28 @@ export const Text = ({
     black: "font-black",
   }[weight];
 
+  const allowBalanced = ratio && ratio >= 0 && ratio <= 1;
+
   if (heading) {
     const Heading = headingSize || "h2";
     return (
-      <Heading className={cn(sizeClass, weightClass, className)}>
-        <Balancer ratio={ratio >= 0 && ratio <= 1 ? ratio : 1}>
-          {children}
-        </Balancer>
+      <Heading className={cn("flex", sizeClass, weightClass, className)}>
+        {allowBalanced ? (
+          <Balancer ratio={ratio}>
+            {children}
+          </Balancer>) : children
+        }
       </Heading>
     );
   }
 
   return (
-    <p className={cn(sizeClass, weightClass, className)}>
-      <Balancer ratio={ratio >= 0 && ratio <= 1 ? ratio : 1}>
-        {children}
-      </Balancer>
+    <p className={cn("flex", sizeClass, weightClass, className)}>
+      {allowBalanced ? (
+        <Balancer ratio={ratio}>
+          {children}
+        </Balancer>) : children
+      }
     </p>
   );
 };

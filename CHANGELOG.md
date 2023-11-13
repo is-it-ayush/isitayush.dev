@@ -2,7 +2,11 @@
 - [x] Migrate to pnpm.
 - [x] Update libraires.
 - [x] Add Meeting & Linkedin links to /about.
-- [x] switch from @next/font to next/font
+- [x] Switch from @next/font to next/font.
+- [x] Display Tax ID.
+- [x] Use Bottom Navigation.
+- [x] Fix annyoing blog search input resize bug.
+- [x] Remove heading from each page.
 
 #### april
 - [x] Add /about page

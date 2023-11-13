@@ -20,9 +20,6 @@ export default function AboutPage({
       className="flex flex-col space-y-4 max-w-[400px] mt-10 lg:mt-0 justify-center">
       <NextSeo title="about." description="A little bit about me." />
       <Container>
-        <Text weight="medium" size="xl">
-          About
-        </Text>
         <Text weight="light" size="sm" className="mt-2">
           Hi, I&apos;m Ayush. I do things. Sometimes I write code & the other
           time&apos;s I overthink. I like code, maths, philosophy & exurb1a vids
@@ -33,13 +30,13 @@ export default function AboutPage({
         <div className="flex flex-col lg:flex-row gap-2">
           <Container className="lg:min-w-[49%]">
             <Text weight="medium" size="lg">
-              Age
+              age.
             </Text>
             <AgeCounter />
           </Container>
           <Container className="lg:min-w-[49%]">
             <Text weight="medium" size="lg">
-              Fav. Animal
+              fav. animal
             </Text>
             <Text weight="normal" size="base">
               Cat 🖤
@@ -54,7 +51,7 @@ export default function AboutPage({
                 size="lg"
                 ratio={0}
                 className="whitespace-pre">
-                Last Song
+                last song.
               </Text>
               <div className="whitespace-pre gap-1 flex flex-row">
                 {recentlyPlayed.track.artists.map((artist, index) => {
@@ -102,7 +99,7 @@ export default function AboutPage({
             <Container row={true} className="space-x-2">
               <Github size={24} />
               <Text weight="medium" size="lg">
-                Github
+                github.
               </Text>
             </Container>
           </Link>
@@ -113,7 +110,7 @@ export default function AboutPage({
             <Container row={true} className="space-x-2">
               <Twitter size={24} />
               <Text weight="medium" size="lg">
-                Twitter
+                twitter.
               </Text>
             </Container>
           </Link>
@@ -126,7 +123,7 @@ export default function AboutPage({
             <Container row={true} className="space-x-2">
               <Headphones size={24} />
               <Text weight="medium" size="lg">
-                Meeting
+                meeting.
               </Text>
             </Container>
           </Link>
@@ -137,7 +134,7 @@ export default function AboutPage({
             <Container row={true} className="space-x-2">
               <Linkedin size={24} />
               <Text weight="medium" size="lg">
-                LinkedIn
+                linkedin.
               </Text>
             </Container>
           </Link>
@@ -155,21 +152,21 @@ export async function getStaticProps() {
       recentlyPlayed: recentlyPlayed.items[0]
         ? recentlyPlayed.items[0]
         : {
-            track: {
-              name: "My Voice",
-              external_urls: {
-                spotify: "https://isitayush.dev",
-              },
-              artists: [
-                {
-                  name: "Lil Ayush",
-                  external_urls: {
-                    spotify: "https://isitayush.dev",
-                  },
-                },
-              ],
+          track: {
+            name: "My Voice",
+            external_urls: {
+              spotify: "https://isitayush.dev",
             },
+            artists: [
+              {
+                name: "Lil Ayush",
+                external_urls: {
+                  spotify: "https://isitayush.dev",
+                },
+              },
+            ],
           },
+        },
       revalidate: 60,
     },
   };
