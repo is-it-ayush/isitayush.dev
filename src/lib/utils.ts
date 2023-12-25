@@ -131,6 +131,10 @@ export const stack = {
     name: "p5.js",
     url: "https://p5js.org/",
   },
+  rust: {
+    name: "Rust",
+    url: "https://www.rust-lang.org/",
+  },
 };
 
 export type Technologies = typeof stack;

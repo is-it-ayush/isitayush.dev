@@ -8,6 +8,15 @@ export const ThemeButton = () => {
 
   useEffect(() => {
     setMounted(true);
+
+    const adjust = (isDark: boolean) => {
+      if (isDark) {
+        setTheme("dark");
+      } else {
+        setTheme("light");
+      }
+    };
+
     /**
      * A small hack by Tanner Linsley from his "Custom Hooks in React" JSConf talk. (2020)
      * Thanks Tanner! :)
@@ -29,15 +38,8 @@ export const ThemeButton = () => {
           adjust(e.matches);
         });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const adjust = (isDark: boolean) => {
-    if (isDark) {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
-  };
 
   // When rendering client side don't display anything until you have confirmed the theme.
   // This prevents the wrong theme being loaded on first render.

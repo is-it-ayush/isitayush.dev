@@ -97,6 +97,17 @@ export const getStaticProps = async () => {
       github: new URL("https://github.com/is-it-ayush/cellular-automata"),
       website: new URL("https://cellular-automaton-delta.vercel.app/"),
     },
+    {
+      name: "fa.",
+      timeline: {
+        from: new Date(Date.UTC(2023, 12)),
+      },
+      technologies: ["rust"],
+      description:
+        "I wrote a 'terminal' based password manager entirely in rust within 3 days. It uses gpg to encrypt and decrypt the underlying stores. I've been really liking rust & quite possibly build more with it.",
+      github: new URL("https://github.com/is-it-ayush/fa"),
+      website: new URL("https://github.com/is-it-ayush/fa/releases/"),
+    },
   ];
 
   // sort in reverse chronology.
