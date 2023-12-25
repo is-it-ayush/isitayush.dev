@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { useRef } from "react";
 import Link from "next/link";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -108,6 +109,7 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       )}
       <DefaultSeo {...seo} />
+      <SpeedInsights />
       <main
         className={`relative flex min-h-screen ${font.className} w-full justify-center p-10 bg-[#E8E8E8] dark:bg-black`}>
         <div className="fixed left-[50%] top-5 z-[5] flex w-[90%] -translate-x-[50%] flex-row items-center justify-between bg-[#E8E8E8] drop-shadow-lg backdrop-blur-[5px] dark:bg-black/5 bg-opacity-20">
