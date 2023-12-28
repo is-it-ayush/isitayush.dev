@@ -9,9 +9,9 @@
             <link>https://www.isitayush.dev</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 25 Dec 2023 11:45:56 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 25 Dec 2023 12:31:11 GMT</lastBuildDate>
         <atom:link href="https://www.isitayush.dev/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 25 Dec 2023 11:45:56 GMT</pubDate>
+        <pubDate>Mon, 25 Dec 2023 12:31:11 GMT</pubDate>
         <copyright><![CDATA[© 2023 Ayush Gupta]]></copyright>
         <item>
             <title><![CDATA[A dive into GPG and SSH.]]></title>
