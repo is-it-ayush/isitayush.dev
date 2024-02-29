@@ -58,16 +58,15 @@ export default function Entry({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const Body = useMDXComponent(data?.entry?.body.code ?? "");
 
-  const {
-    data: extra,
-    isLoading,
-  } = useSwr<{
+  const { data: extra, isLoading } = useSwr<{
     views: number;
     id: string;
   }>(
-     process.env.NODE_ENV == "production" ? `/api/views/${data.entry?._raw.flattenedPath
-      .toLowerCase()
-      .replace(/\s+/g, "-")}` : null,
+    process.env.NODE_ENV == "production"
+      ? `/api/views/${data.entry?._raw.flattenedPath
+          .toLowerCase()
+          .replace(/\s+/g, "-")}`
+      : null,
     fetcher,
     {
       revalidateOnFocus: false,

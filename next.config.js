@@ -81,8 +81,10 @@ const securityHeaders = [
   },
 ];
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
 
-module.exports = withBundleAnalyzer(require("next-contentlayer").withContentlayer(nextConfig));
+module.exports = withBundleAnalyzer(
+  require("next-contentlayer").withContentlayer(nextConfig)
+);
