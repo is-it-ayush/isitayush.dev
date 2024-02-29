@@ -1,0 +1,55 @@
+---
+title: split paragraph into lines with canvas.
+publishedAt: 2024-02-29
+summary: a tiny hack to split paragraph into lines.
+tags:
+  - web
+  - canvas
+  - dom
+  - text
+  - problem
+---
+
+
+Here's a fun animation problem. Let's say you have a paragraph of text and
+you put it inside a `<div />`. The browser internally builds your DOM tree and
+then renders it onto your screen as a web page. Now, Suppose you're trying
+to animate a paragraph where each line has a slightly different animation.
+How would you achieve it? Give it a shot at thinking!
+
+If you're me, Your first idea would be to split your single paragraph element
+into multiple line elements similar to what browser does internally. Now
+you've reached the problem. How do you know the final dimensions before the
+text is even rendered by the browser? Well! You can't. There isn't a DOM API
+exposed by the browser for you to query this information before render. So!
+How do you solve it now?
+
+Here's the hack.
+1. You create a `<canvas />` and give it the same font size & style as your rest
+of the application font.
+2. You now grab your paragraph and split it into words.
+3. You can then use canvas context's `measureText` to measure each word. Now!
+You know the length of each word in pixels.
+4. You'll now craft your lines. You get either get the `width` of original text
+rendered by DOM or you arbitrarily set a maximum `width` your lines could take.
+You then divide this by 2 **(an assumption; you'll have to play around to find
+your sweet spot. I found dividing by 2 on `clientHeight` to do the thing)**.
+5. You can now,
+  - Add `i'th` word to a temporary string.
+  - Add `i'th` word's `width` to a temporary number. This number starts at 0.
+  - Check if your temporary number has hit your assumed container `width` from 4.
+  If you hit it, push the temporary string as a new line and set your temporary number
+  back to 0.
+  - Repeat! Until you reach the last word.
+6. You'll end up with an array that has your desired lines formed off a paragraph.
+7. You can them map and animate them anyway you want.
+
+<SplitParagraphIntoLines />
+
+This isn't a perfect solution since it relies on assumption (divide by 2)
+but it approximately mimics the original browser render.
+
+- [Here's the code.](https://github.com/is-it-ayush/measure-text-with-canvas/blob/main/src/app/clientwrapper.tsx#L10-L48)
+- [Here's another helpful blog I recommend reading.](https://erikonarheim.com/posts/canvas-text-metrics/)
+
+Happy Hacking! :3

@@ -1,3 +1,5 @@
+import { fontFamily } from "tailwindcss/defaultTheme";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class", '[data-theme="dark"]'],
@@ -29,6 +31,9 @@ module.exports = {
       },
       backgroundSize: {
         400: "400%",
+      },
+      fontFamily: {
+        poppins: ["var(--font-poppins)", ...fontFamily.sans],
       },
     },
   },

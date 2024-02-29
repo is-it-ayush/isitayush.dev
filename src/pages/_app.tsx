@@ -17,6 +17,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const font = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
 });
 
 export default function App({ Component, pageProps }: AppProps) {

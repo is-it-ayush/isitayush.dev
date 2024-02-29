@@ -1,5 +1,6 @@
 import { allEntries } from "@contentlayer/generated";
 import { url } from "@src/../next-seo.config";
+import { SplitParagraphIntoLines } from "@src/components/blogs/SplitParagraphIntoLines";
 import { Image } from "@src/components/ui/Image";
 import { Tag } from "@src/components/ui/Tag";
 import { Text } from "@src/components/ui/Text";
@@ -15,6 +16,7 @@ import useSwr from "swr";
 
 const mdxcomponents = {
   Image,
+  SplitParagraphIntoLines,
 };
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -58,15 +60,14 @@ export default function Entry({
 
   const {
     data: extra,
-    error,
     isLoading,
   } = useSwr<{
     views: number;
     id: string;
   }>(
-    `/api/views/${data.entry?._raw.flattenedPath
+     process.env.NODE_ENV == "production" ? `/api/views/${data.entry?._raw.flattenedPath
       .toLowerCase()
-      .replace(/\s+/g, "-")}`,
+      .replace(/\s+/g, "-")}` : null,
     fetcher,
     {
       revalidateOnFocus: false,

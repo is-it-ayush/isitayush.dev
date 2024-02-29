@@ -8,7 +8,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Separator } from "@src/components/ui/Separator";
 import { generateRSSFeed, pageAnim } from "@src/lib/utils";
 import { NextSeo } from "next-seo";
-import { Text } from "@src/components/ui/Text";
 
 export default function BlogPage({
   entries,
