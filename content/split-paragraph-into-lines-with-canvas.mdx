@@ -51,7 +51,14 @@ Here's the hack.
 This isn't a perfect solution since it relies on assumption (divide by 2)
 but it approximately mimics the original browser render.
 
-- [Here's the code.](https://github.com/is-it-ayush/measure-text-with-canvas/blob/main/src/app/clientwrapper.tsx#L10-L48)
+### update.
+
+Instead of stepping between desktop and client width at the breakpoint. We can also
+linearly interpolate between them. I was able to fix the above issue where the
+content shifts to new line thereby making the paragraph look odd. This makes the
+animation responsive. I've also updated the code to be much more readable!
+
+- [Here's the code.](https://github.com/is-it-ayush/measure-text-with-canvas/blob/main/src/app/_components/parallax-text.tsx)
 - [Here's another helpful blog I recommend reading.](https://erikonarheim.com/posts/canvas-text-metrics/)
 
 Happy Hacking! :3
