@@ -1,0 +1,72 @@
+---
+title: wait..ssh can do what?
+publishedAt: 2024-03-28
+summary: Things you could do with ssh that you weren't possbily aware of.
+tags:
+  - ssh
+  - server
+---
+
+If you work in software, You would've definitely connected to a remote machine
+running on the cloud like aws, gcp, azure, etc. or running locally on your own
+computer through virtualization technologies like qemu/kvm, hyperv,vmware, etc.
+with SSH. Typically, An SSH session flow looks like this: `Connect -> Do Task ->
+Disconnect`.
+
+**Do you know that SSH can do more than this?** I'll cover a few problems I found
+myself in and how SSH saved my day.
+
+### copy something from remote machine to local machine.
+
+I ran a diagnostic tool on my remote machine and it generated a bunch of log files
+in my home directory on the remote machine. These files were too many to analyze
+remotely so I wanted to copy them from the remote machine to my local computer.
+**How do I do it?** I had several options but all of them involved uploading the logs
+somwhere on the internet from my remote machine and then downloading the logs onto
+my local machine. **What if my logs were sensitive and I don't want to expose them
+to the bad internet?**
+
+Enter SSH! I found out you can just do,
+```sh
+# command: structure of the command
+scp <username>@<remote_ip>:<absolute_remote_file_path> <relative_or_absolute_local_file_path>
+
+# example: this would copy the file from remote path /home/ayush/sysdump.tar.gz to your current local directory.
+scp ayush@10.0.191.144:/home/ayush/sysdump.tar.gz ./sysdump.tar.gz
+```
+
+### access a service running on remote machine without exposing it to the internet.
+
+The same diagnostic tool I ran previously on the remote macine had a web dashboard
+feature. I ran the dashboard on the remote machine and it was listening on `0.0.0.0:80`.
+The problem was that this remote machine was completely isolated from the public
+internet with the only exception that I was allowed to connect to it via SSH.
+Therefore I couldn't just port forward the port `80` on my remote machine and access the
+dashboard through the public internet. So, **How do I access the dashboard without messing
+with any network settings?**
+
+Enter SSH! I found out you can just do,
+```sh
+# command: structure of the the command
+ssh -N -L <local_port>:<remote_server_bind_address>:<remote_server_ip>
+
+# example: here the dashboard was listening on 0.0.0.0 &
+# port 80 on remote machine
+ssh -N -L 80:0.0.0.0:80 ayush@10.0.191.144
+
+# few more examples
+# - what if you have more than one service on remote machine?
+# ssh has you covered! you can expose as many services as you like.
+ssh -N -L 80:0.0.0.0:80 -L 5432:0.0.0.0:5432 -L 21:0.0.0.0:21 ayush@10.0.191.144
+
+# - this also works for remote kubernetes services, say your service
+# is running on 69.96.0.32 and port 443. you could do,
+ssh -N -L 443:69.96.0.32:443 ayush@10.0.191.144
+```
+
+I was then able to access the dashboard as if it was running on my local machine via `localhost:80`.
+
+### so...now what?
+
+Well! That's it. I hope you learnt something new. SSH is nice and now you can use these commands
+if you ever run into these situations. Thank you for reading. \<3
