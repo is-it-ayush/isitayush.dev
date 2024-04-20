@@ -27,6 +27,7 @@ my local machine. **What if my logs were sensitive and I don't want to expose th
 to the bad internet?**
 
 Enter SSH! I found out you can just do,
+
 ```sh
 # command: structure of the command
 scp <username>@<remote_ip>:<absolute_remote_file_path> <relative_or_absolute_local_file_path>
@@ -46,6 +47,7 @@ dashboard through the public internet. So, **How do I access the dashboard witho
 with any network settings?**
 
 Enter SSH! I found out you can just do,
+
 ```sh
 # command: structure of the the command
 ssh -N -L <local_port>:<remote_server_bind_address>:<remote_server_ip>

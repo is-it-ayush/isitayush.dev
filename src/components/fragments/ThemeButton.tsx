@@ -1,61 +1,61 @@
-import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
-import { Text } from "@src/components/ui/Text";
+import { useEffect } from "react";
+import { Button } from "@src/components/ui/Button";
+import { Theme, useApplicationState } from "@src/lib/useApplicationState";
 
 export const ThemeButton = () => {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const [appState, setAppState] = useApplicationState();
 
+  // initial render: get theme from localStorage or use system preference
+  // to set the theme for the first time.
   useEffect(() => {
-    setMounted(true);
-
-    const adjust = (isDark: boolean) => {
-      if (isDark) {
-        setTheme("dark");
-      } else {
-        setTheme("light");
-      }
-    };
-
-    /**
-     * A small hack by Tanner Linsley from his "Custom Hooks in React" JSConf talk. (2020)
-     * Thanks Tanner! :)
-     * https://youtu.be/J-g9ZJha8FE?t=360
-     */
-    const matchMedia = window.matchMedia("(prefers-color-scheme: dark)");
-    adjust(matchMedia.matches);
-
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (e) => {
-        adjust(e.matches);
-      });
-
-    return () => {
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .removeEventListener("change", (e) => {
-          adjust(e.matches);
-        });
-    };
+    if (!('localStorage' in window)) {
+      return;
+    }
+    const theme = localStorage.getItem("theme") as Theme;
+    if (theme) {
+      setCurrentTheme(theme);
+    } else {
+      setCurrentTheme(getCurrentThemePreference());
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // When rendering client side don't display anything until you have confirmed the theme.
-  // This prevents the wrong theme being loaded on first render.
-  if (!mounted) {
-    return null;
+  // update the theme class on the body if appState.theme changes.
+  useEffect(() => {
+    if (appState.theme === "dark") {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [appState.theme]);
+
+  // helper function to get the current theme preference from the system.
+  function getCurrentThemePreference(): Theme {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    } else {
+      return "light";
+    }
+  }
+
+  // helper function to set the current theme in localStorage and appState.
+  function setCurrentTheme(theme: Theme) {
+    if ('localStorage' in window) {
+      localStorage.setItem("theme", theme);
+    }
+    setAppState({ theme });
   }
 
   return (
-    <button
+    <Button
+      tooltip={`switch to ${appState.theme === "dark" ? "light" : "dark"} mode.`}
       onClick={() => {
-        setTheme(theme === "dark" ? "light" : "dark");
+        setCurrentTheme(appState.theme === "dark" ? "light" : "dark");
       }}
       className="">
-      <Text size={"sm"} weight={"light"}>
-        {theme === "dark" ? "light." : "dark."}
-      </Text>
-    </button>
+      <span className="text-sm font-light">
+        {appState.theme === "dark" ? "light." : "dark."}
+      </span>
+    </Button>
   );
 };

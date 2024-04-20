@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@src/lib/utils";
 import { Eye, EyeOff } from "lucide-react";
+import { Button } from "./Button";
 
 const InputStyles = cva(
   "flex h-10 w-full border border-black/10 dark:border-white/10 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none",
@@ -20,7 +21,7 @@ const InputStyles = cva(
 
 interface InputProps
   extends Omit<React.HTMLProps<HTMLInputElement>, "style">,
-    VariantProps<typeof InputStyles> {
+  VariantProps<typeof InputStyles> {
   type?: "text" | "password" | "email" | "number";
   error?: string;
 }
@@ -53,14 +54,15 @@ export const Input = (props: InputProps) => {
           {...rest}
         />
         {type === "password" ? (
-          <button
+          <Button
+            tooltip={showPassword ? "hide password." : "show password."}
             className="flex items-center justify-center rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 dark:focus:ring-gray-300 dark:focus:ring-offset-gray-900"
             type="button"
             onClick={() => {
               toggleShowPassword();
             }}>
-            {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-          </button>
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </Button>
         ) : null}
       </div>
       {error && error.length > 0 && (

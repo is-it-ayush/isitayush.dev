@@ -6,8 +6,9 @@ import { InferGetStaticPropsType } from "next";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Separator } from "@src/components/ui/Separator";
-import { generateRSSFeed, pageAnim } from "@src/lib/utils";
+import { generateRSSFeed } from "@src/lib/utils";
 import { NextSeo } from "next-seo";
+import { Page } from "@src/components/ui/Page";
 
 export default function BlogPage({
   entries,
@@ -36,12 +37,7 @@ export default function BlogPage({
   }, [entries, search]);
 
   return (
-    <motion.div
-      initial={pageAnim.initial}
-      animate={pageAnim.animate}
-      exit={pageAnim.initial}
-      transition={pageAnim.transition}
-      className="flex flex-col gap-5 h-full mt-20">
+    <Page className="flex flex-col gap-5 h-full mt-20">
       <NextSeo
         title="blog."
         description="I occasionally write about things I find interesting."
@@ -79,7 +75,7 @@ export default function BlogPage({
           )}
         </AnimatePresence>
       </div>
-    </motion.div>
+    </Page>
   );
 }
 

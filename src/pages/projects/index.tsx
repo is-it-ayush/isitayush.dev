@@ -1,22 +1,28 @@
 import { Node } from "@src/components/ui/Node";
+import { Page } from "@src/components/ui/Page";
 import { Separator } from "@src/components/ui/Separator";
-import { Project } from "@src/lib/types";
-import { pageAnim } from "@src/lib/utils";
-import { motion } from "framer-motion";
 import { InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { url } from "next-seo.config";
+import type { Technologies } from "@src/lib/utils";
+
+export type Project = {
+  name: string;
+  timeline: {
+    from: Date;
+    to?: Date;
+  };
+  description: string;
+  technologies: (keyof Technologies)[];
+  github?: URL;
+  website?: URL;
+};
 
 export default function ProjectsPage({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <motion.div
-      initial={pageAnim.initial}
-      animate={pageAnim.animate}
-      exit={pageAnim.initial}
-      transition={pageAnim.transition}
-      className="flex flex-col gap-10 max-w-[400px] mt-10">
+    <Page className="flex flex-col gap-10 max-w-[400px] mt-10">
       <NextSeo
         title="projects."
         description="Here you'll find all the projects that I've worked on."
@@ -28,7 +34,7 @@ export default function ProjectsPage({
           </Node>
         );
       })}
-    </motion.div>
+    </Page>
   );
 }
 
@@ -107,6 +113,17 @@ export const getStaticProps = async () => {
         "I wrote a 'terminal' based password manager entirely in rust within 3 days. It uses gpg to encrypt and decrypt the underlying stores. I've been really liking rust & quite possibly build more with it.",
       github: new URL("https://github.com/is-it-ayush/fa"),
       website: new URL("https://github.com/is-it-ayush/fa/releases/"),
+    },
+    {
+      name: "ginti.",
+      timeline: {
+        from: new Date(Date.UTC(2024, 3)),
+      },
+      technologies: ["nextjs", "tailwind", "typescript"],
+      description:
+        "I wrote 'ginti.' to visualize different number systems with the analogy of a digit lock. At it's core, it just a counting app but has a visual sense to it. 'ginti.' supports binary (base 2), octal (base 8), decimal (base 10) and hexadecimal (base 16). I really enjoyed working on this project and it took me around 16 hours to write it.",
+      github: new URL("https://github.com/is-it-ayush/ginti"),
+      website: new URL("https://ginti-eta.vercel.app"),
     },
   ];
 

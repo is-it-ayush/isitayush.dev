@@ -1,48 +1,58 @@
-import Link from "next/link";
-import { Text } from "@src/components/ui/Text";
 import { useEffect } from "react";
-import { motion } from "framer-motion";
-import { generateRobotsTxt, generateSitemap, pageAnim } from "@src/lib/utils";
+import { generateRobotsTxt, generateSitemap, k } from "@src/lib/utils";
 import { allEntries } from "@contentlayer/generated";
+import { Page } from "@src/components/ui/Page";
+import Link from "next/link";
+import { Github, Headphones, Linkedin, Twitter } from "lucide-react";
+import { AgeCounter } from "@src/components/fragments/AgeCounter";
 
 export default function Landing() {
   useEffect(() => {
-    const e = process.env.NEXT_PUBLIC_SOMETHING;
-    const m = process.env.NEXT_PUBLIC_SOMETHING_ELSE;
-    if (e === undefined || m === undefined) return;
-    const p = Math.random();
-    if (p > 0.98) {
-      console.log(e);
-      console.log(m);
-    }
+    k();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- mount hook
   }, []);
 
   return (
-    <motion.div
-      initial={pageAnim.initial}
-      animate={pageAnim.animate}
-      exit={pageAnim.initial}
-      transition={pageAnim.transition}
-      className="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0 items-start lg:items-center justify-center">
-      <div className="flex flex-col space-y-2">
-        <Text size={"sm"} weight={"light"}>
-          hi, I&apos;m
-        </Text>
-        <Text
-          size={"5xl"}
-          weight={"light"}
-          className="border-2 border-transparent text-white bg-black px-3 py-3 dark:bg-white dark:text-black">
-          a y u s h.
-        </Text>
-        <Text size={"sm"} weight={"light"}>
-          i write code for a living.
-        </Text>
+    <Page className="flex flex-row items-center justify-center gap-8">
+      <ul className="flex flex-col list-none w-fit text-4xl font-light border-2 border-transparent ext-black p-3  dark:text-white">
+        <li>a</li>
+        <li>y</li>
+        <li>u</li>
+        <li>s</li>
+        <li>h</li>
+        <li>.</li>
+      </ul>
+      <div className="flex flex-col gap-4 max-w-lg">
+        <span className="text-sm font-light">
+          Hi, I&apos;m Ayush. I do things. Sometimes I write code & the other
+          time&apos;s I overthink. I like cats, code, maths, philosophy &
+          exurb1a vids on youtube. You&apos;ll find all my blogs, thoughts &
+          projects here. 🖤
+        </span>
+        <div className="flex flex-col gap-4 lg:flex-row justify-between font-extralight">
+          <AgeCounter />
+          <div className="flex flex-row gap-2 lg:justify-end">
+            <Link href="https://github.com/is-it-ayush" target="_blank">
+              <Github size={24} />
+            </Link>
+            <Link href="https://twitter.com/is_it_ayush" target="_blank">
+              <Twitter size={24} />
+            </Link>
+            <Link href="https://cal.com/isitayush/quick-chat" target="_blank">
+              <Headphones size={24} />
+            </Link>
+            <Link href="https://www.linkedin.com/in/isitayush/" target="_blank">
+              <Linkedin size={24} />
+            </Link>
+          </div>
+        </div>
       </div>
-    </motion.div>
+    </Page>
   );
 }
 
 export async function getStaticProps() {
+  // pages router workaround to generate a sitemap & robots.txt
   await generateSitemap(allEntries);
   await generateRobotsTxt();
 

@@ -1,7 +1,6 @@
 import type { Entry } from "@contentlayer/generated";
 import { Container } from "@src/components/ui/Container";
 import { Tag } from "@src/components/ui/Tag";
-import { Text } from "@src/components/ui/Text";
 import { format, parseISO } from "date-fns";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -36,25 +35,21 @@ export function EntryCard({
         <Link href={entry.slug}>
           <Container className="space-y-2">
             <div className="flex flex-col justify-between space-y-2">
-              <Text size="lg" weight="semibold" ratio={1}>
+              <span className="text-lg font-semibold">
                 <Highlighter
                   highlightClassName="bg-black text-white dark:bg-white dark:text-black"
                   searchWords={searchTerms}
                   autoEscape={true}
                   textToHighlight={entry.title}
                 />
-              </Text>
-              <Text
-                size="sm"
-                weight="light"
-                className="text-gray-500"
-                ratio={1}>
+              </span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
                 {format(parseISO(entry.publishedAt), "LLLL d, yyyy")}
-              </Text>
+              </span>
               {entry.body.code && (
-                <Text weight="light" size="sm" className="my-0" ratio={1}>
+                <span className="font-light text-sm my-0">
                   {readingTime(entry.body.code).text}
-                </Text>
+                </span>
               )}
             </div>
             <div className="flex flex-row space-x-2">
@@ -71,11 +66,11 @@ export function EntryCard({
                 ))}
             </div>
             <div>
-              <Text size="sm" weight="light">
+              <span className="text-sm font-light">
                 {entry.summary.length > 100
                   ? entry.summary.slice(0, 100) + "..."
                   : entry.summary}
-              </Text>
+              </span>
             </div>
           </Container>
         </Link>

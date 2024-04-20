@@ -2,7 +2,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import NextImage, { ImageProps } from "next/image";
 import React from "react";
 import { Tag } from "@src/components/ui/Tag";
-import { Text } from "./Text";
 
 const magnifyAnim = {
   initial: {
@@ -56,9 +55,9 @@ export const Image = ({ src, alt, width, height, ...rest }: ImageProps) => {
       }}>
       <NextImage src={src} alt={alt} width={width} height={height} {...rest} />
       {alt.length > 0 && (
-        <Text className="text-center not-prose text-sm w-full my-2 max-w-full text-gray-500 dark:text-gray-300">
+        <span className="text-center not-prose text-sm w-full my-2 max-w-full text-gray-500 dark:text-gray-300">
           {alt}
-        </Text>
+        </span>
       )}
       <AnimatePresence>
         {magnify && (
@@ -82,9 +81,9 @@ export const Image = ({ src, alt, width, height, ...rest }: ImageProps) => {
                 {...rest}
               />
               {alt.length > 0 && (
-                <Text className="text-center not-prose text-sm w-full my-2 max-w-[400px] text-gray-700 dark:text-gray-300">
+                <span className="text-center not-prose text-sm w-full my-2 max-w-[400px] text-gray-700 dark:text-gray-300">
                   {alt}
-                </Text>
+                </span>
               )}
             </motion.div>
             <motion.div
@@ -98,10 +97,10 @@ export const Image = ({ src, alt, width, height, ...rest }: ImageProps) => {
                   <Tag>Tip</Tag>
                 </div>
                 <div className="flex justify-center items-center">
-                  <Text className="not-prose text-sm text-gray-500 dark:text-gray-300 w-full">
+                  <span className="not-prose text-sm text-gray-500 dark:text-gray-300 w-full">
                     You can zoom by pinching on mobile devices. On Desktop, I
                     recommend opening the image in a new tab.
-                  </Text>
+                  </span>
                 </div>
               </div>
             </motion.div>
