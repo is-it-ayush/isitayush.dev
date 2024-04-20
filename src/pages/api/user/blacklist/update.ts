@@ -1,9 +1,9 @@
-import { getServerAuthSession } from "@src/server/auth";
-import { db } from "@src/server/db";
-import { NextApiRequest, NextApiResponse } from "next";
-import { ApiError } from "@src/pages/api/post/[slug]";
-import { GenericIDSchema } from "@src/components/fragments/Comment";
-import { getADMAcc } from "@src/lib/utils";
+import { getServerAuthSession } from '@src/server/auth';
+import { db } from '@src/server/db';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import type { ApiError } from '@src/pages/api/post/[slug]';
+import { GenericIDSchema } from '@src/components/fragments/Comment';
+import { getADMAcc } from '@src/lib/utils';
 
 async function handleRequest(
   req: NextApiRequest,
@@ -19,7 +19,7 @@ async function handleRequest(
   // validate body
   const parsedBodyResult = GenericIDSchema.safeParse(req.body);
   if (!parsedBodyResult.success) {
-    return res.status(400).send({ error: "The request body is invalid." });
+    return res.status(400).send({ error: 'The request body is invalid.' });
   }
   const body = parsedBodyResult.data;
 
@@ -30,7 +30,7 @@ async function handleRequest(
   if (!user || session.user.id === body.id || !adms.includes(session.user.id)) {
     return res
       .status(403)
-      .send({ error: "The request is forbidden due to unmet precondition." });
+      .send({ error: 'The request is forbidden due to unmet precondition.' });
   }
 
   // flip user blacklist status
@@ -41,9 +41,9 @@ async function handleRequest(
     },
   });
   if (!blacklistRes)
-    return res
-      .status(500)
-      .send({ error: "An error occurred while flipping the user blacklist status." });
+    return res.status(500).send({
+      error: 'An error occurred while flipping the user blacklist status.',
+    });
 
   return res.status(200).send({ data: true });
 }

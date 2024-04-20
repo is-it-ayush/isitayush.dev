@@ -1,4 +1,16 @@
-#### november
+### april - 24
+
+- [x] introduce auth
+- [x] introduce blog comments & replies
+- [x] redesign
+- [x] fix ci
+- [x] remove spotify stuff
+- [x] remove /about; (migrated to root route)
+- [x] remove kyseley
+- [x] remove planetscale
+- [x] introduce prisma
+
+#### november - 23
 
 - [x] Migrate to pnpm.
 - [x] Update libraires.
@@ -9,7 +21,7 @@
 - [x] Fix annyoing blog search input resize bug.
 - [x] Remove heading from each page.
 
-#### april
+#### april - 23
 
 - [x] Add /about page
 - [x] Add /projects page

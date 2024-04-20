@@ -1,6 +1,6 @@
-import { Button } from "@src/components/ui/Button";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
+import { Button } from '@src/components/ui/Button';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 export const Error = () => {
   const params = useSearchParams();
@@ -11,15 +11,16 @@ export const Error = () => {
         something went wrong.
       </span>
       <span className="text-sm font-light">
-        {params.get("error") ??
-          "There was an error processing the request. Could you try again?"}
+        {params.get('error') ??
+          'There was an error processing the request. Could you try again?'}
       </span>
       <Button
         tooltip="go home."
         onClick={() => {
-          router.push("/");
+          router.push('/');
         }}
-        className="text-sm font-light underline">
+        className="text-sm font-light underline"
+      >
         go home.
       </Button>
     </div>

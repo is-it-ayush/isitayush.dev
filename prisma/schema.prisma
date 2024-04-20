@@ -28,6 +28,7 @@ model Comment {
   post    Post    @relation("PostToComment", fields: [postId], references: [slug])
   postId  String
   replies Reply[]
+  visible Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,6 +41,7 @@ model Reply {
   commentId String
   user      User    @relation(fields: [userId], references: [id])
   userId    String
+  visible   Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

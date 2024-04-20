@@ -1,4 +1,5 @@
-import { HTMLMotionProps, motion } from "framer-motion";
+import type { HTMLMotionProps } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export const pageAnim = {
   initial: {
@@ -15,7 +16,7 @@ export const pageAnim = {
   },
 };
 
-export const Page = ({ children, ...rest }: HTMLMotionProps<"div">) => {
+export const Page = ({ children, ...rest }: HTMLMotionProps<'div'>) => {
   return (
     <motion.main {...pageAnim} {...rest}>
       {children}

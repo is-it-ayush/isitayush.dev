@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { generateRobotsTxt, generateSitemap, k } from "@src/lib/utils";
-import { allEntries } from "@contentlayer/generated";
-import { Page } from "@src/components/ui/Page";
-import Link from "next/link";
-import { Github, Headphones, Linkedin, Twitter } from "lucide-react";
-import { AgeCounter } from "@src/components/fragments/AgeCounter";
+import { useEffect } from 'react';
+import { generateRobotsTxt, generateSitemap, k } from '@src/lib/utils';
+import { allEntries } from '@contentlayer/generated';
+import { Page } from '@src/components/ui/Page';
+import Link from 'next/link';
+import { Github, Headphones, Linkedin, Twitter } from 'lucide-react';
+import { AgeCounter } from '@src/components/fragments/AgeCounter';
 
 export default function Landing() {
   useEffect(() => {

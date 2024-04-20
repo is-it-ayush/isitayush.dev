@@ -1,12 +1,12 @@
-import type { Entry } from "@contentlayer/generated";
-import { Container } from "@src/components/ui/Container";
-import { Tag } from "@src/components/ui/Tag";
-import { format, parseISO } from "date-fns";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { ReactNode } from "react";
-import Highlighter from "react-highlight-words";
-import readingTime from "reading-time";
+import type { Entry } from '@contentlayer/generated';
+import { Container } from '@src/components/ui/Container';
+import { Tag } from '@src/components/ui/Tag';
+import { format, parseISO } from 'date-fns';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import type { ReactNode } from 'react';
+import Highlighter from 'react-highlight-words';
+import readingTime from 'reading-time';
 
 export const variants = {
   hidden: { opacity: 0, y: 10 },
@@ -23,7 +23,7 @@ export function EntryCard({
   search: string;
   children?: ReactNode;
 }) {
-  const searchTerms = search.toLowerCase().split(" ");
+  const searchTerms = search.toLowerCase().split(' ');
   return (
     <>
       <motion.div
@@ -31,7 +31,8 @@ export function EntryCard({
         initial={variants.hidden}
         animate={variants.visible}
         exit={variants.hidden}
-        transition={variants.tranistion}>
+        transition={variants.tranistion}
+      >
         <Link href={entry.slug}>
           <Container className="space-y-2">
             <div className="flex flex-col justify-between space-y-2">
@@ -44,7 +45,7 @@ export function EntryCard({
                 />
               </span>
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                {format(parseISO(entry.publishedAt), "LLLL d, yyyy")}
+                {format(parseISO(entry.publishedAt), 'LLLL d, yyyy')}
               </span>
               {entry.body.code && (
                 <span className="font-light text-sm my-0">
@@ -68,7 +69,7 @@ export function EntryCard({
             <div>
               <span className="text-sm font-light">
                 {entry.summary.length > 100
-                  ? entry.summary.slice(0, 100) + "..."
+                  ? entry.summary.slice(0, 100) + '...'
                   : entry.summary}
               </span>
             </div>

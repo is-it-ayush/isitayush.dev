@@ -1,32 +1,31 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
+    "checkJs": true,
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
     "esModuleInterop": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "inlineSources": false,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
-    "declaration": true,
-    "declarationMap": true,
-    "inlineSources": false,
+    "lib": ["dom", "dom.iterable", "ES2021"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
     "noImplicitAny": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es5",
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "plugins": [{ "name": "next" }],
     "baseUrl": ".",
     "paths": {
       "@src/*": ["./src/*"],
@@ -35,10 +34,12 @@
   },
   "include": [
     "next-env.d.ts",
+    "**/*.js",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+    "next.config.js",
     ".contentlayer/generated"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next", "contentlayer.config.js"]
 }

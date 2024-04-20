@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
 export const SplitParagraphIntoLines = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -10,10 +10,10 @@ export const SplitParagraphIntoLines = () => {
     const { ctx } = createCanvas();
     const container = containerRef.current;
     const containerWidth = container.clientWidth / 2; // the hack; dividing by 2 splits the text approximately closer to the orignal browser render. (assumption 1)
-    const text = container.textContent ?? "";
+    const text = container.textContent ?? '';
     const words = text
       .trim()
-      .split(" ")
+      .split(' ')
       .map((word) => word.trim());
     const wordLengths = words.map((word) => {
       const metrics = ctx.measureText(word);
@@ -29,9 +29,9 @@ export const SplitParagraphIntoLines = () => {
         Math.abs(metric.actualBoundingBoxRight)
       );
     };
-    const whitespaceApproximation = getCharacterLength("s"); // s is approximately the width of a whitespace; i eyed it. (assumption 2)
+    const whitespaceApproximation = getCharacterLength('s'); // s is approximately the width of a whitespace; i eyed it. (assumption 2)
     const lines: string[] = [];
-    let currentLine = "";
+    let currentLine = '';
     let currentLength = 0;
     for (let i = 0; i <= words.length; i++) {
       const word = words[i];
@@ -42,11 +42,11 @@ export const SplitParagraphIntoLines = () => {
         break;
       }
       if (newLength < containerWidth) {
-        currentLine += word + " ";
+        currentLine += word + ' ';
         currentLength += wordLength + whitespaceApproximation;
       } else {
         lines.push(currentLine);
-        currentLine = word + " ";
+        currentLine = word + ' ';
         currentLength = wordLength + whitespaceApproximation;
       }
     }
@@ -58,14 +58,14 @@ export const SplitParagraphIntoLines = () => {
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
   } {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
     if (!ctx) {
       throw new Error(
-        "Canvas context is null. Is canvas supported in this environment?"
+        'Canvas context is null. Is canvas supported in this environment?',
       );
     }
-    ctx.font = "16px var(--font-poppins)";
+    ctx.font = '16px var(--font-poppins)';
     return { canvas, ctx };
   }
 
@@ -75,7 +75,8 @@ export const SplitParagraphIntoLines = () => {
         <span className="text-2xl font-semibold">original text.</span>
         <div
           ref={containerRef}
-          className="flex max-w-lg p-5 bg-amber-500/5 rounded-md">
+          className="flex max-w-lg p-5 bg-amber-500/5 rounded-md"
+        >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
           consectetur, ligula ut tincidunt posuere, arcu libero lacinia nunc,
           non tincidunt libero justo euismod nunc. Nulla facilisi. Sed auctor,
@@ -95,7 +96,8 @@ export const SplitParagraphIntoLines = () => {
               exit={{ opacity: 0, y: 30 }}
               transition={{ duration: 0.3, delay: 0.1 * index }}
               key={index}
-              className="">
+              className=""
+            >
               {line}
             </motion.span>
           ))}

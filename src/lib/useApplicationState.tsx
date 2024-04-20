@@ -1,20 +1,27 @@
-import { useContext, useState, createContext } from "react";
+import { useContext, useState, createContext } from 'react';
 
-export type Theme = "dark" | "light";
+export type Theme = 'dark' | 'light';
 export type ApplicationState = {
   theme: Theme;
 };
-type ApplicationStateContext = [ApplicationState, (updatedState: Partial<ApplicationState>) => void];
+type ApplicationStateContext = [
+  ApplicationState,
+  (updatedState: Partial<ApplicationState>) => void,
+];
 
-const ApplicationStateContext = createContext<ApplicationStateContext | null>(null);
+const ApplicationStateContext = createContext<ApplicationStateContext | null>(
+  null,
+);
 
 interface ApplicationStateProviderProps {
   children: React.ReactNode;
-};
-export const ApplicationStateProvider = ({ children }: ApplicationStateProviderProps) => {
+}
+export const ApplicationStateProvider = ({
+  children,
+}: ApplicationStateProviderProps) => {
   // state holder
   const [appState, setAppState] = useState<ApplicationState>({
-    theme: "light",
+    theme: 'light',
   });
 
   // partial state setter
@@ -35,7 +42,9 @@ export const ApplicationStateProvider = ({ children }: ApplicationStateProviderP
 export const useApplicationState = () => {
   const context = useContext(ApplicationStateContext);
   if (!context) {
-    throw new Error("useApplicationState must be used within an ApplicationStateProvider");
+    throw new Error(
+      'useApplicationState must be used within an ApplicationStateProvider',
+    );
   }
   return context;
-}
+};

@@ -1,26 +1,38 @@
-import type { ApiError } from "@src/pages/api/post/[slug]";
-import type { Comment } from "@src/pages/api/post/[slug]";
-import { Avatar, AvatarFallback, AvatarImage } from "@src/components/ui/Avatar";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@src/components/ui/Form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@src/lib/useToast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { z } from "zod";
-import { getFormattedTime, postData } from "@src/lib/utils";
-import { Button } from "@src/components/ui/Button";
+import type { ApiError } from '@src/pages/api/post/[slug]';
+import type { Comment } from '@src/pages/api/post/[slug]';
+import { Avatar, AvatarFallback, AvatarImage } from '@src/components/ui/Avatar';
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@src/components/ui/Form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useToast } from '@src/lib/useToast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { z } from 'zod';
+import { postData, showAdminButton } from '@src/lib/utils';
+import { Button } from '@src/components/ui/Button';
+import type { GenericIDSchema } from './Comment';
+import { format, formatDistanceToNow } from 'date-fns';
 
 export const ReplyUpdateSchema = z.object({
-  id: z.string().min(1, "Id should be atleast 1 character long."),
-  text: z.string().min(2, "Comment should be atleast 2 characters long."),
-  commentId: z.string().min(1, "Comment id should be atleast 1 character long."),
+  id: z.string().min(1, 'Id should be atleast 1 character long.'),
+  text: z.string().min(2, 'Comment should be atleast 2 characters long.'),
+  commentId: z
+    .string()
+    .min(1, 'Comment id should be atleast 1 character long.'),
 });
 type ReplyUpdateSchema = z.infer<typeof ReplyUpdateSchema>;
 export const ReplyDeleteSchema = z.object({
-  id: z.string().min(1, "Id should be atleast 1 character long."),
-  commentId: z.string().min(1, "Comment id should be atleast 1 character long."),
+  id: z.string().min(1, 'Id should be atleast 1 character long.'),
+  commentId: z
+    .string()
+    .min(1, 'Comment id should be atleast 1 character long.'),
 });
 type ReplyDeleteSchema = z.infer<typeof ReplyDeleteSchema>;
 
@@ -38,11 +50,15 @@ export const Reply = ({ reply, commentId, slug }: ReplyProps) => {
   // mutations
   const postReplyUpdateMutation = useMutation({
     mutationFn: (data: ReplyUpdateSchema): Promise<ApiError<boolean>> =>
-      postData(`/api/comment/reply/update`, data),
+      postData(`/api/post/comment/reply/update`, data),
   });
   const postReplyDeleteMutation = useMutation({
     mutationFn: (data: ReplyDeleteSchema): Promise<ApiError<boolean>> =>
-      postData(`/api/comment/reply/delete`, data),
+      postData(`/api/post/comment/reply/delete`, data),
+  });
+  const postReplyVisibilityMutation = useMutation({
+    mutationFn: (data: GenericIDSchema): Promise<ApiError<boolean>> =>
+      postData(`/api/post/comment/reply/visibility/update`, data),
   });
 
   const [isReplyEditing, setIsReplyEditing] = useState(false);
@@ -51,27 +67,47 @@ export const Reply = ({ reply, commentId, slug }: ReplyProps) => {
   });
   async function onUpdateReply(values: ReplyUpdateSchema) {
     const res = await postReplyUpdateMutation.mutateAsync(values);
-    if ("error" in res) {
-      toast({ title: "Error", description: res.error, variant: "destructive" });
+    if ('error' in res) {
+      toast({ title: 'Error', description: res.error, variant: 'destructive' });
     } else {
-      toast({ title: "Success", description: "Reply updated successfully." });
+      toast({ title: 'Success', description: 'Reply updated successfully.' });
       setIsReplyEditing(false);
     }
     queryClient.invalidateQueries({ queryKey: [`/api/post/${slug}`] });
   }
   async function onDeleteReply(replyId: string, commentId: string) {
-    const res = await postReplyDeleteMutation.mutateAsync({ id: replyId, commentId });
-    if ("error" in res) {
-      toast({ title: "Error", description: res.error, variant: "destructive" });
+    const res = await postReplyDeleteMutation.mutateAsync({
+      id: replyId,
+      commentId,
+    });
+    if ('error' in res) {
+      toast({ title: 'Error', description: res.error, variant: 'destructive' });
     } else {
-      toast({ title: "Success", description: "Reply deleted successfully." });
+      toast({ title: 'Success', description: 'Reply deleted successfully.' });
     }
     queryClient.invalidateQueries({ queryKey: [`/api/post/${slug}`] });
   }
 
+  async function onToggleReplyVisibility(replyId: string) {
+    const res = await postReplyVisibilityMutation.mutateAsync({ id: replyId });
+    if ('error' in res) {
+      toast({ title: 'Error', description: res.error, variant: 'destructive' });
+    } else {
+      toast({
+        title: 'Success',
+        description: 'Reply visibility toggled successfully.',
+      });
+    }
+    queryClient.invalidateQueries({ queryKey: [`/api/post/${slug}`] });
+  }
 
   return (
-    <div key={reply.id} title={getFormattedTime(new Date(reply.createdAt))} className="flex flex-row gap-4 items-center">
+    <div
+      key={reply.id}
+      title={format(reply.createdAt, 'Pp')}
+      data-vis={reply.visible ?? true} // visible by default
+      className="flex flex-row gap-4 items-center border-2 border-transparent border-dashed data-[vis=false]:border-yellow-400"
+    >
       <Avatar>
         {reply.user.image ? (
           <AvatarImage
@@ -85,36 +121,69 @@ export const Reply = ({ reply, commentId, slug }: ReplyProps) => {
         <div className="flex flex-row gap-4 justify-between items-center">
           <div className="flex flex-row gap-2 items-center">
             <span className="">@{reply.user.username}</span>
-            <span className="hidden lg:block text-xs text-black/70 dark:text-white/70 font-thin">{getFormattedTime(new Date(reply.createdAt))}</span>
+            <span className="hidden lg:block text-xs text-black/70 dark:text-white/70 font-thin">
+              {formatDistanceToNow(reply.createdAt, {
+                addSuffix: true,
+              })}
+            </span>
           </div>
-          {session.status !== "unauthenticated" &&
-            session.data?.user.username === reply.user.username ? (
+          {session.status !== 'unauthenticated' ? (
             <div className="flex flex-row gap-2">
-              {
-                // save button if replying...
-                isReplyEditing ? (
-                  <Button tooltip="save reply edit." className="font-light" onClick={() => {
-                    onUpdateReply(replyUpdateForm.getValues());
-                  }}>save.</Button>
-                ) : null
-              }
-              <Button tooltip={isReplyEditing ? 'cancel reply.' : 'edit reply.'} className="font-light" onClick={() => {
-                setIsReplyEditing(!isReplyEditing);
-                replyUpdateForm.setValue("id", reply.id);
-                replyUpdateForm.setValue("text", reply.text);
-                replyUpdateForm.setValue("commentId", commentId);
-              }}>
-                {
-                  isReplyEditing ? "cancel." : "edit."
-                }
-              </Button>
-              {
-                // can't delete a reply while editing.
-                !isReplyEditing ? (
-                  <Button tooltip="delete reply." className="font-light" onClick={() => {
-                    onDeleteReply(reply.id, commentId);
-                  }}>delete.</Button>) : null
-              }
+              {session.data?.user.username === reply.user.username ? (
+                <div className="flex flex-row gap-2">
+                  {
+                    // save button if replying...
+                    isReplyEditing ? (
+                      <Button
+                        tooltip="save reply edit."
+                        className="font-light"
+                        onClick={() => {
+                          onUpdateReply(replyUpdateForm.getValues());
+                        }}
+                      >
+                        save.
+                      </Button>
+                    ) : null
+                  }
+                  <Button
+                    tooltip={isReplyEditing ? 'cancel reply.' : 'edit reply.'}
+                    className="font-light"
+                    onClick={() => {
+                      setIsReplyEditing(!isReplyEditing);
+                      replyUpdateForm.setValue('id', reply.id);
+                      replyUpdateForm.setValue('text', reply.text);
+                      replyUpdateForm.setValue('commentId', commentId);
+                    }}
+                  >
+                    {isReplyEditing ? 'cancel.' : 'edit.'}
+                  </Button>
+                  {
+                    // can't delete a reply while editing.
+                    !isReplyEditing ? (
+                      <Button
+                        tooltip="delete reply."
+                        className="font-light"
+                        onClick={() => {
+                          onDeleteReply(reply.id, commentId);
+                        }}
+                      >
+                        delete.
+                      </Button>
+                    ) : null
+                  }
+                </div>
+              ) : null}
+              <div className="flex flex-row gap-2">
+                {showAdminButton(session.data, reply.user.id) ? (
+                  <Button
+                    tooltip={reply.visible ? 'hide reply.' : 'show reply.'}
+                    onClick={() => onToggleReplyVisibility(reply.id)}
+                    className="font-light"
+                  >
+                    {reply.visible ? 'h.' : 's.'}
+                  </Button>
+                ) : null}
+              </div>
             </div>
           ) : null}
         </div>
@@ -124,10 +193,9 @@ export const Reply = ({ reply, commentId, slug }: ReplyProps) => {
         ) : (
           <Form {...replyUpdateForm}>
             <form
-              onSubmit={replyUpdateForm.handleSubmit(
-                onUpdateReply
-              )}
-              className="w-full">
+              onSubmit={replyUpdateForm.handleSubmit(onUpdateReply)}
+              className="w-full"
+            >
               <FormField
                 control={replyUpdateForm.control}
                 name="text"
@@ -148,6 +216,6 @@ export const Reply = ({ reply, commentId, slug }: ReplyProps) => {
           </Form>
         )}
       </div>
-    </div >
+    </div>
   );
-}
+};

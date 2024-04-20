@@ -1,10 +1,11 @@
-import { Page } from "@src/components/ui/Page";
-import { Github, Twitter } from "lucide-react";
-import { getProviders, signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
-import { useToast } from "@src/lib/useToast";
-import { Button } from "@src/components/ui/Button";
+import { Page } from '@src/components/ui/Page';
+import { Github, Twitter } from 'lucide-react';
+import { getProviders, signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
+import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
+import { useToast } from '@src/lib/useToast';
+import { Button } from '@src/components/ui/Button';
 
 type Provider = {
   id: string;
@@ -35,19 +36,19 @@ const SignIn = () => {
   async function handleSignInFromProvider(provider: string) {
     try {
       await signIn(provider, {
-        callbackUrl: params.get("callbackUrl") ?? "",
+        callbackUrl: params.get('callbackUrl') ?? '',
         redirect: false,
       });
       toast({
-        title: "Success",
+        title: 'Success',
         description: `You have successfully signed in with ${provider}`,
       });
     } catch (error) {
       console.error(error);
       toast({
-        title: "Error",
+        title: 'Error',
         description: `Failed to sign in with ${provider}`,
-        variant: "destructive",
+        variant: 'destructive',
       });
     }
   }
@@ -63,7 +64,8 @@ const SignIn = () => {
               tooltip={`sign in with ${provider.name}.`}
               key={provider.id}
               onClick={() => handleSignInFromProvider(provider.id)}
-              className="">
+              className=""
+            >
               <div className="flex items-center gap-2 p-4">
                 {providerIcon[provider.id]}
               </div>

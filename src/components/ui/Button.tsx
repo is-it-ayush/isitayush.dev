@@ -1,4 +1,9 @@
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@src/components/ui/Tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@src/components/ui/Tooltip';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   tooltip?: string;
@@ -17,4 +22,4 @@ export const Button = ({ tooltip, ...rest }: ButtonProps) => {
   ) : (
     <button aria-label={tooltip} {...rest} />
   );
-}
+};

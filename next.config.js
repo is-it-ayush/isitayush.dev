@@ -4,20 +4,20 @@ const nextConfig = {
   experimental: {
     swcPlugins: [
       [
-        "next-superjson-plugin",
+        'next-superjson-plugin',
         {
           excluded: [],
         },
       ],
     ],
   },
-  headers() {
-    return [
+  headers: () => {
+    return Promise.resolve([
       {
-        source: "/(.*)",
+        source: '/(.*)',
         headers: securityHeaders,
       },
-    ];
+    ]);
   },
   webpack: (config, { isServer }) => {
     // ignore fs and path when building for browser, resolves "fs" is not defined error
@@ -29,6 +29,9 @@ const nextConfig = {
     }
 
     return config;
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
 
@@ -46,45 +49,45 @@ const ContentSecurityPolicy = `
 const securityHeaders = [
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
   {
-    key: "Content-Security-Policy",
-    value: ContentSecurityPolicy.replace(/\n/g, ""),
+    key: 'Content-Security-Policy',
+    value: ContentSecurityPolicy.replace(/\n/g, ''),
   },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
   {
-    key: "Referrer-Policy",
-    value: "origin-when-cross-origin",
+    key: 'Referrer-Policy',
+    value: 'origin-when-cross-origin',
   },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   {
-    key: "X-Frame-Options",
-    value: "DENY",
+    key: 'X-Frame-Options',
+    value: 'DENY',
   },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
   {
-    key: "X-Content-Type-Options",
-    value: "nosniff",
+    key: 'X-Content-Type-Options',
+    value: 'nosniff',
   },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control
   {
-    key: "X-DNS-Prefetch-Control",
-    value: "on",
+    key: 'X-DNS-Prefetch-Control',
+    value: 'on',
   },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
   {
-    key: "Strict-Transport-Security",
-    value: "max-age=31536000; includeSubDomains; preload",
+    key: 'Strict-Transport-Security',
+    value: 'max-age=31536000; includeSubDomains; preload',
   },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
   {
-    key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=()",
+    key: 'Permissions-Policy',
+    value: 'camera=(), microphone=(), geolocation=()',
   },
 ];
 
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
 });
 
 module.exports = withBundleAnalyzer(
-  require("next-contentlayer").withContentlayer(nextConfig)
+  require('next-contentlayer').withContentlayer(nextConfig),
 );

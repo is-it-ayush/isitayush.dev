@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export const AgeCounter = () => {
   const [age, setAge] = useState(0);
@@ -27,10 +27,10 @@ async function calculateAgeToYears() {
     return age.toPrecision(13);
   } else {
     console.error(
-      `Blocks/Error: The environment variable NEXT_PUBLIC_BIRTHDAY is not set.`
+      `Blocks/Error: The environment variable NEXT_PUBLIC_BIRTHDAY is not set.`,
     );
     throw new DOMException(
-      "Blocks/Error: I guess we will never know how old I am."
+      'Blocks/Error: I guess we will never know how old I am.',
     );
   }
 }

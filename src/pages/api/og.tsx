@@ -1,14 +1,14 @@
-import { ImageResponse } from "@vercel/og";
-import { NextRequest } from "next/server";
+import { ImageResponse } from '@vercel/og';
+import type { NextRequest } from 'next/server';
 
 export const config = {
-  runtime: "edge",
+  runtime: 'edge',
 };
 
 export default function og(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const title = searchParams.get("title") || "a y u s h.";
-  const author = searchParams.get("date") || "Ayush Gupta";
+  const title = searchParams.get('title') || 'a y u s h.';
+  const author = searchParams.get('date') || 'Ayush Gupta';
 
   return new ImageResponse(
     (
@@ -26,6 +26,6 @@ export default function og(req: NextRequest) {
     {
       width: 1200,
       height: 600,
-    }
+    },
   );
 }

@@ -1,19 +1,19 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { type GetServerSidePropsContext } from "next";
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { type GetServerSidePropsContext } from 'next';
 import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
-} from "next-auth";
-import { type Adapter } from "next-auth/adapters";
-import GithubProvider from "next-auth/providers/github";
-import TwitterProvider from "next-auth/providers/twitter";
-import { db } from "@src/server/db";
+} from 'next-auth';
+import { type Adapter } from 'next-auth/adapters';
+import GithubProvider from 'next-auth/providers/github';
+import TwitterProvider from 'next-auth/providers/twitter';
+import { db } from '@src/server/db';
 
 // https://next-auth.js.org/getting-started/typescript#module-augmentation
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session extends DefaultSession {
-    user: DefaultSession["user"] & {
+    user: DefaultSession['user'] & {
       id: string;
       username: string;
     };
@@ -40,13 +40,13 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(db) as Adapter,
   pages: {
-    signIn: "/auth/signin",
-    error: "/auth/error",
+    signIn: '/auth/signin',
+    error: '/auth/error',
   },
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_ID ?? "",
-      clientSecret: process.env.GITHUB_SECRET ?? "",
+      clientId: process.env.GITHUB_ID ?? '',
+      clientSecret: process.env.GITHUB_SECRET ?? '',
       profile(profile) {
         return {
           id: profile.id.toString(),
@@ -59,9 +59,9 @@ export const authOptions: NextAuthOptions = {
     }),
     // email is not supported in oauth 2.0 for twitter.
     TwitterProvider({
-      clientId: process.env.TWITTER_ID ?? "",
-      clientSecret: process.env.TWITTER_SECRET ?? "",
-      version: "2.0",
+      clientId: process.env.TWITTER_ID ?? '',
+      clientSecret: process.env.TWITTER_SECRET ?? '',
+      version: '2.0',
       profile(profile) {
         return {
           id: profile.data.id,
@@ -73,13 +73,13 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === 'development',
 };
 
 // no need pass authOptions everywhere
 export const getServerAuthSession = (ctx: {
-  req: GetServerSidePropsContext["req"];
-  res: GetServerSidePropsContext["res"];
+  req: GetServerSidePropsContext['req'];
+  res: GetServerSidePropsContext['res'];
 }) => {
   return getServerSession(ctx.req, ctx.res, authOptions);
 };
