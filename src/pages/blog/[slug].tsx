@@ -89,7 +89,7 @@ export default function Entry({
     (async () => {
       if (!data.entry) {
         await router.replace(
-          `/auth/error?error=${encodeURIComponent(
+          `/500?error=${encodeURIComponent(
             'It seems like there was an error while getting the post entry.',
           )}`,
         );

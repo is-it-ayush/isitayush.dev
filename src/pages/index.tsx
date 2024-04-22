@@ -3,7 +3,7 @@ import { generateRobotsTxt, generateSitemap, k } from '@src/lib/utils';
 import { allEntries } from '@contentlayer/generated';
 import { Page } from '@src/components/ui/Page';
 import Link from 'next/link';
-import { Github, Headphones, Linkedin, Twitter } from 'lucide-react';
+import { Github, Headphones, Linkedin, Mail, Twitter } from 'lucide-react';
 import { AgeCounter } from '@src/components/fragments/AgeCounter';
 
 export default function Landing() {
@@ -32,6 +32,9 @@ export default function Landing() {
         <div className="flex flex-col gap-4 lg:flex-row justify-between font-extralight">
           <AgeCounter />
           <div className="flex flex-row gap-2 lg:justify-end">
+            <Link href="mailto:work@isitayush.dev" target="_blank">
+              <Mail size={24} />
+            </Link>
             <Link href="https://github.com/is-it-ayush" target="_blank">
               <Github size={24} />
             </Link>
