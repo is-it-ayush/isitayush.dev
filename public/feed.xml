@@ -9,17 +9,10 @@
             <link>https://www.isitayush.dev</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 20 Apr 2024 22:34:07 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 22 Apr 2024 12:27:12 GMT</lastBuildDate>
         <atom:link href="https://www.isitayush.dev/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 20 Apr 2024 22:34:07 GMT</pubDate>
+        <pubDate>Mon, 22 Apr 2024 12:27:12 GMT</pubDate>
         <copyright><![CDATA[© 2024 Ayush Gupta]]></copyright>
-        <item>
-            <title><![CDATA[RAAAAAAAAAAAH KUBERNETES ssss...]]></title>
-            <description><![CDATA[getting up and running with a kubernetes cluster.]]></description>
-            <link>https://www.isitayush.dev/blog/raaaaaaaaaah-kubernetes</link>
-            <guid isPermaLink="true">https://www.isitayush.dev/blog/raaaaaaaaaah-kubernetes</guid>
-            <pubDate>Mon, 08 Apr 2024 00:00:00 GMT</pubDate>
-        </item>
         <item>
             <title><![CDATA[wait..ssh can do what?]]></title>
             <description><![CDATA[Things you could do with ssh that you weren't possbily aware of.]]></description>

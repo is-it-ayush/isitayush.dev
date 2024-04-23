@@ -2,21 +2,12 @@ import { Page } from '@src/components/ui/Page';
 import { Github, Twitter } from 'lucide-react';
 import { getProviders, signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { useToast } from '@src/lib/useToast';
 import { Button } from '@src/components/ui/Button';
 import type { GetServerSidePropsContext } from 'next';
 import { getServerAuthSession } from '@src/server/auth';
 
-// using my own type for providers since inferring via InferGetServerSidePropsType does not work.
-type Provider = {
-  id: string;
-  name: string;
-  type: string;
-  signinUrl: string;
-  callbackUrl: string;
-};
-type Providers = Record<string, Provider>;
 const providerIcon: Record<string, ReactNode> = {
   github: <Github className="w-6 h-6" />,
   twitter: <Twitter className="w-6 h-6" />,
@@ -36,13 +27,19 @@ const errorCodeMap: Record<string, string> = {
   SessionRequired: 'A session is required to access this page.',
 };
 
-interface SignInProps {
-  providers: Providers;
-}
-
-const SignIn = ({ providers }: SignInProps) => {
+const SignIn = () => {
+  const [providers, setProviders] =
+    useState<Awaited<ReturnType<typeof getProviders>>>();
   const params = useSearchParams();
   const { toast } = useToast();
+
+  // https://github.com/nextauthjs/next-auth/issues/9597#issuecomment-1909218577
+  useEffect(() => {
+    (async () => {
+      const providerData = await getProviders();
+      setProviders(providerData);
+    })();
+  }, []);
 
   async function handleSignInFromProvider(provider: string) {
     await signIn(provider, {
@@ -60,7 +57,7 @@ const SignIn = ({ providers }: SignInProps) => {
         <span className="text-4xl font-medium">signin.</span>
         <span className="bg-black/95 dark:bg-white/95 h-16 w-1" />
         <div className="flex flex-row gap-4">
-          {Object.values(providers).map((provider) => (
+          {Object.values(providers ?? {}).map((provider) => (
             <Button
               tooltip={`sign in with ${provider.name}.`}
               key={provider.id}
@@ -77,6 +74,7 @@ const SignIn = ({ providers }: SignInProps) => {
   );
 };
 
+// handle signed in state & error state on server
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerAuthSession(context);
   // if there is a session, redirect to callbackUrl or root page
@@ -97,12 +95,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       },
     };
   }
-  // if there is no session, get providers
-  const providers = await getProviders();
   return {
-    props: {
-      providers: providers ?? {},
-    },
+    props: {},
   };
 }
 
