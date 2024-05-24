@@ -240,7 +240,8 @@ export default function Entry({
             </AnimatePresence>
           </div>
         </div>
-        <div className="flex flex-col">
+        {/* hotpatch production: debug more, this should work without w-[90vw] */}
+        <div className="flex flex-col w-[90vw] md:w-auto">
           <Body components={mdxcomponents} />
         </div>
         <span className="flex h-1 w-full rounded-lg bg-white dark:bg-white/5" />
