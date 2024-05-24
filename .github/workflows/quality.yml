@@ -1,0 +1,65 @@
+name: quality
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+env:
+  FORCE_COLOR: 3
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout.
+        uses: actions/checkout@v3
+
+      - name: setup.
+        uses: ./actions/setup
+
+      - name: lint.
+        run: pnpm lint
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout.
+        uses: actions/checkout@v3
+
+      - name: setup.
+        uses: ./actions/setup
+
+      - name: format.
+        run: pnpm format
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout.
+        uses: actions/checkout@v3
+
+      - name: setup.
+        uses: ./actions/setup
+
+      - name: typegen.
+        run: pnpm typegen
+
+      - name: typecheck.
+        run: pnpm typecheck
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout.
+        uses: actions/checkout@v3
+
+      - name: setup.
+        uses: ./actions/setup
+
+      - name: typegen.
+        run: pnpm typegen
+
+      - name: build.
+        run: pnpm build

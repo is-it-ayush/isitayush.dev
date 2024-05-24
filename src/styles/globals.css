@@ -20,7 +20,7 @@
 
 .prose .anchor:after {
   @apply text-black dark:text-white;
-  content: "#";
+  content: '#';
 }
 
 .prose *:hover > .anchor {
@@ -35,7 +35,7 @@
   @apply text-gray-900 dark:text-white/80 px-1;
 }
 
-p:where([class*="not-prose"]) > span {
+p:where([class*='not-prose']) > span {
   @apply text-gray-800 dark:text-gray-300;
 }
 
@@ -51,14 +51,14 @@ p:where([class*="not-prose"]) > span {
 .prose :where(code)::after,
 .prose blockquote p::before,
 .prose blockquote p::after {
-  content: "";
+  content: '';
 }
 
-[data-theme="dark"] .prose pre {
+[data-theme='dark'] .prose pre {
   filter: invert(3%);
 }
 
-[data-theme="light"] .prose pre code {
+[data-theme='light'] .prose pre code {
   filter: invert(98%) hue-rotate(180deg);
 }
 
@@ -83,8 +83,8 @@ pre {
 }
 
 /* Remove Safari input shadow on mobile */
-input[type="text"],
-input[type="email"] {
+input[type='text'],
+input[type='email'] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -93,12 +93,6 @@ input[type="email"] {
 .prose img {
   /* Don't apply styles to next/image */
   @apply m-0;
-}
-
-.prose > :first-child {
-  /* Override removing top margin, causing layout shift */
-  margin-top: 1.25em !important;
-  margin-bottom: 1.25em !important;
 }
 
 .prose p {

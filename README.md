@@ -1,10 +1,10 @@
 [license]: ./LICENSE.md
-[.env.example]: .example.env
+[.env.example]: .env.example
 [changelog]: ./CHANGELOG.md
 
 ### isitayush.dev
 
-this is the source code for my personal website, [isitayush.dev](https://isitayush.dev). I built it using the following (gud) technologies:
+this is the source for my personal website, [isitayush.dev](https://isitayush.dev) built with:
 
 - [Next.js](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
@@ -14,8 +14,7 @@ this is the source code for my personal website, [isitayush.dev](https://isitayu
 - [Shadcn UI](https://ui.shadcn.com/)
 - [Umami](https://umami.is/)
 - [Prisma](https://www.prisma.io/)
-- [PlanetScale](https://www.planetscale.com/)
-- [SWR](https://swr.vercel.app/)
+- [Tanstack Query](https://tanstack.com/query/latest)
 
 ### changelog.
 
@@ -34,35 +33,41 @@ pnpm dev
 
 ### heartbeat.
 
-##### november update.
+### 04/24
 
-akshually 🤓, drizzle was harder than i thought (tried it 3 months ago). switched back to prisma. (i have sql skill issue)
+yeah did some updates for future blogs. checkout the [changelog] for more info.
 
-#### april update.
+##### 11/23
 
-At first I thought kysely must have something to sync my schema to the db until I realized it's not a ORM but a querying library. To workaround this I had to fallback to Prisma. I'm not really happy with the prisma & kysely setup here because they're dependent on each other. I'll switch this to [Drizzle](https://drizzle.team/) in the future but for now it works & Its okay.
+akshually 🤓, drizzle was harder than i thought (tried it 3 months ago). switched back to prisma.
+(i have sql skill issue)
 
-### Database
+#### 04/23
 
-> tldr; `pnpm db:push` -> `pnpm db:gen` -> Add the generated types to `interface Database` in `src/lib/db.ts`.
+at first i thought kysely must have something to sync my schema to the db until I realized it's not a ORM but a querying library.
+to workaround this I had to fallback to prisma. I'm not really happy with the prisma & kysely setup here because they're
+dependent on each other. i'll switch this to [Drizzle](https://drizzle.team/) in the future but for
+now it works & Its okay.
 
-The pipeline for pushing new schema to planetscale or any other database is as follows:
+### database.
 
-- **Planetscale Specific**: Create a branch off your main production database & get the DATABASE_URL for it -> Push the schema to your branch with `pnpm db:push` -> Merge the branch to your main production database.
-- **Other DB Providers**: Push the schema to your database with `pnpm db:push`.
+make sure you're running a postgres database, grab it's connection string (looks like postgres://user:password@server:port/db)
+and add it to the `.env` file under `DATABASE_URL` variable. then run `pnpm db:push`, then `pnpm db:gen`
 
-Now run `pnpm db:gen` to generate the prisma types. These generated prisma types are then used by the kysely queries. So, you have to manually add them to the `interface Database` in `src/lib/db.ts`.
-Thanks [nexxel](https://www.nexxel.dev/blog/typesafe-database) for the hack.
+### deployment.
 
-### Deployment
+there are two kinds of deployment when it's comes to next.js
 
-> tldr; use vercel. it's good (thanks vercel) [except for when u wanna actually control stuff, then vercel bad]
+- standalone: nextjs generates a standalone server. you can pack this standalone server inside a docker container and
+  deploy it pretty much anywhere. think docker, kuberenetes, on a vps behind an already running nginx server through reverse proxy.
+- serverless: this is more for vercel infrastructure. you can deploy your nextjs app to vercel and it will handle the rest.
 
-To deploy this project, you can use [Vercel](https://vercel.com/). It's free for open source projects & you can deploy it with just `npx vercel deploy`. You can also deploy it on [Netlify](https://www.netlify.com/) or [Render](https://render.com/). I haven't tested it, but it should work & I might switch to it later.
+there are only few things you gotta be careful about when deploying:
 
-- Make sure you have a `.env.production` file in the root directory. You can copy the contents of [.env.example] to `.env.production` & replace the values with your own.
-- Make sure you have a PlanetScale database setup. You can use [PlanetScale's free tier](https://www.planetscale.com/pricing).
+- make sure you got a postgres database up and running.
+- make sure you got your secrets ready as per [.env.example]
+- build and your deployment will appear under .next folder.
 
-### License
+### license.
 
-MIT License. You can checkout out the [LICENSE] file for details but in short, you can do whatever you want with this project. <3
+MIT License. you can checkout out the [LICENSE] file for details but in short, you can do whatever you want with this project. <3

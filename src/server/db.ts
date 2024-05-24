@@ -1,15 +1,17 @@
-import { Post } from "@prisma/client";
-import { Kysely } from "kysely";
-import { PlanetScaleDialect } from "kysely-planetscale";
-import { format } from "sqlstring";
+import { PrismaClient } from '@prisma/client';
 
-export interface Database {
-  Post: Post;
-}
+const createPrismaClient = () =>
+  new PrismaClient({
+    log:
+      process.env.NODE_ENV === 'development'
+        ? ['query', 'error', 'warn']
+        : ['error'],
+  });
 
-export const db = new Kysely<Database>({
-  dialect: new PlanetScaleDialect({
-    url: process.env.DATABASE_URL,
-    format: format,
-  }),
-});
+const globalForPrisma = globalThis as unknown as {
+  prisma: ReturnType<typeof createPrismaClient> | undefined;
+};
+
+export const db = globalForPrisma.prisma ?? createPrismaClient();
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db;

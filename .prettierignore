@@ -1,4 +1,4 @@
-.next
-.vercel
 .contentlayer
+.env*
 node_modules
+.next

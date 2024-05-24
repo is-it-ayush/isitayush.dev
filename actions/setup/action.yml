@@ -1,0 +1,25 @@
+name: 'setup & install.'
+description: 'common steps across git actions.'
+
+runs:
+  using: composite
+  steps:
+    - name: setup pnpm.
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8
+    - name: use node.js 18
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'pnpm'
+    - name: 'information.'
+      shell: bash
+      run: |
+        echo "OS: $(uname -a)"
+        echo "Node Version: $(node -v)"
+        echo "NPM Version: $(npm -v)"
+        echo "PNPM Version: $(pnpm -v)"
+    - name: install.
+      shell: bash
+      run: pnpm install
