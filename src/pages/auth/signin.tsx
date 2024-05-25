@@ -3,7 +3,6 @@ import { Github, Twitter } from 'lucide-react';
 import { getProviders, signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
-import { useToast } from '@src/lib/useToast';
 import { Button } from '@src/components/ui/Button';
 import type { GetServerSidePropsContext } from 'next';
 import { getServerAuthSession } from '@src/server/auth';
@@ -31,7 +30,6 @@ const SignIn = () => {
   const [providers, setProviders] =
     useState<Awaited<ReturnType<typeof getProviders>>>();
   const params = useSearchParams();
-  const { toast } = useToast();
 
   // https://github.com/nextauthjs/next-auth/issues/9597#issuecomment-1909218577
   useEffect(() => {
@@ -42,12 +40,14 @@ const SignIn = () => {
   }, []);
 
   async function handleSignInFromProvider(provider: string) {
+    let callbackUrl = params.get('callbackUrl') ?? '';
+    if (callbackUrl.includes('?')) {
+      callbackUrl += `&s=1&p=${provider}`;
+    } else {
+      callbackUrl += `?s=1&p=${provider}`;
+    }
     await signIn(provider, {
-      callbackUrl: params.get('callbackUrl') ?? '',
-    });
-    toast({
-      title: 'Success',
-      description: `You've signed in with ${provider}`,
+      callbackUrl: callbackUrl,
     });
   }
 

@@ -8,7 +8,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SessionProvider } from 'next-auth/react';
@@ -17,6 +17,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@src/components/ui/Toaster';
 import { ApplicationStateProvider } from '@src/lib/useApplicationState';
+import { toast } from '@src/lib/useToast';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,6 +35,29 @@ const font = Poppins({
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const previousRoute = usePreviousRoute();
+
+  // show success toast on sign in.
+  useEffect(() => {
+    if (router.query.s && router.query.p) {
+      toast({
+        title: 'Success',
+        description: `You've signed in with ${router.query.p}`,
+      });
+      const pathQuery = Object.entries(router.query).reduce(
+        (acc, [key, value]) => {
+          if (key !== 's' && key !== 'p') {
+            acc += `${key}=${value}&`;
+          }
+          return acc;
+        },
+        '',
+      );
+      router.replace({
+        query: pathQuery,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only run on mount
+  }, [router.isReady]);
 
   return (
     <QueryClientProvider client={queryClient}>
