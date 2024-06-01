@@ -404,7 +404,7 @@ kubeadm join 10.0.189.245:6443 --token ktc195.lqe876u6w9d2ic0o \
    This will let you use `kubectl` to control the cluster from the local user
    i.e. `debian`.
 9. Copy `kubeadm join 10.0.189.245:6443 --token ktc195.lqe876u6w9d2ic0o
---discovery-token-ca-cert-hash sha256:12bc57851cb0e8fff2993d1c5d1438a78b766ccf394db62802bc15b24af1c981`
+--discovery-token-ca-cert-hash sha256:...`
    command and save it somewhere. We'll use this command to join computers
    as workers to our cluster.
 10. Let's install our Cilium CNI plugin before we join our virtual other
