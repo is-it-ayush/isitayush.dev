@@ -8,10 +8,29 @@
   outline: 0;
 }
 
-/** thanks lee (leerob.io). i'm stealing your styles. : ) */
+/* <article><pre /></article> */
+.prose pre {
+  @apply border-2 border-black/5 dark:border-white/5 rounded-none;
+}
 
-.prose *:not(pre, pre *, code, code *, p > span) {
-  @apply text-black dark:text-white;
+.prose pre,
+.prose pre * {
+  @apply text-[var(--shiki-light)] bg-[var(--shiki-light-bg)] dark:text-[var(--shiki-dark)] dark:bg-[var(--shiki-dark-bg)];
+}
+
+/* <article>{NOT 'pre' OR 'pre *' OR 'code' OR 'CODE *' OR 'P.SPAN'}</article> */
+.prose *:not(pre, pre *, code, code *, p > span, [class*='not-prose'] *) {
+  @apply text-black dark:text-white my-2.5 mx-0;
+}
+
+/* `` */
+.prose code:not(pre code) {
+  @apply text-gray-900 dark:text-white/80 px-1 bg-black/5 dark:bg-white/5 rounded-sm;
+}
+
+/* <p className="not-prose"><span /></p> */
+p:where([class*='not-prose']) > span {
+  @apply text-gray-800 dark:text-gray-300;
 }
 
 .prose a {
@@ -27,18 +46,6 @@
   @apply visible;
 }
 
-.prose pre {
-  @apply border-2 border-black/5 dark:border-white/5 bg-[#E8E8E8] dark:bg-black rounded-none;
-}
-
-.prose code:not(pre code) {
-  @apply text-gray-900 dark:text-white/80 px-1;
-}
-
-p:where([class*='not-prose']) > span {
-  @apply text-gray-800 dark:text-gray-300;
-}
-
 .prose blockquote {
   @apply border-black/5 dark:border-white/5 dark:bg-black/5;
 }
@@ -52,14 +59,6 @@ p:where([class*='not-prose']) > span {
 .prose blockquote p::before,
 .prose blockquote p::after {
   content: '';
-}
-
-[data-theme='dark'] .prose pre {
-  filter: invert(3%);
-}
-
-[data-theme='light'] .prose pre code {
-  filter: invert(98%) hue-rotate(180deg);
 }
 
 table {

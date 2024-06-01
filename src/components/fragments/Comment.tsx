@@ -171,7 +171,7 @@ export const Comment = ({ comment, slug, ...rest }: CommentProps) => {
         <AvatarFallback>{comment.user.username}</AvatarFallback>
       </Avatar>
       <div className="flex flex-col w-full gap-4">
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full gap-4">
           <div className="flex flex-row gap-4 justify-between items-center">
             <div className="flex flex-row gap-2 items-center">
               <span>@{comment.user.username}</span>

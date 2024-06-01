@@ -1,0 +1,590 @@
+---
+title: a subtle introduction to kubernetes
+publishedAt: 2024-06-02
+summary: I'll walk you through the scary kubernetes land.
+tags:
+  - kubernetes
+  - cilium
+  - orchestration
+---
+
+The ocean of Kubernetes is a vast and from my perspective learning
+and understanding kubernetes is very similar to learning vim for the
+very first time. I have the following goals with the blog,
+
+- To create a local kubernetes cluster where you can
+  experiment & learn.
+- To give you an introduction to kubernetes and orchestration.
+
+We'll first go over some basics and then we'll deploy a very simple
+kubernetes cluster that runs on a single computer across three
+virtual machines. This blog will take the following course,
+
+1. [the basics of kubernetes](#the-basics-of-kubernetes).
+2. [cluster setup prerequisites](#cluster-setup-prerequisites).
+3. [creating a base kubernetes image](#creating-a-base-kubernetes-image).
+4. [creating three virtual machines and deploying kubernetes on them](#creating-three-virtual-machines-and-deploying-kubernetes-on-them).
+5. [deploy a simple nginx application within the kubernetes cluster](#deploy-a-simple-nginx-application-within-the-kubernetes-cluster).
+6. [some more topics that'll take you further](#some-more-topics-thatll-take-you-further).
+7. [conclusion](#conclusion)
+
+### the basics of kubernetes.
+
+I like to think of kubernets as a set of multiple components
+working together like clockwork. **Everything in kubernetes is
+an api resource and a resource represents an api object**. You
+can say kubernetes consists of multiple api objects. In simple
+terms, you define some desired state for an api resource through
+a `yaml` file and kubernetes attempts to make sure the current
+state of that resource changes to the desired state defined in
+the `yaml` file. **Kubernetes changes the state of a resource
+through a resource controller**. The primary job of a
+resource controller is to watch for events like create, update
+or delete of a `yaml` file and then update the current state of
+that resource to meet the `yaml` file.
+
+The heart of kubernetes follows a **master-worker architecture**.
+Here each computer running kubernetes either assumes the role of
+a master or the role of a worker. Traditionally computers with
+worker role do the actual job such as running a web server while
+computers with master role assign jobs to worker computers.
+**This is the job of the scheduler controller running within
+kubernetes**.
+
+To give you an analogy imagine a master worker updating it's
+job book and writing, _"Computer 5's job is to run 3 copies of
+this web server container"_. Workers computers simply look at
+the job book present on master computers, figure out what
+their job is and attempt to do it. This is just a simplified
+way to explain how kubernetes works. Sometimes **computers
+with the master role are also called control-plane nodes and
+computers with the worker role are also called worker nodes.**
+
+A group of computers running kubernetes software would be
+called a **kubernetes cluster** or a **kubernetes deployment**.
+The approach of **running kubernetes inside your own house,
+lab or data center is generally called an on-premise
+deployment** and the approach of **running kubernetes on the
+cloud is generally called a cloud deployment**. The steps
+differ only slightly between both approaches. Sometimes in
+complicated deployments you'll find the on-premise and cloud
+deployments can be connected with each other. This happens
+at large companies but small scale companies usually opt
+for cloud deployment since they choose not to invest in
+maintaing their own hardware/computers.
+
+### cluster setup prerequisites.
+
+I'm assuming the following before we start,
+
+1. You know how to install an operating system from an install
+   media such as a downloaded iso/img file. We'll be using [debian's
+   net-inst image](https://www.debian.org/CD/netinst/) as our
+   operating system.
+2. You know how to create, start and stop a virtual machine.
+   I'll be using [QEMU/KVM](https://www.qemu.org/download/#linux)
+   along with [virt-manager](https://virt-manager.org/) to create
+   the virtual machines.
+3. Know how to connect to your virtual machine via SSH.
+4. You have 50 Gib of disk space.
+
+If you don't know `1` or `2` from above requiements, I recommend
+you to watch [this video](https://youtu.be/vyLNpPY-Je0). It shows
+how to create an ubuntu virtual machine. For `3`, you'll only need
+the username and the IP address of the virtual machine to connect
+to it via SSH. I'll explain when we reach to this step.
+
+### creating a base kubernetes image.
+
+1. Download and save [debian's net-inst image](https://www.debian.org/CD/netinst/).
+2. Create a new virtual machine in virt-manager so it opens
+   the virtul achine creation wizard. I recommend the following values,
+   1. Select "Local Install Media (ISO image or CDROM)"
+   2. Choose the above downloaded iso by clicking Browse and then
+      Select "Generic Linux 2022" as the operating system at bottom.
+   3. Use atleast 2048Mb of RAM and 2 CPU cores.
+   4. Create a new virtual disk image of atleast 15GiB size. We'll install our
+      OS image onto this disk.
+   5. You can name your virtual machine anything you want.
+      > Note: Remember the location of the disk image under the
+      > "Storage: /path/to/my/disk.qcow2". You can go to this location
+      > after the image is created and make a backup so you can create
+      > more clusters in you make a mistake and mess up.
+3. Proceed with graphical install when the machine starts.
+   **You can skip this if you already know how to do it**. Here are
+   the instructions for each installation step for [debian's net-inst](https://www.debian.org/CD/netinst/)
+   installation image,
+   1. Select your region and language.
+   2. Leave "Hostname:" as the default value i.e. "debian".
+   3. Leave the "Domain name:" as empty.
+   4. For "Root Password:", You can **choose any password but you
+      must remember it**.
+   5. For "Full Name of the new user:", You can use anything but I
+      recommend using "debian".
+   6. Leave "Username for your account:" as the default value i.e.
+      "debian".
+   7. For "Choose a password for the new user:", You can use the
+      same root password you used in step `3`.
+   8. In "Partition Disk" section, Select "Guided - use entire disk".
+   9. For "Select disk to partition:", Select the available 15GiB
+      "Virtual Disk ... (virtio block device)".
+   10. For "Partitioning Scheme:", Select "All files in one partition
+       (recommended for new users)".
+   11. Now Select "Finish Partitioning and write changes to disk"
+       option.
+   12. It'll ask you once again to confirm that you want to "Write
+       the changes to the disk?". Select "Yes".
+   13. Wait for the base system to install.
+   14. After the base system is installed, it'll present you with
+       the option "Scan extra installation media", Select "No".
+   15. Configure your package manager. This will be three steps
+       in the installation setup. You first select your location and in
+       next the closest server. In the third step you can leave the
+       HTTP proxy as empty.
+   16. Wait for the package manager to be configured.
+   17. You'll now be presented with the option "Participate in the
+       package usage survey?". This is upto you and I go with "No".
+   18. Wait for the the changes to apply.
+   19. You'll now be presented with "Software selection:". Untick
+       "Debian desktop environment" and "...Gnome" and Tick "SSH server".
+       **You'll only need to install two things i.e. "SSH server" and
+       "standard system utilities"**.
+   20. Wait for the software to install.
+   21. It'll present you with "Install the GRUB boot loader to your
+       primary drive?", Select "Yes.".
+   22. For "Device for boot loader installation:", Select the only
+       available device. It'll usually be "/dev/vda".
+   23. The installation will now complete and the virtual machine
+       will reboot. That's it.
+4. After reboot, Click the "Light Bulb" icon on top left on
+   virtual machine window and it'll open the properties of virtual
+   machine. Look for "NIC:xx:xx:xx" in the left list and click it. On
+   the right, you'll now see "IP Address: xxx.xxx.xxx.xxx". **Remember the
+   IP address as you'll use it in the next step**.
+5. Open a new terminal on your host computer and connect to the
+   virtual machine via SSH. The command is `ssh <username>@<address>`.
+   Your find username from step `3.6` and ip address from step `4`.
+6. After connecting, run `su -` to switch to the root user. Use the root
+   user password from step `3.4`.
+7. Run `apt update -y && apt upgrade -y && apt install sudo vim -y` to
+   update your packages and install `sudo` and `vim` package. I'll
+   use `vim` editor to edit the files but you can easily use `nano` as
+   a substitute. Here's [a video that shows how to use nano](https://youtu.be/dMkOywpbTUU)
+   in case you are new to `nano` as well.
+8. Run `vim /etc/sudoers` (or `nano /etc/sudoers` if you're using nano)
+   and scroll down to where it `# User privilege specification`. Add
+   `debian   ALL=(ALL:ALL) ALL` below the line `root    ALL=(ALL:ALL) ALL`.
+   Save and exit. This will let our debian user use `sudo` command to
+   execute programs with privilege.
+9. Run `vim /etc/fstab` (or `nano /etc/fstab` if you're using nano)
+   and look for the line that has the word `swap` in it. Comment that
+   line by adding `#` at the very beginning of the line. Save and exit.
+   Now run `swapoff -a` to disable the swap. **Turning swap off is
+   important for kubernetes.**
+10. We'll need to load a few kernel modules and set some kernel
+    parameters. Run the following script below (you can copy it
+    and paste it in your terminal and hit enter),
+
+```sh
+#!/bin/bash
+
+# this will load the 2 module automatically on boot
+cat <<EOF | tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+# this will load the 2 modules for now so we don't have to reboot.
+modprobe overlay
+modprobe br_netfilter
+
+# this will configure a few kernel parameters
+cat <<EOF | tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+```
+
+12. We'll now install the `containerd` runtime and configure it.
+    Run `apt-get install containerd -y` to install it. To configure
+    containerd you can run the following script (you can copy it
+    and paste it in your terminal and hit enter),
+
+```sh
+#!/bin/bash
+
+# create the config directory.
+mkdir -p /etc/containerd/
+
+# copy the default config into the directory.
+containerd config default | tee /etc/containerd/config.toml
+
+# use systemd cgroup for our containers
+sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
+```
+
+13. We'll now install three tools `kubeadm`, `kubelet`
+    and `kubectl` onto our machine. You can run the following
+    script below (you can copy it and paste it in your
+    terminal and hit enter),
+
+```sh
+#!/bin/sh
+
+# get public signing key of kubernetes project
+apt-get update -y
+apt-get install -y apt-transport-https ca-certificates curl gnupg
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+# add the kubernetes project repository and relate it to the public signing key
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
+chmod 644 /etc/apt/sources.list.d/kubernetes.list
+apt-get update
+
+# install our three tools
+apt-get install -y kubectl kubeadm kubelet
+```
+
+14. To install helm run this script (you can copy it and paste it in your
+    terminal and hit enter),
+
+```sh
+#!/bin/bash
+
+# download the Helm install script and give it permissions
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+
+# execute the Helm install script
+./get_helm.sh
+
+# delete the Helm install script
+rm -rf ./get_helm.sh
+```
+
+15. To setup auto-completion run this script (you can copy it and paste
+    it in your terminal and hit enter),
+
+```sh
+#!/bin/bash
+
+USER_HOME=/home/debian
+
+# create a .completions directory for your debian user
+mkdir -p  $USER_HOME/.completions
+
+# create the completion files
+kubeadm completion bash >> $USER_HOME/.completions/kubeadm.sh
+kubectl completion bash >> $USER_HOME/.completions/kubectl.sh
+helm completion bash >> $USER_HOME/.completions/helm.sh
+
+# source the completion files in .bashrc
+echo "source $USER_HOME/.completions/kubeadm.sh" >> $USER_HOME/.bashrc
+echo "source $USER_HOME/.completions/kubectl.sh" >> $USER_HOME/.bashrc
+echo "source $USER_HOME/.completions/helm.sh" >> $USER_HOME/.bashrc
+```
+
+16. You can shutdown this machine in virt-manager by doing a
+    `Right Click` and selecting `Shut Down`.
+
+You've done it! 💙 Your kubernetes image is now ready for you to
+initialize a new cluster on. If you recall, I asked you remember
+the path of image from "Storage: ..." at step `2` when we created this virtual
+machine. You'll find this image there and you can backup this image
+somewhere safe so you create clusters to your hearts content or to
+initialize a new one in case you mess up.
+
+### creating three virtual machines and deploying kubernetes on them.
+
+Our kubernetes cluster would **consist of three virtual machines**
+where **one virtual machine will have the role of master** and the
+**other two will have the role of worker**. We have already created
+one virtual machine previously therefore we only need to create two
+new clones of our previous virtual machine.
+
+1. Right click your previously created virtual machine and click
+   "Clone". You'll have to do it twice so we have two new virtual machines
+   making a total of three virtual machines.
+2. Once you have two new machines, you can start all of them by
+   doing a `Right Click` and clicking `Run`.
+3. Grab the IP address of each virtual machine repeating step `4` and
+   step `5` from [#creating a base kubernetes image](#creating-a-base-kubernetes-image) section.
+4. Open three new terminal windows and Connect to all three virtual
+   machines via SSH. The username and password are same for all machines
+   since they are just clones of each other.
+5. We'll update the hostname of each machine. Run `sudo hostnamectl
+hostname <new_hostname>` where `<new_hostname>` would follow the
+   convention: `ip-xxx-xxx-xxx-xxx`. For example, if the machine has
+   the ip `10.0.158.51` then the new hostname would be `ip-10-0-158-51`
+   and therefore our command would be `sudo hostnamectl hostname
+ip-10-0-158-51`. You can now disconnect and reconnect the SSH session
+   for the new hostname to apply. Repeat this for all virtual machines.
+
+> The convention `ip-xxx-xxx-xxx-xxx` is a preference of mine since
+> it makes it easier to identify machines when they're in the cluster.
+> **The only requirement for kubernetes is that no two machines should have
+> the same hostname.**
+
+Our virtual machines are now ready for us to initialize a new cluster
+on.
+
+6. Pick any machine from the three virtual machines. This machine will
+   be have the master role. Run this script (you can copy it and paste
+   it in your terminal and hit enter),
+
+```sh
+#!/bin/bash
+
+# create a new directory ./k8s in home.
+mkdir -p ./k8s/
+
+# create cluster initalization configuration.
+cat <<EOF | tee ./k8s/cluster-init.yaml
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+  podSubnet: 69.96.0.0/16 # should be a unique subnet separate from host network subnet & service subnet; using .96 subnet
+  serviceSubnet: 69.97.0.0/16 # should be unique subnet separate from host network subnet & pod subnet; using .97 subnet
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+skipPhases:
+  - "addon/kube-proxy" # we are skipping kube-proxy addon because the CNI we'll use takes care of it.
+EOF
+```
+
+> **CNI stands for Container Network Interface**. It is a standard set
+> of guidelines and libraries that define how networking should behave
+> within and around linux containers. The CNI guidelines are meant for
+> CNI plugin creators and we only ever interact with the CNI plugins
+> that implement the CNI guidelines and specification. For our kubernetes
+> cluster, we'll use the [Cilium CNI plugin](https://cilium.io/). We'll
+> dive deeper into network in a future blog but for now I want you
+> understand that **Kubernetes by default does not ship with a CNI plugin.
+> You have install a CNI plugin separately after you setup your cluster
+> for networking to work.**.
+
+7. On the same machine where you performed the previous step, switch
+   to root via `su -` and run `kubeadm init --config /home/debian/k8s/cluster-init.yaml`.
+   Wait for the cluster to be created. On a successful run of this command you should
+   see something like this,
+
+```sh
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 10.0.189.245:6443 --token ktc195.lqe876u6w9d2ic0o \
+        --discovery-token-ca-cert-hash sha256:12bc57851cb0e8fff2993d1c5d1438a78b766ccf394db62802bc15b24af1c981
+```
+
+> In the above output, you can see kubernetes tells you exactly what to
+> do next. It wants you to setup `kubectl` and we'll do this in next step.
+> It also wants you to deploy a pod network i.e. a CNI plugin. We'll do
+> it very soon. It also wants you to save the join command so you can
+> join new computers to this cluster as workers.
+
+8. Exit from the root user by running `exit` command and then run this,
+   `mkdir -p $HOME/.kube && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && sudo chown $(id -u):$(id -g) $HOME/.kube/config`.
+   This will let you use `kubectl` to control the cluster from the local user
+   i.e. `debian`.
+9. Copy `kubeadm join 10.0.189.245:6443 --token ktc195.lqe876u6w9d2ic0o
+--discovery-token-ca-cert-hash sha256:12bc57851cb0e8fff2993d1c5d1438a78b766ccf394db62802bc15b24af1c981`
+   command and save it somewhere. We'll use this command to join computers
+   as workers to our cluster.
+10. Let's install our Cilium CNI plugin before we join our virtual other
+    machines to our cluster. Remember Helm? We'll install Cilium through Helm.
+    Edit this script below where you see XX.XX.XX.XX to the value you get
+    from the join command and then run it,
+
+```sh
+#!/bin/bash
+
+# add the helm chart repository for cilium.
+helm repo add cilium https://helm.cilium.io/
+
+# create the
+cat <<EOF | tee ./k8s/cilium-values.yaml
+# restart cilium when configuration is updated.
+rollOutCiliumPods: true
+
+# enable hubble relay and hubble ui.
+hubble:
+  enabled: true
+  relay:
+    enabled: true
+    rollOutPods: true
+  ui:
+    enabled: true
+    rollOutPods: true
+
+# set ipv4 cidr block the same as our "podSubnet" from cluster-init.yaml
+ipam:
+  operator:
+    clusterPoolIPv4PodCIDRList:
+    - 69.96.0.0/16 # should be the same as pod subnet used during cluster creation (podSubnet in cluster-init.yaml)
+
+# use cilium's implementation of kube-proxy
+kubeProxyReplacement: true
+k8sServiceHost: XX.XX.XX.XX # the ip address should be the same as the one you have in your join command.
+k8sServicePort: 6443 # the port should be the same as the one you have in your join command.
+EOF
+
+helm install cilium cilium/cilium --version 1.15.5 --namespace kube-system -f ./k8s/cilium-values.yaml
+```
+
+> I'll cover Cilium in more detail when we go over networking within kubernetes
+> in a future blog. For now just roll with it and if you have any question. You can
+> ask them below!
+
+11. We can now join other two virtual machines as workers
+    to our cluster. If you haven't already log into them via SSH and
+    switch to root via `su -`. Now run the join command you received
+    earlier during cluster creation on them. A successful run would
+    output this,
+
+```sh
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
+```
+
+12. You can now disconnect from these worker machines as they're ready
+    to go.
+13. On your primary machine as non-root user debian, run `kubectl get pods -A`.
+    You'll see every pod has a `STATUS: Running` and `READY: 1/1`. This suggests
+    our cluster was setup correctly.
+
+> This is where you are introduced to Pods. You can think of a pod as a container
+> in kubernetes. In most cases, a single pod runs a single container but sometimes
+> a single pod can run multiple containers. In the latter case, **containers other
+> than the primary/main container are called sidecars or sidecar containers**.
+
+You did it again! 💙 If you faced any problem, simply delete all the machines
+and create a new one's using the image you created earlier. This is why I asked
+you back it up since it would save you time in case you messed something up.
+
+### deploy a simple nginx application within the kubernetes cluster.
+
+Now that our cluster is ready. We'll deploy a simple nginx
+application.
+
+1. Run the following script on the virtual machine where you
+   initialized the cluster. This will create a Deployment called
+   `nginx-deployment` and Service called `nginx-svc`.
+
+```sh
+#!/bin/bash
+
+# create a nginx deployment and a nginx service selecting the pods from our nginx deployment.
+cat <<EOF | tee ./k8s/nginx-deploy.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    name: nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      name: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+EOF
+
+# apply our nginx deployment and service.
+kubectl apply -f ./k8s/nginx-deploy.yaml
+```
+
+> This is where you are introduced to `Deployment` and `Service`
+> api resources. The deployment resource is used to deploy copies
+> of a stateless/epheremal applications (applications that have
+> no external state tied to it and could be created/destroyed
+> without consequences) such as our nginx server. You can
+> read more about deployments [here](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
+> The Service resource exposes a set of pods to either within
+> the cluster our outside the cluster. There are multiple types
+> namely None/Headless, ClusterIP, NodePort, LoadBalancer. You
+> can read more about Services [here](https://kubernetes.io/docs/concepts/services-networking/service/).
+> We'll go into them in detail in a future blog.
+
+2. Run `kubectl get pods` and wait for the `READY: 1/1` and `STATUS: Running`.
+3. Grab the Service IP by running `kubeget get service` and noting down
+   the `Cluster-IP` field for our `nginx-svc`. It should be like `69.97.xxx.xxx`.
+4. Run `curl http://<cluster-ip>` where `<cluster-ip>` is the one you got
+   in step `2`. You should see a response from the service. This suggests our
+   deployment works.
+
+### some more topics that'll take you further.
+
+Currently, our nginx service would only be accessible from
+within our cluster. To make it accessible from our host
+computer we'll update the `nginx-deploy.yaml` and apply it again.
+
+1. Run `vim ./k8s/nginx-deploy.yaml` (or `nano ./k8s/nginx-deploy.yaml`
+   if you're using nano) and change the line `type: ClusterIP` to
+   `type: NodePort`. Save and quit.
+2. Run `kubectl apply -f ./k8s/nginx-deploy.yaml` to update
+   our `nginx-svc` Service.
+3. Run `kubectl get svc`and grab the port that begins with `3` for
+   example port `30727` in `80:30727/TCP`.
+4. On your host computer, open a browser and try to access the IP
+   address of any of the virtual machines at port you got from
+   step `3`. For example, One of my virtual machine is running on
+   `10.0.189.245` and I got port `30727` at step `3`. Therefore the URL I would
+   try to access via the browser would be `10.0.189.245:30727`.
+5. You should see `Welcome to nginx!`.
+
+You did it a third time! Your service is now accessible from your
+host computer.
+
+### conclusion.
+
+I'll explain how you can make it accessible from internet in a future
+blog. We met both our blog goals so I'll have to end it here. This
+should give you a very good starting point from where you can mess
+around, experiment and play with your own local kubernetes cluster.
+Kubernetes is an awesome tool and I can talk about it a lot more.
+There are so many things I haven't covered here and so many cilium
+features I haven't even talked about in this blog. If you read
+this far and followed along I hope you learnt something new. If
+you have any questions **comment below** or [tweet me](https://x.com/intent/post?text=Hey+%40is_it_ayush%2C+I+had+a+question)
+and I'll try to answer them. I genuinely thank you for reading it. It's 4 am
+and I'm tired as fuck so we'll meet in the next blog! 💙

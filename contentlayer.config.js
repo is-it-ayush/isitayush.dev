@@ -3,6 +3,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import { bundledThemes } from 'shiki';
 
 export const Entry = defineDocumentType(() => ({
   name: 'Entry',
@@ -55,7 +56,10 @@ export default makeSource({
       [
         rehypePrettyCode,
         {
-          theme: 'vitesse-dark',
+          theme: {
+            dark: 'vitesse-dark',
+            light: 'vitesse-light',
+          },
           onVisitLine(node) {
             // Prevent lines from collapsing in `display: grid` mode, and allow empty
             // lines to be copy/pasted

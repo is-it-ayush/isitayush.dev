@@ -70,7 +70,7 @@ export const SplitParagraphIntoLines = () => {
   }
 
   return (
-    <div className="flex flex-col h-fit w-full p-5 gap-5 dark:bg-gray-95 bg-gray/5 rounded-md">
+    <div className="flex flex-col h-fit w-full p-5 gap-5 dark:bg-gray-95 bg-gray/5 rounded-md not-prose">
       <div className="flex flex-col gap-2">
         <span className="text-2xl font-semibold">original text.</span>
         <div

@@ -146,7 +146,7 @@ export default function Entry({
 
   return (
     <Page>
-      <article className="prose flex flex-col min-w-[300px] mt-10 lg:max-w-[500px] gap-4">
+      <article className="flex flex-col min-w-[300px] mt-10 lg:max-w-[500px] gap-6">
         <NextSeo
           title={data?.entry?.title}
           description={data?.entry?.summary}
@@ -241,7 +241,7 @@ export default function Entry({
           </div>
         </div>
         {/* hotpatch production: debug more, this should work without w-[90vw] */}
-        <div className="flex flex-col w-[90vw] md:w-auto">
+        <div className="flex flex-col w-[90vw] md:w-auto gap-0 prose">
           <Body components={mdxcomponents} />
         </div>
         <span className="flex h-1 w-full rounded-lg bg-white dark:bg-white/5" />
@@ -285,7 +285,7 @@ export default function Entry({
                         {session.data?.user.username}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex flex-col gap-2 w-full text-sm">
+                    <div className="flex flex-col gap-3 w-full text-sm">
                       <div className="flex flex-row gap-4 justify-between items-center">
                         <span className="">@{session.data?.user.username}</span>
                         <div className="flex flex-row gap-2">
@@ -305,7 +305,7 @@ export default function Entry({
                           <FormItem>
                             <FormControl>
                               <textarea
-                                className="w-full bg-[#e8e8e8] dark:bg-black/95 border-b-2 border-white dark:border-black p-2 text-black dark:text-white"
+                                className="w-full bg-[#e8e8e8] dark:bg-black/95 border-b-2 border-white dark:border-white/5 p-2 text-black dark:text-white"
                                 placeholder="write a comment...be nice :3"
                                 {...field}
                               />
