@@ -292,10 +292,10 @@ echo "source $USER_HOME/.completions/helm.sh" >> $USER_HOME/.bashrc
 
 You've done it! 💙 Your kubernetes image is now ready for you to
 initialize a new cluster on. If you recall, I asked you remember
-the path of image from "Storage: ..." at step `2` when we created this virtual
-machine. You'll find this image there and you can backup this image
-somewhere safe so you create clusters to your hearts content or to
-initialize a new one in case you mess up.
+the path of image from "Storage: ..." at step `2` when we created
+this virtual machine. You'll find the above image we just setup
+there and **I recommend you can backup this image somewhere safe**
+so you create new clusters in case you mess up.
 
 ### creating three virtual machines and deploying kubernetes on them.
 
@@ -405,9 +405,9 @@ kubeadm join 10.0.189.245:6443 --token ktc195.lqe876u6w9d2ic0o \
    This will let you use `kubectl` to control the cluster from the local user
    i.e. `debian`.
 9. Copy `kubeadm join 10.0.189.245:6443 --token ktc195.lqe876u6w9d2ic0o
---discovery-token-ca-cert-hash sha256:...`
-   command and save it somewhere. We'll use this command to join computers
-   as workers to our cluster.
+--discovery-token-ca-cert-hash sha256:12bc...981`
+   command and save it somewhere. We'll use this command to join the other two
+   virtual machines as workers to our cluster.
 10. Let's install our Cilium CNI plugin before we join our virtual other
     machines to our cluster. Remember Helm? We'll install Cilium through Helm.
     Edit this script below where you see XX.XX.XX.XX to the value you get
@@ -456,8 +456,8 @@ helm install cilium cilium/cilium --version 1.15.5 --namespace kube-system -f ./
 11. We can now join other two virtual machines as workers
     to our cluster. If you haven't already log into them via SSH and
     switch to root via `su -`. Now run the join command you received
-    earlier during cluster creation on them. A successful run would
-    output this,
+    earlier during cluster creation on the other two virtual machines.
+    A successful run would output this,
 
 ```sh
 This node has joined the cluster:
@@ -477,6 +477,9 @@ Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
 > in kubernetes. In most cases, a single pod runs a single container but sometimes
 > a single pod can run multiple containers. In the latter case, **containers other
 > than the primary/main container are called sidecars or sidecar containers**.
+
+> Note: You can also verify the machines are up and available by running `kubectl
+> get nodes`. This will list all the computers currently joined to the cluster.
 
 You did it again! 💙 If you faced any problem, simply delete all the machines
 and create a new one's using the image you created earlier. This is why I asked
