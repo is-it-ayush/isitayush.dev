@@ -51,14 +51,15 @@ computers with master role assign jobs to worker computers.
 **This is the job of the scheduler controller running within
 kubernetes**.
 
-To give you an analogy imagine a master worker updating it's
-job book and writing, _"Computer 5's job is to run 3 copies of
-this web server container"_. Workers computers simply look at
-the job book present on master computers, figure out what
-their job is and attempt to do it. This is just a simplified
-way to explain how kubernetes works. Sometimes **computers
-with the master role are also called control-plane nodes and
-computers with the worker role are also called worker nodes.**
+To give you an analogy imagine a master computer updating it's
+job book and writing, _"Worker Computer 5's job is to run 3
+copies of this web server container"_. Here, Worker computer 5
+simply looks at master computer's job book and figures
+out what it's current job should be. It then attempt's to do it.
+This is just a simplified way to explain how kubernetes works.
+Sometimes **computers with the master role are also called
+control-plane nodes and computers with the worker role are
+also called worker nodes.**
 
 A group of computers running kubernetes software would be
 called a **kubernetes cluster** or a **kubernetes deployment**.
@@ -108,8 +109,8 @@ to it via SSH. I'll explain when we reach to this step.
    5. You can name your virtual machine anything you want.
       > Note: Remember the location of the disk image under the
       > "Storage: /path/to/my/disk.qcow2". You can go to this location
-      > after the image is created and make a backup so you can create
-      > more clusters in you make a mistake and mess up.
+      > after the base image is created and make a backup of it. This will
+      > help you create more clusters in case you make a mistake and mess up.
 3. Proceed with graphical install when the machine starts.
    **You can skip this if you already know how to do it**. Here are
    the instructions for each installation step for [debian's net-inst](https://www.debian.org/CD/netinst/)
