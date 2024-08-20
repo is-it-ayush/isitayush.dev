@@ -50,7 +50,7 @@ export const getStaticProps = async () => {
       description:
         'A thing, was my first T3 project. I felt the need to create a platform where anyone could share their thoughts & ideas with the world in an anonymous way. I really love what I achieved with this project & it gave me a greater understanding of the stack that I had when I began.',
       github: new URL('https://github.com/is-it-ayush/athing/'),
-      website: new URL('https://athing.vercel.app/'),
+      website: new URL('https://athing.isitayush.dev/'),
     },
     {
       name: 'dimensional rift.',
