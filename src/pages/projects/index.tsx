@@ -72,7 +72,7 @@ export const getStaticProps = async () => {
       description:
         "Wethics is just your average weather app. This was my first web app. I learnt about API's & how to use them to display basic data on a website.",
       github: new URL('https://github.com/is-it-ayush/wethics'),
-      website: new URL('https://soyouwannaknowtheweatherhuh.vercel.app/'),
+      website: new URL('https://wethics.isitayush.dev/'),
     },
     {
       name: 'isitayush.dev',
@@ -93,7 +93,7 @@ export const getStaticProps = async () => {
       website: new URL(url),
     },
     {
-      name: 'cellular automata.',
+      name: 'game of life.',
       timeline: {
         from: new Date(Date.UTC(2023, 3, 2)),
       },
@@ -101,7 +101,7 @@ export const getStaticProps = async () => {
       description:
         "There is something unique about observing emergent behaviour in a system. There is a bit of mathematical magic in it but it all boils down to a few very simple rules. This project was an attempt to implement John Conway's Game of Life with p5.js & I enjoyed every bit of it.",
       github: new URL('https://github.com/is-it-ayush/cellular-automata'),
-      website: new URL('https://cellular-automaton-delta.vercel.app/'),
+      website: new URL('https://gameoflife.isitayush.dev/'),
     },
     {
       name: 'fa.',
@@ -123,7 +123,7 @@ export const getStaticProps = async () => {
       description:
         "I wrote 'ginti.' to visualize different number systems with the analogy of a digit lock. At it's core, it just a counting app but has a visual sense to it. 'ginti.' supports binary (base 2), octal (base 8), decimal (base 10) and hexadecimal (base 16). I really enjoyed working on this project and it took me around 16 hours to write it.",
       github: new URL('https://github.com/is-it-ayush/ginti'),
-      website: new URL('https://ginti-eta.vercel.app'),
+      website: new URL('https://ginti.isitayush.dev/'),
     },
   ];
 
