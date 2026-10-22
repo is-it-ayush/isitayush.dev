@@ -9,10 +9,24 @@
             <link>https://www.isitayush.dev</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 22 Apr 2024 12:27:12 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 22 Oct 2026 04:01:36 GMT</lastBuildDate>
         <atom:link href="https://www.isitayush.dev/feed.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 22 Apr 2024 12:27:12 GMT</pubDate>
-        <copyright><![CDATA[© 2024 Ayush Gupta]]></copyright>
+        <pubDate>Thu, 22 Oct 2026 04:01:36 GMT</pubDate>
+        <copyright><![CDATA[© 2026 Ayush Gupta]]></copyright>
+        <item>
+            <title><![CDATA[pay less for internet on private aws subnet.]]></title>
+            <description><![CDATA[A trick to save some money on private instances on AWS.]]></description>
+            <link>https://www.isitayush.dev/blog/pay-less-for-internet-on-private-aws-subnet</link>
+            <guid isPermaLink="true">https://www.isitayush.dev/blog/pay-less-for-internet-on-private-aws-subnet</guid>
+            <pubDate>Thu, 13 Feb 2025 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[a subtle introduction to kubernetes]]></title>
+            <description><![CDATA[I'll walk you through the scary kubernetes land.]]></description>
+            <link>https://www.isitayush.dev/blog/a-subtle-introduction-to-kubernetes</link>
+            <guid isPermaLink="true">https://www.isitayush.dev/blog/a-subtle-introduction-to-kubernetes</guid>
+            <pubDate>Sun, 02 Jun 2024 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[wait..ssh can do what?]]></title>
             <description><![CDATA[Things you could do with ssh that you weren't possbily aware of.]]></description>

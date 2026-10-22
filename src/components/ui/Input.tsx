@@ -20,7 +20,8 @@ const InputStyles = cva(
 );
 
 interface InputProps
-  extends Omit<React.HTMLProps<HTMLInputElement>, 'style'>,
+  extends
+    Omit<React.HTMLProps<HTMLInputElement>, 'style'>,
     VariantProps<typeof InputStyles> {
   type?: 'email' | 'number' | 'password' | 'text';
   error?: string;
