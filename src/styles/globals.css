@@ -1,6 +1,53 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --animate-gradient_animation: gradient-move 5s ease infinite;
+  --animate-indeterminate: indeterminate 1s ease-in-out infinite;
+
+  --background-size-400: 400%;
+
+  @keyframes gradient_move {
+    0% {
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  @keyframes indeterminate {
+    from {
+      left: -50%;
+    }
+    to {
+      left: 100%;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 /** https://web.dev/add-touch-to-your-site/#suppressing-default-browser-styles */
 * {
@@ -15,7 +62,7 @@
 
 .prose pre,
 .prose pre * {
-  @apply text-[var(--shiki-light)] bg-[var(--shiki-light-bg)] dark:text-[var(--shiki-dark)] dark:bg-[var(--shiki-dark-bg)];
+  @apply text-(--shiki-light) bg-(--shiki-light-bg) dark:text-(--shiki-dark) dark:bg-(--shiki-dark-bg);
 }
 
 /* <article>{NOT 'pre' OR 'pre *' OR 'code' OR 'CODE *' OR 'P.SPAN'}</article> */
@@ -25,7 +72,7 @@
 
 /* `` */
 .prose code:not(pre code) {
-  @apply text-gray-900 dark:text-white/80 px-1 bg-black/5 dark:bg-white/5 rounded-sm;
+  @apply text-gray-900 dark:text-white/80 px-1 bg-black/5 dark:bg-white/5 rounded-xs;
 }
 
 /* <p className="not-prose"><span /></p> */

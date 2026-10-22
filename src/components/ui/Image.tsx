@@ -95,7 +95,7 @@ export const Image = ({ src, alt, width, height, ...rest }: ImageProps) => {
               animate={tipAnim.animate}
               exit={tipAnim.initial}
               transition={tipAnim.transition}
-              className="absolute bottom-5 -translate-x-[50%] w-full px-3 py-2"
+              className="absolute bottom-5 translate-x-[-50%] w-full px-3 py-2"
             >
               <div className="flex flex-col items-start md:items-center md:flex-row space-y-2 md:space-y-0 md:space-x-2 w-full">
                 <div className="flex justify-center items-center">
