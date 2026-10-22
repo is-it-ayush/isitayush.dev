@@ -1,23 +1,21 @@
-import { allEntries } from '@contentlayer/generated';
+import { allEntries } from '@src/lib/content';
 import { EntryCard, variants } from '@src/components/fragments/EntryCard';
 import { Input } from '@src/components/ui/Input';
 import { compareDesc } from 'date-fns';
 import type { InferGetStaticPropsType } from 'next';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Separator } from '@src/components/ui/Separator';
 import { generateRSSFeed } from '@src/lib/utils';
-import { NextSeo } from 'next-seo';
+import { NextSeo } from '@src/components/Seo';
 import { Page } from '@src/components/ui/Page';
 
 export default function BlogPage({
   entries,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const [search, setSearch] = useState('');
-  const [filteredEntries, setFilteredEntries] = useState(entries);
-
-  useEffect(() => {
-    setFilteredEntries(
+  const filteredEntries = useMemo(
+    () =>
       entries
         .filter((entry) => {
           return (
@@ -33,8 +31,8 @@ export default function BlogPage({
         .sort((a, b) => {
           return compareDesc(new Date(a.publishedAt), new Date(b.publishedAt));
         }),
-    );
-  }, [entries, search]);
+    [entries, search],
+  );
 
   return (
     <Page className="flex flex-col gap-5 h-full mt-20">

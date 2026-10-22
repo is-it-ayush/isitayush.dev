@@ -1,6 +1,6 @@
-import { allEntries } from '@contentlayer/generated';
+import { allEntries } from '@src/lib/content';
 import { Avatar, AvatarFallback, AvatarImage } from '@src/components/ui/Avatar';
-import { url } from '@src/../next-seo.config';
+import { url } from '../../../next-seo.config';
 import { SplitParagraphIntoLines } from '@src/components/blogs/SplitParagraphIntoLines';
 import { Image } from '@src/components/ui/Image';
 import { Page } from '@src/components/ui/Page';
@@ -10,8 +10,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import type { GetStaticProps } from 'next';
 import { useSession } from 'next-auth/react';
-import { useMDXComponent } from 'next-contentlayer/hooks';
-import { NextSeo } from 'next-seo';
+import { MDXContent } from '@src/components/ui/MDXContent';
+import { NextSeo } from '@src/components/Seo';
 import type { InferGetStaticPropsType } from 'next/types';
 import readingTime from 'reading-time';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -80,9 +80,25 @@ export default function Entry({
   const session = useSession();
   const router = useRouter();
   const { toast } = useToast();
-  const Body = useMDXComponent(data?.entry?.body.code ?? '');
   const [slug, setSlug] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+
+  // GET | post query | /api/post/<slug> | { views: number, comments: Comment[] }
+  const postsQuery = useQuery<ApiError<PostResponse>>({
+    queryKey: [`/api/post/${slug}`],
+    queryFn: () => getData(`/api/post/${slug}`),
+    enabled: !!slug,
+  });
+  // POST | comment mutation | /api/post/comment/create | { comment: string, slug: string }
+  const postCommentMutation = useMutation({
+    mutationFn: (data: CreateCommentSchema): Promise<ApiError<boolean>> =>
+      postData(`/api/post/comment/create`, data),
+  });
+
+  // create comment form
+  const commentCreateForm = useForm<CreateCommentSchema>({
+    resolver: zodResolver(CreateCommentSchema),
+  });
 
   // handle slug
   useEffect(() => {
@@ -105,23 +121,6 @@ export default function Entry({
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- run only on mount.
   }, []);
-
-  // GET | post query | /api/post/<slug> | { views: number, comments: Comment[] }
-  const postsQuery = useQuery<ApiError<PostResponse>>({
-    queryKey: [`/api/post/${slug}`],
-    queryFn: () => getData(`/api/post/${slug}`),
-    enabled: !!slug,
-  });
-  // POST | comment mutation | /api/post/comment/create | { comment: string, slug: string }
-  const postCommentMutation = useMutation({
-    mutationFn: (data: CreateCommentSchema): Promise<ApiError<boolean>> =>
-      postData(`/api/post/comment/create`, data),
-  });
-
-  // create comment form
-  const commentCreateForm = useForm<CreateCommentSchema>({
-    resolver: zodResolver(CreateCommentSchema),
-  });
   async function onCreateComment(values: CreateCommentSchema) {
     const res = await postCommentMutation.mutateAsync(values);
     if ('error' in res) {
@@ -187,7 +186,9 @@ export default function Entry({
         <div className="flex flex-col gap-2">
           {data?.entry?.tags && (
             <div className="flex flex-row gap-2">
-              {data?.entry?.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
+              {data?.entry?.tags.map((tag, i) => (
+                <Tag key={i}>{tag}</Tag>
+              ))}
             </div>
           )}
           {data?.entry?.publishedAt && (
@@ -233,7 +234,7 @@ export default function Entry({
                   transition={{ duration: 0.3, delay: 0.5 }}
                 >
                   <span className="font-light text-sm my-0">
-                    {readingTime(data.entry.body.code).text}
+                    {readingTime(data.entry.body.raw).text}
                   </span>
                 </motion.div>
               )}
@@ -242,7 +243,10 @@ export default function Entry({
         </div>
         {/* hotpatch production: debug more, this should work without w-[90vw] */}
         <div className="flex flex-col w-[90vw] md:w-auto gap-0 prose">
-          <Body components={mdxcomponents} />
+          <MDXContent
+            code={data?.entry?.body.code ?? ''}
+            components={mdxcomponents}
+          />
         </div>
         <span className="flex h-1 w-full rounded-lg bg-white dark:bg-white/5" />
         <div className="flex flex-col gap-6">

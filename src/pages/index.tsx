@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { generateRobotsTxt, generateSitemap, k } from '@src/lib/utils';
-import { allEntries } from '@contentlayer/generated';
+import { allEntries } from '@src/lib/content';
 import { Page } from '@src/components/ui/Page';
 import Link from 'next/link';
-import { Github, Headphones, Linkedin, Mail, Twitter } from 'lucide-react';
+import { Headphones, Mail } from 'lucide-react';
+import { Github, Linkedin, Twitter } from '@src/components/ui/BrandIcons';
 import { AgeCounter } from '@src/components/fragments/AgeCounter';
 
 export default function Landing() {
   useEffect(() => {
     k();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- mount hook
   }, []);
 
   return (

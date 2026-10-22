@@ -1,4 +1,4 @@
-import type { Entry } from '@contentlayer/generated';
+import type { Entry } from '@src/lib/content';
 import { Container } from '@src/components/ui/Container';
 import { Tag } from '@src/components/ui/Tag';
 import { format, parseISO } from 'date-fns';
@@ -49,7 +49,7 @@ export function EntryCard({
               </span>
               {entry.body.code && (
                 <span className="font-light text-sm my-0">
-                  {readingTime(entry.body.code).text}
+                  {readingTime(entry.body.raw).text}
                 </span>
               )}
             </div>

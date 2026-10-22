@@ -1,5 +1,5 @@
 import { Page } from '@src/components/ui/Page';
-import { Github, Twitter } from 'lucide-react';
+import { Github, Twitter } from '@src/components/ui/BrandIcons';
 import { getProviders, signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';

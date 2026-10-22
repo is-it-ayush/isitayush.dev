@@ -1,14 +1,14 @@
 import { Poppins } from 'next/font/google';
-import seo from '@src/../next-seo.config';
+import seo from '../../next-seo.config';
 import { ThemeButton } from '@src/components/fragments/ThemeButton';
 import '@src/styles/globals.css';
 import { AnimatePresence } from 'framer-motion';
-import { DefaultSeo } from 'next-seo';
+import { DefaultSeo } from '@src/components/Seo';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SessionProvider } from 'next-auth/react';
@@ -154,7 +154,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <main
             className={`relative flex min-h-screen ${font.className} w-full justify-center p-10 bg-[#E8E8E8] dark:bg-black dark:text-white`}
           >
-            <div className="fixed left-[50%] top-5 z-[5] flex w-[90%] -translate-x-[50%] flex-row items-center justify-between bg-[#E8E8E8] drop-shadow-lg backdrop-blur-[5px] dark:bg-black/5 bg-opacity-20">
+            <div className="fixed left-[50%] top-5 z-5 flex w-[90%] translate-x-[-50%] flex-row items-center justify-between bg-[#E8E8E8]/20 drop-shadow-lg backdrop-blur-[5px] dark:bg-black/5">
               <div className="flex flex-row space-x-2">
                 <div className="border-2 border-black dark:border-white"></div>
                 <Link href="/" className="text-sm font-light">
@@ -179,7 +179,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <AnimatePresence>
               <Component {...pageProps} />
             </AnimatePresence>
-            <div className="fixed left-[50%] bottom-5 z-[5] flex w-[90%] -translate-x-[50%] flex-row items-center justify-between bg-[#E8E8E8] drop-shadow-lg backdrop-blur-[5px] dark:bg-black/5 bg-opacity-20">
+            <div className="fixed left-[50%] bottom-5 z-5 flex w-[90%] translate-x-[-50%] flex-row items-center justify-between bg-[#E8E8E8]/20 drop-shadow-lg backdrop-blur-[5px] dark:bg-black/5">
               <div className="flex flex-row w-full justify-between">
                 <div className="flex flex-row gap-2">
                   <div className="border-2 border-black dark:border-white"></div>
@@ -214,11 +214,13 @@ export default function App({ Component, pageProps }: AppProps) {
 export const usePreviousRoute = () => {
   const router = useRouter();
 
-  const ref = useRef<string | null>(null);
+  const [previousRoute, setPreviousRoute] = useState<string | null>(null);
 
-  router.events?.on('routeChangeStart', () => {
-    ref.current = router.asPath;
-  });
+  useEffect(() => {
+    const onRouteChangeStart = () => setPreviousRoute(router.asPath);
+    router.events?.on('routeChangeStart', onRouteChangeStart);
+    return () => router.events?.off('routeChangeStart', onRouteChangeStart);
+  }, [router]);
 
-  return ref.current;
+  return previousRoute;
 };
