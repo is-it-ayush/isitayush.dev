@@ -1,0 +1,68 @@
+---
+title: pay less for internet on private aws subnet.
+publishedAt: 2025-02-13
+summary: A trick to save some money on private instances on AWS.
+tags:
+  - aws
+  - nat
+  - network
+---
+
+i've only started giving a damn about aws since 2024
+but i'm gonna be honest it's pricey for small and
+medium sized business. how to get the best value out in
+limited money? well i've got a trick for u i learnt
+in my dumb experimentations last year.
+
+### problem.
+
+suppose i have an aws vpc cidr block of `10.0.0.0/16`.
+i then carve out 2 subnets from it i.e. `10.0.0.0/24` for
+my public instances and `10.16.0.0/24` for my private
+instances.
+
+all instances on public subnet get assigned
+a public ip and thus are accessible from the internet &
+can access the internet. this is **in contrast** to all
+instances on private subnet which in their default state
+are **air-gapped** i.e. you can neither access these
+instances from the internet nor access the internet
+from these instances.
+
+well how do you solve this? the costly aws solution is
+to deploy a _managed NAT gateway_ which costs ~
+**41 USD/month** or ~ **492 USD/year** in `ap-south-1`
+region.
+
+### solution.
+
+well i would like to save money so here's the trick.
+a project called [fck-nat](https://fck-nat.dev/)
+creates a proxy instance (a `t4g.nano`) for traffic
+directed towards the internet from your private
+instances. this is a uni-directional channel or in
+network terms a NAT. [here's how you can deploy this
+project in your VPC](https://fck-nat.dev/stable/deploying/#manual-web-console).
+this documentation also has terraform & cloudformation
+instructions.
+
+> i really recommend the manual deployment so you
+> can understand how the traffic flow works beyond
+> my explanation above.
+
+the `t4g.nano` instance costs ~ **1 USD/month** or
+**12 USD/year**. compare this to your previous costs of
+~ 492 USD/year from _managed NAT gateway_. you save ~
+**480 USD/year** or about **97.5% savings**. yipeeeee!!
+
+### bonus tips.
+
+1. you can deploy multiple fck-nat instances
+   on different availability zones to create a highly
+   available outbound infra for your private instances.
+   i haven't experiemented with it but it should be
+   possible.
+2. you can also use fck-nat instances as a bastion
+   host to connect to instance on private subnet from
+   your computer at home/office. i've tried it, it
+   works flawlessly.

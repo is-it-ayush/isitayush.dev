@@ -7,3 +7,4 @@ allowBuilds:
   prisma: true
   protobufjs: true
   sharp: true
+  unrs-resolver: true
