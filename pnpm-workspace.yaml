@@ -1,0 +1,9 @@
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': true
+  '@vercel/speed-insights': true
+  contentlayer: true
+  esbuild: true
+  prisma: true
+  protobufjs: true
+  sharp: true
