@@ -5,6 +5,22 @@ export const SplitParagraphIntoLines = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [lines, setLines] = useState<string[]>([]);
 
+  // Create canvas and context for measuring text.
+  function createCanvas(): {
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
+  } {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      throw new Error(
+        'Canvas context is null. Is canvas supported in this environment?',
+      );
+    }
+    ctx.font = '16px var(--font-poppins)';
+    return { canvas, ctx };
+  }
+
   useEffect(() => {
     if (!containerRef.current) return;
     const { ctx } = createCanvas();
@@ -52,22 +68,6 @@ export const SplitParagraphIntoLines = () => {
     }
     setLines(lines);
   }, []);
-
-  // Create canvas and context for measuring text.
-  function createCanvas(): {
-    canvas: HTMLCanvasElement;
-    ctx: CanvasRenderingContext2D;
-  } {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      throw new Error(
-        'Canvas context is null. Is canvas supported in this environment?',
-      );
-    }
-    ctx.font = '16px var(--font-poppins)';
-    return { canvas, ctx };
-  }
 
   return (
     <div className="flex flex-col h-fit w-full p-5 gap-5 dark:bg-gray-95 bg-gray/5 rounded-md not-prose">

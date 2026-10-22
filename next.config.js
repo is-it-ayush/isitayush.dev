@@ -1,16 +1,13 @@
+// in dev, run velite alongside next (https://velite.js.org/guide/with-nextjs).
+// `pnpm build` runs `velite build` explicitly before `next build`.
+if (!process.env.VELITE_STARTED && process.argv.includes('dev')) {
+  process.env.VELITE_STARTED = '1';
+  import('velite').then(({ build }) => build({ watch: true, clean: false }));
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    swcPlugins: [
-      [
-        'next-superjson-plugin',
-        {
-          excluded: [],
-        },
-      ],
-    ],
-  },
   headers: () => {
     return Promise.resolve([
       {
@@ -19,21 +16,14 @@ const nextConfig = {
       },
     ]);
   },
-  webpack: (config, { isServer }) => {
+  turbopack: {
     // ignore fs and path when building for browser, resolves "fs" is not defined error
-    if (!isServer) {
-      config.resolve.fallback = {
-        fs: false,
-        path: false,
-      };
-    }
-
-    return config;
+    resolveAlias: {
+      fs: { browser: './src/lib/empty.ts' },
+      path: { browser: './src/lib/empty.ts' },
+    },
   },
   output: 'standalone',
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
 };
 
 // https://nextjs.org/docs/advanced-features/security-headers
@@ -89,6 +79,4 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-module.exports = withBundleAnalyzer(
-  require('next-contentlayer').withContentlayer(nextConfig),
-);
+module.exports = withBundleAnalyzer(nextConfig);

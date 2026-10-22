@@ -11,8 +11,8 @@
     "incremental": true,
     "inlineSources": false,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "ES2021"],
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "ES2022"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noEmit": true,
@@ -23,13 +23,15 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es5",
+    "target": "ES2022",
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
-    "plugins": [{ "name": "next" }],
-    "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
-      "@src/*": ["./src/*"],
-      "@contentlayer/generated": ["./.contentlayer/generated"]
+      "@src/*": ["./src/*"]
     }
   },
   "include": [
@@ -39,7 +41,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "next.config.js",
-    ".contentlayer/generated"
+    ".velite"
   ],
-  "exclude": ["node_modules", ".next", "contentlayer.config.js"]
+  "exclude": ["node_modules", ".next", "velite.config.js"]
 }

@@ -1,6 +1,7 @@
 import { Container } from '@src/components/ui/Container';
 import { stack } from '@src/lib/utils';
-import { Github, Link as LinkIcon } from 'lucide-react';
+import { Link as LinkIcon } from 'lucide-react';
+import { Github } from '@src/components/ui/BrandIcons';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { Tag } from '@src/components/ui/Tag';
@@ -23,13 +24,13 @@ export const Node = ({
         <div className="flex flex-row w-full justify-between">
           <span className="text-xl font-semibold">{node.name}</span>
           <span className="flex flex-row items-center text-xs font-light">
-            {node.timeline.from.toLocaleDateString('en-IN', {
+            {new Date(node.timeline.from).toLocaleDateString('en-IN', {
               year: 'numeric',
               month: 'short',
             }) +
               (node.timeline.to
                 ? ' ~ ' +
-                  node.timeline.to.toLocaleDateString('en-IN', {
+                  new Date(node.timeline.to).toLocaleDateString('en-IN', {
                     year: 'numeric',
                     month: 'short',
                   })
@@ -48,11 +49,11 @@ export const Node = ({
         <div className="flex flex-col gap-5">
           <span className="text-sm font-light">{node.description}</span>
           <div className="flex flex-col lg:flex-row gap-2">
-            {node.github?.href && (
+            {node.github && (
               <Link
-                href={node.github?.href}
+                href={node.github}
                 target="_blank"
-                className={node.website?.href ? 'lg:min-w-[49%]' : 'w-full'}
+                className={node.website ? 'lg:min-w-[49%]' : 'w-full'}
               >
                 <Container
                   row={true}
@@ -64,11 +65,11 @@ export const Node = ({
                 </Container>
               </Link>
             )}
-            {node.website?.href && (
+            {node.website && (
               <Link
-                href={node.website?.href}
+                href={node.website}
                 target="_blank"
-                className={node.github?.href ? 'lg:min-w-[49%]' : 'w-full'}
+                className={node.github ? 'lg:min-w-[49%]' : 'w-full'}
               >
                 <Container
                   row={true}

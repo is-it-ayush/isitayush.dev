@@ -1,11 +1,11 @@
-import type { Entry } from '@contentlayer/generated';
+import type { Entry } from '@src/lib/content';
 import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
 import { format } from 'date-fns';
 import fs from 'fs';
 import type { NextApiRequest } from 'next';
 import type { Session } from 'next-auth';
-import { url } from 'next-seo.config';
+import { url } from '../../next-seo.config';
 import RSS from 'rss';
 import { twMerge } from 'tailwind-merge';
 

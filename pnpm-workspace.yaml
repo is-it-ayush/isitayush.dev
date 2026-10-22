@@ -1,0 +1,29 @@
+packages:
+  - .
+
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': true
+  '@vercel/speed-insights': true
+  esbuild: true
+  prisma: true
+  protobufjs: true
+  sharp: true
+  unrs-resolver: true
+  workerd: true
+
+# security: pinned transitive dependencies (see `pnpm audit`).
+overrides:
+  lodash: ^4.18.1
+  'uuid@<11.1.1': ^11.1.1
+  'fflate@<0.7.5': ^0.8.3
+  'postcss-selector-parser@<7.1.6': ^7.1.6
+  'sharp@<0.35.5': ^0.35.5
+
+auditConfig:
+  ignoreGhsas:
+    # braces <=3.0.3 (deeply nested pattern DoS, CVE-2026-93687): every published release is affected
+    # and no fix exists upstream (https://github.com/micromatch/braces/issues/70). It is only reachable
+    # through eslint-config-next -> fast-glob -> micromatch, i.e. lint-time globbing of our own
+    # patterns; it is not part of the production dependency tree. Remove once braces ships a fix.
+    - GHSA-vfj7-8cjw-p6xm

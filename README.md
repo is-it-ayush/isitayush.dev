@@ -9,7 +9,7 @@ this is the source for my personal website, [isitayush.dev](https://isitayush.de
 - [Next.js](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Vercel](https://vercel.com/)
-- [Content Layer](https://www.contentlayer.dev/)
+- [Velite](https://velite.js.org/)
 - [Radix UI](https://www.radix-ui.com/)
 - [Shadcn UI](https://ui.shadcn.com/)
 - [Umami](https://umami.is/)

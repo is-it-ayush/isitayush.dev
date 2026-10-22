@@ -5,7 +5,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { Button } from './Button';
 
 const InputStyles = cva(
-  'flex h-10 w-full border border-black/10 dark:border-white/10 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none',
+  'flex h-10 w-full border border-black/10 dark:border-white/10 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-hidden',
   {
     variants: {
       style: {
@@ -20,7 +20,8 @@ const InputStyles = cva(
 );
 
 interface InputProps
-  extends Omit<React.HTMLProps<HTMLInputElement>, 'style'>,
+  extends
+    Omit<React.HTMLProps<HTMLInputElement>, 'style'>,
     VariantProps<typeof InputStyles> {
   type?: 'email' | 'number' | 'password' | 'text';
   error?: string;
@@ -50,14 +51,14 @@ export const Input = (props: InputProps) => {
         )}
       >
         <input
-          className="w-full bg-transparent px-0 py-2 pr-2 outline-none ring-0 focus:outline-none focus:ring-0 "
+          className="w-full bg-transparent px-0 py-2 pr-2 outline-hidden ring-0 focus:outline-hidden focus:ring-0 "
           type={getType()}
           {...rest}
         />
         {type === 'password' ? (
           <Button
             tooltip={showPassword ? 'hide password.' : 'show password.'}
-            className="flex items-center justify-center rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 dark:focus:ring-gray-300 dark:focus:ring-offset-gray-900"
+            className="flex items-center justify-center rounded-full hover:bg-gray-200 focus:outline-hidden focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 dark:focus:ring-gray-300 dark:focus:ring-offset-gray-900"
             type="button"
             onClick={() => {
               toggleShowPassword();

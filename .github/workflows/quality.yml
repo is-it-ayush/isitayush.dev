@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: setup.
         uses: ./actions/setup
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: setup.
         uses: ./actions/setup
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: setup.
         uses: ./actions/setup
@@ -53,13 +53,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: setup.
         uses: ./actions/setup
 
-      - name: typegen.
-        run: pnpm typegen
-
       - name: build.
         run: pnpm build
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout.
+        uses: actions/checkout@v4
+
+      - name: setup.
+        uses: ./actions/setup
+
+      - name: audit.
+        run: pnpm audit
