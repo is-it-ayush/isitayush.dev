@@ -4,6 +4,7 @@
 .vercel
 /.next
 next-env.d.ts
-/.contentlayer
+/.velite
 *.xml
 *.txt
+/public/static
