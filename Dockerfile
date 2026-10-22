@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:24-alpine AS base
 
 FROM base AS setup
 RUN apk add --no-cache libc6-compat # https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine
@@ -7,14 +7,15 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+# the prisma files are needed by the `postinstall` (prisma generate).
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml prisma.config.ts ./
+COPY prisma ./prisma
 
 FROM setup AS deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 FROM deps AS build
 COPY . .
-RUN pnpm typegen
 RUN pnpm build
 
 FROM setup AS prod
